@@ -2,6 +2,7 @@ package com.weststein.controller;
 
 import com.weststein.controller.model.ApplicationForm;
 import com.weststein.controller.model.ApplicationResponse;
+import com.weststein.controller.model.Applications;
 import com.weststein.handler.ApplicationHandler;
 import com.weststein.handler.GetApplicationHandler;
 import io.swagger.annotations.ApiOperation;
@@ -30,17 +31,16 @@ public class ApplicationController {
            @ApiResponse(code = 200, message = "")
    })
    public ApplicationResponse apply(@Valid @RequestBody @DateTimeFormat(pattern = "ddMMyyyy") ApplicationForm application) {
-        ApplicationResponse response = applicationHandler.handle(application);
-        return response;
+       return applicationHandler.handle(application);
    }
 
     @GetMapping
-    @ApiOperation(value = "see all applications to WestStein services", response = ApplicationForm.class)
+    @ApiOperation(value = "see all applications to WestStein services", response = Applications.class)
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "")
     })
-    public List<ApplicationForm> applications() {
-        return getApplicationHandler.handle();
+    public Applications applications() {
+        return Applications.builder().applications(getApplicationHandler.handle()).build();
     }
 
 
