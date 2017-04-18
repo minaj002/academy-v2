@@ -11,6 +11,7 @@ public class ApplicationHandlerTest {
         assertTrue(true);
         assertTrue(true);
         assertTrue(true);
+        assertTrue(true);
 
     }
 
