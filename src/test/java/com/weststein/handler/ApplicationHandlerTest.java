@@ -9,6 +9,7 @@ public class ApplicationHandlerTest {
     public void handle() throws Exception {
 
         assertTrue(true);
+        assertTrue(true);
 
     }
 
