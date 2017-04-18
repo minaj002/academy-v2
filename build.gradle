@@ -33,5 +33,7 @@ dependencies {
     compile 'org.springframework.cloud:spring-cloud-starter-feign:1.2.3.RELEASE'
     compile 'ma.glasnost.orika:orika-core:1.5.0'
     compile 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.8.7'
+    compile 'org.postgresql:postgresql:42.0.0'
+
     testCompile('org.springframework.boot:spring-boot-starter-test')
 }
