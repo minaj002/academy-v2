@@ -43,7 +43,7 @@ public class ApplicationController {
         return Applications.builder().applications(getApplicationHandler.handle()).build();
     }
 
-    @GetMapping
+    @GetMapping("cred")
     @ApiOperation(value = "see all applications to WestStein services", response = Applications.class)
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "")
