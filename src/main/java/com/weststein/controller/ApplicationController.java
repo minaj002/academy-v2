@@ -9,6 +9,7 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,7 +24,6 @@ public class ApplicationController {
    private ApplicationHandler applicationHandler;
    @Autowired
    private GetApplicationHandler getApplicationHandler;
-
 
    @PostMapping("apply")
    @ApiOperation(value = "allow new user apply for WestStein services", response = ApplicationResponse.class)
@@ -43,6 +43,14 @@ public class ApplicationController {
         return Applications.builder().applications(getApplicationHandler.handle()).build();
     }
 
-
-
+    @GetMapping
+    @ApiOperation(value = "see all applications to WestStein services", response = Applications.class)
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "")
+    })
+    public String getCred(){
+        return "url = " + System.getenv("RDS_HOSTNAME")+":"+System.getenv("RDS_PORT")+"/"
+                +System.getenv("RDS_DB_NAME")+ ", user: " +System.getenv("RDS_USERNAME") +
+                ", pass: " +System.getenv("RDS_PASSWORD");
+    }
 }
