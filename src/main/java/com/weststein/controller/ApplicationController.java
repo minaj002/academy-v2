@@ -43,14 +43,4 @@ public class ApplicationController {
         return Applications.builder().applications(getApplicationHandler.handle()).build();
     }
 
-    @GetMapping("cred")
-    @ApiOperation(value = "see all applications to WestStein services", response = Applications.class)
-    @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "")
-    })
-    public String getCred(){
-        return "url = " + System.getenv("RDS_HOSTNAME")+":"+System.getenv("RDS_PORT")+"/"
-                +System.getenv("RDS_DB_NAME")+ ", user: " +System.getenv("RDS_USERNAME") +
-                ", pass: " +System.getenv("RDS_PASSWORD");
-    }
 }
