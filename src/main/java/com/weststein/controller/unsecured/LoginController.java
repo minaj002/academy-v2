@@ -9,6 +9,7 @@ import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
@@ -18,13 +19,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/auth/login")
+
 public class LoginController {
 
     @Autowired
     private JwtTokenFactory tokenFactory;
 
-    @PostMapping
+    @PostMapping("/api/auth/login")
     @ApiOperation(value = "allow user to login, receives authorization token")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "")
@@ -40,5 +41,11 @@ public class LoginController {
         return tokenMap;
 
     }
+
+//    @RequestMapping(value = "/api/auth/login", method = RequestMethod.OPTIONS)
+////    @RequestMapping(value = "/**", method = RequestMethod.OPTIONS)
+//    public ResponseEntity handle(@RequestParam String username, @RequestParam String password) {
+//        return new ResponseEntity(HttpStatus.OK);
+//    }
 
 }
