@@ -1,9 +1,7 @@
-package com.weststein.security.auth.ajax;
+package com.weststein.security.auth.login;
 
 import com.weststein.security.exceptions.AuthMethodNotSupportedException;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

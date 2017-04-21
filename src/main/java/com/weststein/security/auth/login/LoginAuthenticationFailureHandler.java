@@ -1,4 +1,4 @@
-package com.weststein.security.auth.ajax;
+package com.weststein.security.auth.login;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.weststein.common.ErrorCode;

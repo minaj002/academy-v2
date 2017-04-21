@@ -1,4 +1,4 @@
-package com.weststein.security.config;
+package com.weststein.configuration;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;

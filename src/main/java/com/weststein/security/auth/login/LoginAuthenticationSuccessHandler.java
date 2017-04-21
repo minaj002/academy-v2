@@ -1,4 +1,4 @@
-package com.weststein.security.auth.ajax;
+package com.weststein.security.auth.login;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.weststein.security.model.UserContext;
@@ -37,11 +37,9 @@ public class LoginAuthenticationSuccessHandler implements AuthenticationSuccessH
         UserContext userContext = (UserContext) authentication.getPrincipal();
         
         JwtToken accessToken = tokenFactory.createAccessJwtToken(userContext);
-        JwtToken refreshToken = tokenFactory.createRefreshToken(userContext);
-        
+
         Map<String, String> tokenMap = new HashMap<String, String>();
         tokenMap.put("token", accessToken.getToken());
-        tokenMap.put("refreshToken", refreshToken.getToken());
 
         response.setStatus(HttpStatus.OK.value());
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);

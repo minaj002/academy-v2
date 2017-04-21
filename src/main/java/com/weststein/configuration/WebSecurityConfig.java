@@ -1,8 +1,8 @@
-package com.weststein.security.config;
+package com.weststein.configuration;
 
 import com.weststein.security.RestAuthenticationEntryPoint;
-import com.weststein.security.auth.ajax.LoginAuthenticationProvider;
-import com.weststein.security.auth.ajax.LoginProcessingFilter;
+import com.weststein.security.auth.login.LoginAuthenticationProvider;
+import com.weststein.security.auth.login.LoginProcessingFilter;
 import com.weststein.security.auth.jwt.JwtAuthenticationProvider;
 import com.weststein.security.auth.jwt.JwtTokenAuthenticationProcessingFilter;
 import com.weststein.security.auth.jwt.SkipPathRequestMatcher;
@@ -49,7 +49,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private AuthenticationManager authenticationManager;
     
 
-    protected LoginProcessingFilter buildAjaxLoginProcessingFilter() throws Exception {
+    protected LoginProcessingFilter buildLoginProcessingFilter() throws Exception {
         LoginProcessingFilter filter = new LoginProcessingFilter(FORM_BASED_LOGIN_ENTRY_POINT, successHandler, failureHandler);
         filter.setAuthenticationManager(this.authenticationManager);
         return filter;
@@ -82,7 +82,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         .csrf().disable() // We don't need CSRF for JWT based authentication
         .exceptionHandling()
         .authenticationEntryPoint(this.authenticationEntryPoint)
-        
+        .and()
+                .anonymous()
+
         .and()
             .sessionManagement()
             .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
@@ -90,7 +92,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             .authorizeRequests()
                 .antMatchers(TOKEN_BASED_AUTH_ENTRY_POINT).authenticated() // Protected API End-points
         .and()
-            .addFilterBefore(buildAjaxLoginProcessingFilter(), UsernamePasswordAuthenticationFilter.class)
+            .addFilterBefore(buildLoginProcessingFilter(), UsernamePasswordAuthenticationFilter.class)
             .addFilterBefore(buildJwtTokenAuthenticationProcessingFilter(), UsernamePasswordAuthenticationFilter.class);
     }
 }

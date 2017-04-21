@@ -1,7 +1,7 @@
 package com.weststein.security.auth.jwt;
 
 import com.weststein.security.auth.JwtAuthenticationToken;
-import com.weststein.security.config.JwtSettings;
+import com.weststein.configuration.JwtSettings;
 import com.weststein.security.model.UserContext;
 import com.weststein.security.model.token.RawAccessJwtToken;
 import io.jsonwebtoken.Claims;

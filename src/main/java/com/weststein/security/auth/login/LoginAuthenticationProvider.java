@@ -1,4 +1,4 @@
-package com.weststein.security.auth.ajax;
+package com.weststein.security.auth.login;
 
 import com.weststein.security.UserService;
 import com.weststein.security.model.UserContext;

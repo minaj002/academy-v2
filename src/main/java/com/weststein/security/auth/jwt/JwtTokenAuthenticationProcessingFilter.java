@@ -2,7 +2,7 @@ package com.weststein.security.auth.jwt;
 
 import com.weststein.security.auth.JwtAuthenticationToken;
 import com.weststein.security.auth.jwt.extractor.TokenExtractor;
-import com.weststein.security.config.WebSecurityConfig;
+import com.weststein.configuration.WebSecurityConfig;
 import com.weststein.security.model.token.RawAccessJwtToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
