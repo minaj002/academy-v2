@@ -1,6 +1,5 @@
 package com.weststein.configuration;
 
-import com.fasterxml.classmate.ResolvedType;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import springfox.documentation.builders.ApiInfoBuilder;
@@ -11,8 +10,6 @@ import springfox.documentation.service.ApiInfo;
 import springfox.documentation.service.Parameter;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
-import springfox.documentation.swagger.web.ApiKeyVehicle;
-import springfox.documentation.swagger.web.SecurityConfiguration;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 import java.util.ArrayList;
@@ -23,17 +20,31 @@ import java.util.List;
 public class SwaggerController {
 
     @Bean
-    public Docket serviceApi() {
+    public Docket serviceApiSecured() {
         return  new Docket(DocumentationType.SWAGGER_2)
+                .groupName("secured")
                 .apiInfo(apiInfo())
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("com.weststein.controller"))
+                .apis(RequestHandlerSelectors.basePackage("com.weststein.controller.secured"))
                 .build()
                 .useDefaultResponseMessages(false)
                 .enableUrlTemplating(false)
                 .globalOperationParameters(
                         header()
                         );
+    }
+
+    @Bean
+    public Docket serviceApiLogin() {
+        return  new Docket(DocumentationType.SWAGGER_2)
+                .groupName("login")
+                .apiInfo(apiInfo())
+                .select()
+                .apis(RequestHandlerSelectors.basePackage("com.weststein.controller.unsecured"))
+                .build()
+                .useDefaultResponseMessages(false)
+                .enableUrlTemplating(false)
+                ;
     }
 
     private List<Parameter> header() {
@@ -44,8 +55,6 @@ public class SwaggerController {
                 .modelRef(new ModelRef("string"))
                 .parameterType("HEADER")
                 .required(true)
-
-
                 .build());
         return list;
     }

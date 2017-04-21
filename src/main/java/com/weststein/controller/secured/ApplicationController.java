@@ -1,4 +1,4 @@
-package com.weststein.controller;
+package com.weststein.controller.secured;
 
 import com.weststein.controller.model.ApplicationForm;
 import com.weststein.controller.model.ApplicationResponse;

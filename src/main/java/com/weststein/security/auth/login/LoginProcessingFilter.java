@@ -7,6 +7,7 @@ import org.springframework.security.authentication.AuthenticationServiceExceptio
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
@@ -17,6 +18,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Collection;
 
 import static org.apache.commons.lang.StringUtils.isEmpty;
 
@@ -51,14 +53,16 @@ public class LoginProcessingFilter extends AbstractAuthenticationProcessingFilte
         }
 
         UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(request.getParameter(USERNAME), request.getParameter(PASSWORD));
-
-        return this.getAuthenticationManager().authenticate(token);
+        Authentication res = this.getAuthenticationManager().authenticate(token);
+        SecurityContextHolder.getContext().setAuthentication(res);
+        return res;
     }
 
     @Override
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain,
                                             Authentication authResult) throws IOException, ServletException {
         successHandler.onAuthenticationSuccess(request, response, authResult);
+        chain.doFilter(request, response);
     }
 
     @Override
