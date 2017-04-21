@@ -1,0 +1,20 @@
+server.port: 5000
+
+spring:
+  datasource:
+      url: ${dbUrl}
+      username: ${dbUsername}
+      password: ${dbPassword}
+  jpa:
+      database-platform: ${dbDatabasePlatform}
+      hibernate.ddl-auto: ${dbHibernateDdlAuto}
+
+# time in minutes
+security.jwt:
+  tokenExpirationTime: 60
+  tokenIssuer: http://weststeincard.com
+  tokenSigningKey: xt8EV6Hy5RMFK4EEuCIDAw7us
+
+logging.level:
+  org.springframework.web: DEBUG
+  org.springframework.security: DEBUG

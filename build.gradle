@@ -39,3 +39,14 @@ dependencies {
 
     testCompile('org.springframework.boot:spring-boot-starter-test')
 }
+
+processResources {
+    Properties props = new Properties();
+    if(project.hasProperty('stage')){
+        props.load(new FileInputStream("src/profiles/cloud.properties"))
+    } else {
+        props.load(new FileInputStream("src/profiles/local.properties"))
+    }
+    props.each {prop -> println(prop)}
+    expand props
+}
