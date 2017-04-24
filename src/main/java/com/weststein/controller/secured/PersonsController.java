@@ -2,6 +2,8 @@ package com.weststein.controller.secured;
 
 import com.weststein.controller.model.Applications;
 import com.weststein.handler.GetPersonsHandler;
+import com.weststein.integration.Person;
+import com.weststein.integration.PersonResource;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
@@ -21,13 +23,14 @@ public class PersonsController {
     private GetPersonsHandler getPersonsHandler;
 
     @GetMapping
-    @ApiOperation(value = "see all Persons", response = Applications.class)
+    @ApiOperation(value = "see all Persons", response = Person.class)
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "")
     })
     public List getPersons(){
-
-        return new ArrayList();
+        return getPersonsHandler.handle();
     }
+
+
 
 }

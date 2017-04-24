@@ -11,13 +11,15 @@ spring:
 
 # time in minutes
 security.jwt:
-  tokenExpirationTime: 60
+  tokenExpirationTime: 600
   tokenIssuer: http://weststeincard.com
   tokenSigningKey: xt8EV6Hy5RMFK4EEuCIDAw7us
 
 logging.level:
-  org.springframework.web: DEBUG
-  org.springframework.security: DEBUG
-
+  org.springframework.web: INFO
+  org.springframework.security: INFO
+  com.weststein.integration.PersonResource: DEBUG
 spring.mvc.dispatch-options-request: true
 # Dispatch OPTIONS requests to the FrameworkServlet doService method.
+
+solaris.token: 2s7c2eeldhlr20t8ayf7pp559tyu8x3mzjc865wn7agkjucn464w4vfimw56ol7kola881
