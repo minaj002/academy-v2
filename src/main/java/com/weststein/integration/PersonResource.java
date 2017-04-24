@@ -1,10 +1,14 @@
 package com.weststein.integration;
 
 import com.weststein.configuration.FeignConfiguration;
+import feign.Param;
+import feign.RequestLine;
 import org.springframework.cloud.netflix.feign.FeignClient;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import javax.ws.rs.GET;
 import java.util.List;
 
 @FeignClient(
@@ -18,5 +22,8 @@ public interface PersonResource {
 
     @RequestMapping(method = RequestMethod.GET, path = "/persons")
     List<Person> getAll();
+
+    @RequestMapping(method = RequestMethod.GET, path = "/persons/{personId}/accounts")
+    List<Account> getAccounts(@PathVariable("personId")String personId);
 
 }

@@ -1,9 +1,8 @@
 package com.weststein.controller.secured;
 
-import com.weststein.controller.model.Applications;
+import com.weststein.handler.GetPersonAccountsHandler;
 import com.weststein.handler.GetPersonsHandler;
 import com.weststein.integration.Person;
-import com.weststein.integration.PersonResource;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
@@ -12,15 +11,17 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@RequestMapping("api/persons")
+@RequestMapping("api/person")
 public class PersonsController {
 
     @Autowired
     private GetPersonsHandler getPersonsHandler;
+
+    @Autowired
+    private GetPersonAccountsHandler getPersonAccountsHandler;
 
     @GetMapping
     @ApiOperation(value = "see all Persons", response = Person.class)
@@ -29,6 +30,15 @@ public class PersonsController {
     })
     public List getPersons(){
         return getPersonsHandler.handle();
+    }
+
+    @GetMapping("/{personId}/accounts")
+    @ApiOperation(value = "see all accounts for this person", response = Person.class)
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "")
+    })
+    public List getPersonAccounts(String personId){
+        return getPersonAccountsHandler.handle(personId);
     }
 
 
