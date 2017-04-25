@@ -50,7 +50,7 @@ public class SwaggerController {
     private List<Parameter> header() {
         List list = new ArrayList();
         list.add(new ParameterBuilder()
-                .name("X-Authorization")
+                .name("Authorization")
                 .description("JWT authorization header")
                 .modelRef(new ModelRef("string"))
                 .parameterType("HEADER")

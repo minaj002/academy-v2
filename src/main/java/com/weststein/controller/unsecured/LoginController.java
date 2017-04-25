@@ -31,21 +31,12 @@ public class LoginController {
             @ApiResponse(code = 200, message = "")
     })
     public Map<String, String> login(@RequestParam String username, @RequestParam String password){
-        // Only used for swagger real work is done in LoginAuthenticationSuccessHandler
-
         JwtToken accessToken = tokenFactory.createAccessJwtToken((UserContext) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
 
         Map<String, String> tokenMap = new HashMap<String, String>();
         tokenMap.put("token", accessToken.getToken());
 
         return tokenMap;
-
     }
-
-//    @RequestMapping(value = "/api/auth/login", method = RequestMethod.OPTIONS)
-////    @RequestMapping(value = "/**", method = RequestMethod.OPTIONS)
-//    public ResponseEntity handle(@RequestParam String username, @RequestParam String password) {
-//        return new ResponseEntity(HttpStatus.OK);
-//    }
 
 }
