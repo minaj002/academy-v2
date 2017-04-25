@@ -18,4 +18,9 @@ public class AccountResourceFallback implements AccountResource {
     public List<Account> getAccount(String personId, String accountId) {
         return null;
     }
+
+    @Override
+    public List<Account> getAccountBookings(String personId, String accountId) {
+        return null;
+    }
 }
