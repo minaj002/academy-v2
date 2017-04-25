@@ -2,6 +2,7 @@ package com.weststein.controller.secured;
 
 import com.weststein.controller.secured.model.Persons;
 import com.weststein.handler.GetPersonAccountsHandler;
+import com.weststein.handler.GetPersonHandler;
 import com.weststein.handler.GetPersonsHandler;
 import com.weststein.integration.Person;
 import io.swagger.annotations.ApiOperation;
@@ -20,6 +21,8 @@ public class PersonsController {
 
     @Autowired
     private GetPersonsHandler getPersonsHandler;
+    @Autowired
+    private GetPersonHandler getPersonHandler;
 
     @Autowired
     private GetPersonAccountsHandler getPersonAccountsHandler;
@@ -31,6 +34,15 @@ public class PersonsController {
     })
     public Persons getPersons(){
         return Persons.builder().persons(getPersonsHandler.handle()).build();
+    }
+
+    @GetMapping("/{personId}")
+    @ApiOperation(value = "see Person info by id", response = Person.class)
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "")
+    })
+    public Person getPerson(String personId){
+        return getPersonHandler.handle(personId);
     }
 
     @GetMapping("/{personId}/accounts")

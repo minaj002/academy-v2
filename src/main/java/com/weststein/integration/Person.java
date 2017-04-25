@@ -1,5 +1,6 @@
 package com.weststein.integration;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 @Data
@@ -8,7 +9,9 @@ public class Person {
     private String id;
     private String salutation;
     private String title;
-    private String first_name;
-    private String last_name;
+    @JsonProperty("first_name")
+    private String firstName;
+    @JsonProperty("last_name")
+    private String lastName;
 
 }
