@@ -16,8 +16,8 @@ security.jwt:
   tokenSigningKey: xt8EV6Hy5RMFK4EEuCIDAw7us
 
 logging.level:
-  org.springframework.web: INFO
-  org.springframework.security: INFO
+  org.springframework.web: DEBUG
+  org.springframework.security: DEBUG
   com.weststein.integration.PersonResource: DEBUG
 spring.mvc.dispatch-options-request: true
 # Dispatch OPTIONS requests to the FrameworkServlet doService method.

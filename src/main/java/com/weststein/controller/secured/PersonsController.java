@@ -1,5 +1,6 @@
 package com.weststein.controller.secured;
 
+import com.weststein.controller.secured.model.Persons;
 import com.weststein.handler.GetPersonAccountsHandler;
 import com.weststein.handler.GetPersonsHandler;
 import com.weststein.integration.Person;
@@ -28,8 +29,8 @@ public class PersonsController {
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "")
     })
-    public List getPersons(){
-        return getPersonsHandler.handle();
+    public Persons getPersons(){
+        return Persons.builder().persons(getPersonsHandler.handle()).build();
     }
 
     @GetMapping("/{personId}/accounts")

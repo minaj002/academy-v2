@@ -1,6 +1,6 @@
 package com.weststein.integration;
 
-import com.weststein.controller.model.ApplicationForm;
+import com.weststein.controller.secured.model.ApplicationForm;
 import com.weststein.infrastructure.ObjectMapperConfiguration;
 import ma.glasnost.orika.metadata.ClassMapBuilder;
 import org.springframework.stereotype.Component;

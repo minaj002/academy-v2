@@ -1,4 +1,4 @@
-package com.weststein.controller.model;
+package com.weststein.controller.secured.model;
 
 import com.weststein.integration.CardIssue;
 import lombok.Builder;

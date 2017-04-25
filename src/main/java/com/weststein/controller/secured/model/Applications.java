@@ -1,4 +1,4 @@
-package com.weststein.controller.model;
+package com.weststein.controller.secured.model;
 
 import lombok.Builder;
 import lombok.Data;
