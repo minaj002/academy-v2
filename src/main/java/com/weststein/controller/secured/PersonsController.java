@@ -1,7 +1,6 @@
 package com.weststein.controller.secured;
 
 import com.weststein.controller.secured.model.Persons;
-import com.weststein.handler.GetPersonAccountsHandler;
 import com.weststein.handler.GetPersonHandler;
 import com.weststein.handler.GetPersonsHandler;
 import com.weststein.integration.Person;
@@ -13,19 +12,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
-
 @RestController
-@RequestMapping("api/person")
+@RequestMapping("api/persons")
 public class PersonsController {
 
     @Autowired
     private GetPersonsHandler getPersonsHandler;
     @Autowired
     private GetPersonHandler getPersonHandler;
-
-    @Autowired
-    private GetPersonAccountsHandler getPersonAccountsHandler;
 
     @GetMapping
     @ApiOperation(value = "see all Persons", response = Person.class)
@@ -44,16 +38,4 @@ public class PersonsController {
     public Person getPerson(String personId){
         return getPersonHandler.handle(personId);
     }
-
-    @GetMapping("/{personId}/accounts")
-    @ApiOperation(value = "see all accounts for this person", response = Person.class)
-    @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "")
-    })
-    public List getPersonAccounts(String personId){
-        return getPersonAccountsHandler.handle(personId);
-    }
-
-
-
 }

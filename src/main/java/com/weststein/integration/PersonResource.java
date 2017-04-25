@@ -26,7 +26,4 @@ public interface PersonResource {
     @RequestMapping(method = RequestMethod.GET, path = "/persons/{personId}")
     FullPerson getPerson(@PathVariable("personId")String personId);
 
-    @RequestMapping(method = RequestMethod.GET, path = "/persons/{personId}/accounts")
-    List<Account> getAccounts(@PathVariable("personId")String personId);
-
 }

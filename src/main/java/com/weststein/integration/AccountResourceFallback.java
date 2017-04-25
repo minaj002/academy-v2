@@ -6,16 +6,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
-public class PersonResourceFallback implements PersonResource {
+public class AccountResourceFallback implements AccountResource {
 
 
     @Override
-    public List<Person> getAll() {
+    public List<Account> getAccounts(String personId) {
         return null;
     }
 
     @Override
-    public FullPerson getPerson(String personId) {
+    public List<Account> getAccount(String personId, String accountId) {
         return null;
     }
 }

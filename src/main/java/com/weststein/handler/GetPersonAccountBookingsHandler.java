@@ -8,14 +8,14 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 @Component
-public class GetPersonAccountsHandler {
+public class GetPersonAccountBookingsHandler {
 
     @Autowired
     private AccountResource accountResource;
 
-    public List<Account> handle(String personId) {
+    public List<Account> handle(String personId, String accountId) {
 
-        return accountResource.getAccounts(personId);
+        return accountResource.getAccountBookings(personId, accountId);
 
     }
 
