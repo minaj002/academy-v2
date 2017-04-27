@@ -1,6 +1,6 @@
 package com.weststein.controller.secured.model;
 
-import com.weststein.integration.Person;
+import com.weststein.repository.Person;
 import lombok.Builder;
 import lombok.Getter;
 

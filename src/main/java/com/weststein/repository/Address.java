@@ -1,16 +1,18 @@
-package com.weststein.integration;
+package com.weststein.repository;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
 @Data
+@Entity
 public class Address {
 
-    @JsonProperty("line_1")
+    @Id
+    private Long id;
     private String line1;
-    @JsonProperty("line_2")
     private String line2;
-    @JsonProperty("postal_code")
     private String postalCode;
     private String city;
     private String country;

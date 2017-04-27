@@ -1,8 +1,7 @@
 package com.weststein.handler;
 
-import com.weststein.integration.FullPerson;
-import com.weststein.integration.Person;
-import com.weststein.integration.PersonResource;
+import com.weststein.repository.Person;
+import com.weststein.repository.PersonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -10,11 +9,10 @@ import org.springframework.stereotype.Component;
 public class GetPersonHandler {
 
     @Autowired
-    private PersonResource personResource;
+    private PersonRepository personRepository;
 
-    public FullPerson handle(String personId) {
-        return personResource.getPerson(personId);
+    public Person handle(String solarisId) {
+        return personRepository.findBySolarisId(solarisId);
     }
-
 
 }

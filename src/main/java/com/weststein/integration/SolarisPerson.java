@@ -4,8 +4,16 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 @Data
-public class FullPerson extends Person{
+public class SolarisPerson {
 
+    @JsonProperty("id")
+    private String solarisId;
+    private String salutation;
+    private String title;
+    @JsonProperty("first_name")
+    private String firstName;
+    @JsonProperty("last_name")
+    private String lastName;
     private String email;
     @JsonProperty("mobile_number")
     private String mobileNumber;
@@ -20,9 +28,10 @@ public class FullPerson extends Person{
     private String employmentStatus;
     @JsonProperty("job_title")
     private String jobTitle;
-    private Address address;
+    private SolarisAddress address;
     @JsonProperty("contact_address")
-    private Address contactAddress;
+    private SolarisAddress contactAddress;
     @JsonProperty("tax_information")
-    private TaxInformation taxInformation;
+    private SolarisTaxInformation taxInformation;
+
 }

@@ -1,9 +1,8 @@
 package com.weststein.controller.secured;
 
-import com.weststein.controller.secured.model.Persons;
 import com.weststein.handler.*;
 import com.weststein.integration.Account;
-import com.weststein.integration.Person;
+import com.weststein.integration.SolarisPerson;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
@@ -45,7 +44,7 @@ public class AccountsController {
     }
 
     @GetMapping("/{personId}/{accountId}/bookings")
-    @ApiOperation(value = "see bookings for this persons account", response = Person.class)
+    @ApiOperation(value = "see bookings for this persons account", response = SolarisPerson.class)
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "")
     })

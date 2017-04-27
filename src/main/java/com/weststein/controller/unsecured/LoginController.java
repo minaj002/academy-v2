@@ -39,4 +39,14 @@ public class LoginController {
         return tokenMap;
     }
 
+    @PostMapping("/api/hooks/person")
+    @ApiOperation(value = "allow user to login, receives authorization token")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "")
+    })
+    public ResponseEntity personHook(@RequestParam("person_id") String solarisId, @RequestParam("status") String status){
+
+        return ResponseEntity.ok().build();
+    }
+
 }
