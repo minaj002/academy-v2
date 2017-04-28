@@ -24,7 +24,7 @@ public class PersonResourceFallback implements PersonResource {
     }
 
     @Override
-    public SolarisPerson updatePerson(SolarisPerson person) {
+    public SolarisPerson updatePerson(String personId, SolarisPerson person) {
         return null;
     }
 }

@@ -25,9 +25,10 @@ public class UpdatePersonHandler {
         Person existingPerson = personRepository.findBySolarisId(person.getSolarisId());
         entityUpdater.apply(person, existingPerson);
         existingPerson.setDirty(true);
-
         existingPerson = personRepository.save(existingPerson);
-        SolarisPerson solarisPerson = personResource.updatePerson(objectMapper.map(person, SolarisPerson.class));
+        String solarisId = person.getSolarisId();
+        person.setSolarisId(null);
+        SolarisPerson solarisPerson = personResource.updatePerson(solarisId, objectMapper.map(person, SolarisPerson.class));
         if(solarisPerson.getSolarisId() != null){
             existingPerson.setDirty(false);
             personRepository.save(existingPerson);

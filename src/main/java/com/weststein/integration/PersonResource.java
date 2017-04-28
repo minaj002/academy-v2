@@ -26,8 +26,8 @@ public interface PersonResource {
     @RequestMapping(method = RequestMethod.POST, path = "/persons")
     SolarisPerson createPerson(SolarisPerson person);
 
-    @RequestMapping(method = RequestMethod.PATCH, path = "/persons")
-    SolarisPerson updatePerson(SolarisPerson person);
+    @RequestMapping(method = RequestMethod.PATCH, path = "/persons/{personId}")
+    SolarisPerson updatePerson(@PathVariable("personId")String personId, SolarisPerson person);
 
 
 }
