@@ -24,6 +24,6 @@ spring.mvc.dispatch-options-request: true
 
 solaris.token: 2s7c2eeldhlr20t8ayf7pp559tyu8x3mzjc865wn7agkjucn464w4vfimw56ol7kola881
 
-server.ssl.key-store: keystore.p12
-server.ssl.key-store-password: weststein
-server.ssl.keyStore: tomcat
+#server.ssl.key-store: keystore.p12
+#server.ssl.key-store-password: weststein
+#server.ssl.keyStore: tomcat
