@@ -1,4 +1,4 @@
-package com.weststein.handler;
+package com.weststein.handler.person;
 
 import com.weststein.repository.Person;
 import com.weststein.repository.PersonRepository;

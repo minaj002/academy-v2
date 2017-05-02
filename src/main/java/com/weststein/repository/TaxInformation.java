@@ -18,7 +18,7 @@ public class TaxInformation {
     }
 
     public enum MaritalStatus {
-        SINGLE, MARRIED, DIVORCED, WIDOWED
+        SINGLE, MARRIED, DIVORCED, WIDOWED, UNKNOWN
     }
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)

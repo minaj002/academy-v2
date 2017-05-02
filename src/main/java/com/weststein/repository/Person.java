@@ -34,6 +34,7 @@ public class Person {
     private Long id;
     @JsonIgnore
     private boolean dirty;
+    @Column(unique = true)
     private String solarisId;
     private Salutation salutation;
     private String title;

@@ -4,13 +4,14 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 @Data
-public class Account {
+public class SolarisAccount {
 
-    private String id;
+    @JsonProperty("id")
+    private String solarisId;
     private String iban;
     private String bic;
     private String type;
-    private Balance balance;
+    private SolarisAmount balance;
     @JsonProperty("locking-status")
     private String lockingStatus;
     @JsonProperty("person_id")

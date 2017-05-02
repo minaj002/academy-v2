@@ -18,12 +18,12 @@ import java.util.List;
 public interface AccountResource {
 
     @RequestMapping(method = RequestMethod.GET, path = "/persons/{personId}/accounts")
-    List<Account> getAccounts(@PathVariable("personId") String personId);
+    List<SolarisAccount> getAccounts(@PathVariable("personId") String personId);
 
     @RequestMapping(method = RequestMethod.GET, path = "/persons/{personId}/accounts/{accountId}")
-    List<Account> getAccount(@PathVariable("personId") String personId, @PathVariable("accountId") String accountId );
+    List<SolarisAccount> getAccount(@PathVariable("personId") String personId, @PathVariable("accountId") String accountId );
 
     @RequestMapping(method = RequestMethod.GET, path = "/persons/{personId}/accounts/{accountId}/bookings")
-    List<Account> getAccountBookings(@PathVariable("personId") String personId, @PathVariable("accountId") String accountId );
+    List<SolarisBooking> getAccountBookings(@PathVariable("personId") String personId, @PathVariable("accountId") String accountId );
 
 }

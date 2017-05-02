@@ -5,7 +5,7 @@ import lombok.Data;
 import java.math.BigDecimal;
 
 @Data
-public class Balance {
+public class SolarisAmount {
 
     private BigDecimal value;
     private String unit;

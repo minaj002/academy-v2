@@ -15,17 +15,19 @@ public class OrikoObjectMapper {
 
     @Autowired
     public OrikoObjectMapper(List<ObjectMapperConfiguration> configs) {
-
         MapperFactory mapperFactory = new DefaultMapperFactory.Builder().build();
         for(ObjectMapperConfiguration config: configs) {
             config.mapping(mapperFactory);
         }
-
         this.mapperFacade = mapperFactory.getMapperFacade();
     }
 
     public <IN, OUT> OUT map(IN in, Class<OUT> outClass) {
         return mapperFacade.map(in, outClass);
+    }
+
+    public <IN, OUT> List<OUT> map(List<IN> in, Class<OUT> outClass) {
+        return mapperFacade.mapAsList(in, outClass);
     }
 
 }

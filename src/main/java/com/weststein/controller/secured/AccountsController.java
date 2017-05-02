@@ -1,8 +1,12 @@
 package com.weststein.controller.secured;
 
-import com.weststein.handler.*;
-import com.weststein.integration.Account;
+import com.weststein.handler.account.GetPersonAccountBookingsHandler;
+import com.weststein.handler.account.GetPersonAccountHandler;
+import com.weststein.handler.account.GetPersonAccountsHandler;
+import com.weststein.integration.SolarisAccount;
 import com.weststein.integration.SolarisPerson;
+import com.weststein.repository.Account;
+import com.weststein.repository.Booking;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
@@ -25,7 +29,7 @@ public class AccountsController {
     private GetPersonAccountBookingsHandler getPersonAccountBookingsHandler;
 
     @GetMapping("/{personId}")
-    @ApiOperation(value = "see all accounts for this person", response = Account.class)
+    @ApiOperation(value = "see all accounts for this person", response = SolarisAccount.class)
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "")
     })
@@ -33,25 +37,22 @@ public class AccountsController {
         return getPersonAccountsHandler.handle(personId);
     }
 
-
-    @GetMapping("/{personId}/{accountId}")
+    @GetMapping("/{accountId}")
     @ApiOperation(value = "see account for this person", response = Account.class)
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "")
     })
-    public List getPersonAccounts(String personId, String accountId){
-        return getPersonAccountHandler.handle(personId, accountId);
+    public Account getPersonAccount(String accountId){
+        return getPersonAccountHandler.handle(accountId);
     }
 
-    @GetMapping("/{personId}/{accountId}/bookings")
-    @ApiOperation(value = "see bookings for this persons account", response = SolarisPerson.class)
+    @GetMapping("/{accountId}/bookings")
+    @ApiOperation(value = "see bookings for this persons account", response = Booking.class)
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "")
     })
-    public List getPersonAccountBookings(String personId, String accountId){
-        return getPersonAccountBookingsHandler.handle(personId, accountId);
+    public List getPersonAccountBookings(String accountId){
+        return getPersonAccountBookingsHandler.handle(accountId);
     }
-
-
 
 }

@@ -2,7 +2,6 @@ package com.weststein.integration;
 
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Component
@@ -10,17 +9,17 @@ public class AccountResourceFallback implements AccountResource {
 
 
     @Override
-    public List<Account> getAccounts(String personId) {
+    public List<SolarisAccount> getAccounts(String personId) {
         return null;
     }
 
     @Override
-    public List<Account> getAccount(String personId, String accountId) {
+    public List<SolarisAccount> getAccount(String personId, String accountId) {
         return null;
     }
 
-    @Override
-    public List<Account> getAccountBookings(String personId, String accountId) {
+    public List<SolarisBooking> getAccountBookings(String personId, String accountId) {
         return null;
     }
+
 }

@@ -1,4 +1,4 @@
-package com.weststein.handler;
+package com.weststein.handler.person;
 
 import com.weststein.infrastructure.OrikoObjectMapper;
 import com.weststein.integration.PersonResource;

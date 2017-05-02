@@ -1,10 +1,10 @@
 package com.weststein.controller.secured;
 
 import com.weststein.controller.secured.model.Persons;
-import com.weststein.handler.CreatePersonHandler;
-import com.weststein.handler.GetPersonHandler;
-import com.weststein.handler.GetPersonsHandler;
-import com.weststein.handler.UpdatePersonHandler;
+import com.weststein.handler.person.CreatePersonHandler;
+import com.weststein.handler.person.GetPersonHandler;
+import com.weststein.handler.person.GetPersonsHandler;
+import com.weststein.handler.person.UpdatePersonHandler;
 import com.weststein.integration.SolarisPerson;
 import com.weststein.repository.Person;
 import io.swagger.annotations.ApiOperation;
