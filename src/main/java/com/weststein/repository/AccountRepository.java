@@ -9,4 +9,6 @@ public interface AccountRepository extends CrudRepository<Account, Long> {
     Account findBySolarisId(String solarisId);
     List<Account> findAllBySolarisIdIn(List<String> ids);
 
+    List<Account> findAllByPersonId(String personId);
+
 }

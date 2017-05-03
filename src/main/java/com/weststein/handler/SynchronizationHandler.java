@@ -7,6 +7,7 @@ import com.weststein.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.util.StreamUtils;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,9 +21,13 @@ public class SynchronizationHandler {
     @Autowired
     private PersonRepository personRepository;
     @Autowired
+    private IdentificationResource identificationResource;
+    @Autowired
     private AccountRepository accountRepository;
     @Autowired
     private BookingRepository bookingRepository;
+    @Autowired
+    private IdentificationRepository identificationRepository;
     @Autowired
     private AccountResource accountResource;
     @Autowired
@@ -55,6 +60,14 @@ public class SynchronizationHandler {
             model.setAccounts(StreamUtils.createStreamFromIterator(savedAccounts.iterator()).collect(Collectors.toList()));
         }
 
+        syncronizeBookings(model, solarisAccounts, accountsInDB);
+
+        syncronizeIdentification(solarisPersons, model);
+
+        return model;
+    }
+
+    private void syncronizeBookings(FullModel model, List<SolarisAccount> solarisAccounts, List<Account> accountsInDB) {
         List<SolarisBooking> solarisBookings = new ArrayList<>();
         for(SolarisAccount account : solarisAccounts) {
             solarisBookings.addAll(accountResource.getAccountBookings(account.getPersonId(), account.getSolarisId())
@@ -67,14 +80,38 @@ public class SynchronizationHandler {
         List<Booking> bookingsInDB = bookingRepository.findAllBySolarisIdIn(solarisBookingIds);
         if(accountsInDB.size() != solarisAccounts.size()) {
             List<String> savedBookingIds = bookingsInDB.stream().map(account -> account.getSolarisId()).collect(Collectors.toList());
-            List<SolarisBooking> solarisBookingsNotInDB = solarisBookings.stream().filter(booking -> !savedBookingIds.contains(booking.getSolarisId())).collect(Collectors.toList());
+            List<SolarisBooking> solarisBookingsNotInDB = solarisBookings.stream()
+                    .filter(booking -> !savedBookingIds.contains(booking.getSolarisId()))
+                    .collect(Collectors.toList());
 
             Iterable<Booking> savedBookings = bookingRepository.save(objectMapper.map(solarisBookingsNotInDB, Booking.class));
             model.setBookings(StreamUtils.createStreamFromIterator(savedBookings.iterator()).collect(Collectors.toList()));
         }
+    }
 
+    private void syncronizeIdentification(List<SolarisPerson> solarisPersons, FullModel model) {
+        List<SolarisIdentification> solarisIdentifications = new ArrayList<>();
+        for (SolarisPerson person : solarisPersons) {
+            for (SolarisIdentification solarisIdentification : identificationResource.getAll(person.getSolarisId())) {
+                SolarisIdentification fullIdentification = identificationResource.getIdentification(person.getSolarisId(), solarisIdentification.getSolarisId());
+                fullIdentification.setPersonId(person.getSolarisId());
+                solarisIdentifications.add(fullIdentification);
+            }
+        }
+        List<String> solarisIdentificationIds = solarisIdentifications.stream()
+                .map(identification -> identification.getSolarisId()).filter(id -> !StringUtils.isEmpty(id))
+                .collect(Collectors.toList());
 
-        return model;
+        List<Identification> identificationsInDB = identificationRepository.findAllBySolarisIdIn(solarisIdentificationIds);
+        if (identificationsInDB.size() != solarisIdentifications.size()) {
+            List<String> savedIdentificationIds = identificationsInDB.stream().map(identification -> identification.getSolarisId()).collect(Collectors.toList());
+            List<SolarisIdentification> solarisIdentificationsNotInDB = solarisIdentifications.stream()
+                    .filter(identification -> !savedIdentificationIds.contains(identification.getSolarisId()))
+                    .collect(Collectors.toList());
+
+            Iterable<Identification> savedIdentifications = identificationRepository.save(objectMapper.map(solarisIdentificationsNotInDB, Identification.class));
+            model.setIdentifications(StreamUtils.createStreamFromIterator(savedIdentifications.iterator()).collect(Collectors.toList()));
+        }
     }
 
 }
