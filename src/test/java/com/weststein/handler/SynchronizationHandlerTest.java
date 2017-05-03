@@ -2,6 +2,7 @@ package com.weststein.handler;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.weststein.integration.SolarisIdentification;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpInputMessage;
@@ -15,6 +16,7 @@ public class SynchronizationHandlerTest {
 
 
     @Test
+    @Ignore
     public void testConverter() throws IOException {
 
         MappingJackson2HttpMessageConverter conv = new MappingJackson2HttpMessageConverter();

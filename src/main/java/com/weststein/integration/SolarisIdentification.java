@@ -20,8 +20,6 @@ public class SolarisIdentification {
     private String method;
     private String address;
     private String personId;
-    //    @JsonDeserialize(contentAs = SolarisDocument.class)
     private List<SolarisDocument> documents = new ArrayList<>();
-
 
 }
