@@ -2,6 +2,7 @@ package com.weststein.handler.person;
 
 import com.weststein.infrastructure.EntityUpdater;
 import com.weststein.infrastructure.OrikoObjectMapper;
+import com.weststein.infrastructure.exceptions.ResourceNotFoundException;
 import com.weststein.integration.PersonResource;
 import com.weststein.integration.SolarisPerson;
 import com.weststein.repository.Person;
@@ -22,7 +23,7 @@ public class UpdatePersonHandler {
     private EntityUpdater entityUpdater;
 
     public Person handle(Person person) {
-        Person existingPerson = personRepository.findBySolarisId(person.getSolarisId());
+        Person existingPerson = personRepository.findBySolarisId(person.getSolarisId()).orElseThrow(() -> new ResourceNotFoundException(String.format("Person with id: %s does not exist", person.getSolarisId())));
         entityUpdater.apply(person, existingPerson);
         existingPerson.setDirty(true);
         existingPerson = personRepository.save(existingPerson);
