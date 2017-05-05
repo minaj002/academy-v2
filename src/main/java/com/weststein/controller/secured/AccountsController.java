@@ -40,7 +40,7 @@ public class AccountsController {
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "")
     })
-    public Account getPersonAccount(@PathVariable String personId, @PathVariable String accountId) {
+    public Account getPersonAccount(@PathVariable String accountId) {
         return getPersonAccountHandler.handle(accountId);
     }
 
