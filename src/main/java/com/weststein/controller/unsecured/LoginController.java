@@ -7,7 +7,6 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -17,7 +16,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-
 public class LoginController {
 
     @Autowired
@@ -35,16 +33,6 @@ public class LoginController {
         tokenMap.put("token", accessToken.getToken());
 
         return tokenMap;
-    }
-
-    @PostMapping("/api/hooks/person")
-    @ApiOperation(value = "allow user to login, receives authorization token")
-    @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "")
-    })
-    public ResponseEntity personHook(@RequestParam(value = "person_id", required = false) String solarisId, @RequestParam(value = "status", required = false) String status) {
-
-        return ResponseEntity.ok().build();
     }
 
 }
