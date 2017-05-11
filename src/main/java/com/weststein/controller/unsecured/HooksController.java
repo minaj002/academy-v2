@@ -3,6 +3,7 @@ package com.weststein.controller.unsecured;
 import com.weststein.handler.account.SaveBookingHandler;
 import com.weststein.handler.identification.SavePersonIdentificationHandler;
 import com.weststein.integration.SolarisBooking;
+import com.weststein.integration.SolarisIdentification;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
@@ -28,10 +29,10 @@ public class HooksController {
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "")
     })
-    public ResponseEntity identificationHook() {
-//    public ResponseEntity identificationHook(@RequestBody(required = false) SolarisIdentification identification) {
+//    public ResponseEntity identificationHook() {
+    public ResponseEntity identificationHook(@RequestBody(required = false) SolarisIdentification identification) {
         log.info("Identification hook with content: ");
-//        savePersonIdentificationHandler.handle(identification);
+        savePersonIdentificationHandler.handle(identification);
         return ResponseEntity.ok().build();
     }
 
