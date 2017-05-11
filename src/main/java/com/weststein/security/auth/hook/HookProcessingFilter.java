@@ -51,8 +51,8 @@ public class HookProcessingFilter extends AbstractAuthenticationProcessingFilter
 
     public static String calculateRFC2104HMAC(byte[] data, String key, String algorithm)
             throws SignatureException, NoSuchAlgorithmException, InvalidKeyException {
-        SecretKeySpec signingKey = new SecretKeySpec(key.getBytes(), algorithm);
-        Mac mac = Mac.getInstance(algorithm);
+        SecretKeySpec signingKey = new SecretKeySpec(key.getBytes(), "Hmac" + algorithm);
+        Mac mac = Mac.getInstance("Hmac" + algorithm);
         mac.init(signingKey);
         return toHexString(mac.doFinal(data));
     }
@@ -72,6 +72,10 @@ public class HookProcessingFilter extends AbstractAuthenticationProcessingFilter
             String signature = signatures.getSignature(event);
             try {
                 String hmac = calculateRFC2104HMAC(IOUtils.toByteArray(request.getInputStream()), signature, webHookSignature[0]);
+
+                log.info("Calculated " + hmac);
+                log.info("Received   " + webHookSignature[1]);
+
             } catch (SignatureException e) {
                 e.printStackTrace();
             } catch (NoSuchAlgorithmException e) {
