@@ -69,6 +69,9 @@ public class HookProcessingFilter extends AbstractAuthenticationProcessingFilter
             return null;
         } else {
             String webHookSignature[] = request.getHeader("Solaris-Webhook-Signature").split("=");
+
+            log.debug("algorithm:" + webHookSignature[0] + ", sign:" + webHookSignature[1]);
+
             String signature = signatures.getSignature(event);
             try {
                 String hmac = calculateRFC2104HMAC(IOUtils.toByteArray(request.getInputStream()), signature, webHookSignature[0]);
