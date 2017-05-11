@@ -1,16 +1,16 @@
 package com.weststein.configuration;
 
 import com.weststein.security.RestAuthenticationEntryPoint;
-import com.weststein.security.auth.login.LoginAuthenticationProvider;
-import com.weststein.security.auth.login.LoginProcessingFilter;
+import com.weststein.security.auth.hook.HookProcessingFilter;
 import com.weststein.security.auth.jwt.JwtAuthenticationProvider;
 import com.weststein.security.auth.jwt.JwtTokenAuthenticationProcessingFilter;
 import com.weststein.security.auth.jwt.SkipPathRequestMatcher;
 import com.weststein.security.auth.jwt.extractor.TokenExtractor;
+import com.weststein.security.auth.login.LoginAuthenticationProvider;
+import com.weststein.security.auth.login.LoginProcessingFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -30,6 +30,7 @@ import java.util.List;
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public static final String JWT_TOKEN_HEADER_PARAM = "Authorization";
     public static final String FORM_BASED_LOGIN_ENTRY_POINT = "/api/auth/login";
+    public static final String HOOK_ENTRY_POINT = "/api/hooks/**";
     public static final String TOKEN_BASED_AUTH_ENTRY_POINT = "/api/**";
 
     @Autowired
@@ -45,13 +46,21 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     
     @Autowired
     private TokenExtractor tokenExtractor;
+    @Autowired
+    private HookSignatures signatures;
     
     @Autowired
     private AuthenticationManager authenticationManager;
-    
+
 
     protected LoginProcessingFilter buildLoginProcessingFilter() throws Exception {
         LoginProcessingFilter filter = new LoginProcessingFilter(FORM_BASED_LOGIN_ENTRY_POINT, successHandler, failureHandler);
+        filter.setAuthenticationManager(this.authenticationManager);
+        return filter;
+    }
+
+    protected HookProcessingFilter buildHookProcessingFilter() throws Exception {
+        HookProcessingFilter filter = new HookProcessingFilter(HOOK_ENTRY_POINT, successHandler, failureHandler, signatures);
         filter.setAuthenticationManager(this.authenticationManager);
         return filter;
     }
@@ -79,7 +88,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers("/api/hooks/person");
+        web.ignoring().antMatchers("/api/hooks/**");
     }
 
     @Override
@@ -102,5 +111,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         .and()
             .addFilterBefore(buildLoginProcessingFilter(), UsernamePasswordAuthenticationFilter.class)
             .addFilterBefore(buildJwtTokenAuthenticationProcessingFilter(), UsernamePasswordAuthenticationFilter.class);
+//            .addFilterBefore(buildHookProcessingFilter(), UsernamePasswordAuthenticationFilter.class);
     }
 }

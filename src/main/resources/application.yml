@@ -22,8 +22,8 @@ logging.level:
 spring.mvc.dispatch-options-request: true
 # Dispatch OPTIONS requests to the FrameworkServlet doService method.
 
-solaris.token: 2s7c2eeldhlr20t8ayf7pp559tyu8x3mzjc865wn7agkjucn464w4vfimw56ol7kola881
-
-#server.ssl.key-store: keystore.p12
-#server.ssl.key-store-password: weststein
-#server.ssl.keyStore: tomcat
+solaris:
+  token: 2s7c2eeldhlr20t8ayf7pp559tyu8x3mzjc865wn7agkjucn464w4vfimw56ol7kola881
+  hook:
+    identification: 9ac61cd447514871af186777c22b4ca8
+    booking: 23rhd3rw4hjbjhbuwiwlwebflwef
