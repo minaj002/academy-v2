@@ -29,9 +29,8 @@ public class HooksController {
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "")
     })
-//    public ResponseEntity identificationHook() {
     public ResponseEntity identificationHook(@RequestBody(required = false) SolarisIdentification identification) {
-        log.info("Identification hook with content: ");
+        log.info("Identification hook with content: " + identification.getSolarisId() + " person: " + identification.getPersonId());
         savePersonIdentificationHandler.handle(identification);
         return ResponseEntity.ok().build();
     }
