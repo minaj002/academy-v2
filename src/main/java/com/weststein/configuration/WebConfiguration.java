@@ -23,7 +23,10 @@ public class WebConfiguration extends WebMvcConfigurerAdapter {
         return new WebMvcConfigurerAdapter() {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/api/**").allowedOrigins("http://localhost:3000");
+                registry.addMapping("/api/**").allowedOrigins(
+                        "http://localhost:3000",
+                        "http://ec2-52-28-251-57.eu-central-1.compute.amazonaws.com"
+                );
             }
         };
     }
