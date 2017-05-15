@@ -1,9 +1,8 @@
 package com.weststein.configuration;
 
-import org.h2.server.web.WebServlet;
-import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.filter.CommonsRequestLoggingFilter;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -32,11 +31,12 @@ public class WebConfiguration extends WebMvcConfigurerAdapter {
     }
 
     @Bean
-    public ServletRegistrationBean h2servletRegistration() {
-        ServletRegistrationBean registration = new ServletRegistrationBean(new WebServlet());
-        registration.addUrlMappings("/console/*");
-        registration.addInitParameter("webAllowOthers", "true");
-        return registration;
+    public CommonsRequestLoggingFilter requestLoggingFilter() {
+        CommonsRequestLoggingFilter loggingFilter = new CommonsRequestLoggingFilter();
+        loggingFilter.setIncludeClientInfo(true);
+        loggingFilter.setIncludeQueryString(true);
+        loggingFilter.setIncludePayload(true);
+        return loggingFilter;
     }
 
 }

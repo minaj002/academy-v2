@@ -70,7 +70,7 @@ public class HookProcessingFilter extends AbstractAuthenticationProcessingFilter
         } else {
             String webHookSignature[] = request.getHeader("Solaris-Webhook-Signature").split("=");
 
-            log.debug("algorithm:" + webHookSignature[0] + ", sign:" + webHookSignature[1]);
+            log.info("algorithm:" + webHookSignature[0] + ", sign:" + webHookSignature[1]);
 
             String signature = signatures.getSignature(event);
             try {
