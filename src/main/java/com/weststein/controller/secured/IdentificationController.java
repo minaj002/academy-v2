@@ -8,6 +8,7 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -27,7 +28,7 @@ public class IdentificationController {
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "")
     })
-    public List getPersonIdentifications(String personId) {
+    public List getPersonIdentifications(@PathVariable String personId) {
         return getPersonIdentificationsHandler.handle(personId);
     }
 
@@ -36,7 +37,7 @@ public class IdentificationController {
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "")
     })
-    public Identification getPersonIdentification(String id) {
+    public Identification getPersonIdentification(@PathVariable String id) {
         return getPersonIdentificationHandler.handle(id);
     }
 

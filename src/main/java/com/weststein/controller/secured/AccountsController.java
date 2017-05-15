@@ -49,7 +49,7 @@ public class AccountsController {
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "")
     })
-    public Bookings getPersonAccountBookings(String accountId) {
+    public Bookings getPersonAccountBookings(@PathVariable String accountId) {
         return Bookings.builder().bookings(getPersonAccountBookingsHandler.handle(accountId)).build();
     }
 
