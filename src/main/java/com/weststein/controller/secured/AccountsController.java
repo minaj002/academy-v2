@@ -35,21 +35,21 @@ public class AccountsController {
         return Accounts.builder().accounts(getPersonAccountsHandler.handle(personId)).build();
     }
 
-    @GetMapping("accounts/{accountId}")
+    @GetMapping("/{personId}/accounts/{accountId}")
     @ApiOperation(value = "see account for this person", response = Account.class)
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "")
     })
-    public Account getPersonAccount(@PathVariable String accountId) {
+    public Account getPersonAccount(@PathVariable String personId, @PathVariable String accountId) {
         return getPersonAccountHandler.handle(accountId);
     }
 
-    @GetMapping("/accounts/{accountId}/bookings")
+    @GetMapping("/{personId}/accounts/{accountId}/bookings")
     @ApiOperation(value = "see bookings for this persons account", response = Bookings.class)
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "")
     })
-    public Bookings getPersonAccountBookings(@PathVariable String accountId) {
+    public Bookings getPersonAccountBookings(@PathVariable String personId, @PathVariable String accountId) {
         return Bookings.builder().bookings(getPersonAccountBookingsHandler.handle(accountId)).build();
     }
 
