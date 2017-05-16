@@ -2,24 +2,23 @@ package com.weststein.configuration;
 
 
 import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 @Component
-public class CustomDeSerializer extends StdDeserializer<LocalDate> {
+public class CustomDeSerializer extends StdDeserializer<LocalDateTime> {
 
     public CustomDeSerializer() {
-        super(LocalDate.class);
+        super(LocalDateTime.class);
     }
 
     @Override
-    public LocalDate deserialize(JsonParser p, DeserializationContext ctxt) throws IOException, JsonProcessingException {
-        return LocalDate.parse(p.getText(), DateTimeFormatter.ofPattern("ddMMyyyy"));
+    public LocalDateTime deserialize(JsonParser p, DeserializationContext ctxt) throws IOException {
+        return LocalDateTime.parse(p.getText(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss Z"));
     }
 }

@@ -26,5 +26,5 @@ spring.mvc.dispatch-options-request: true
 solaris:
   token: 2s7c2eeldhlr20t8ayf7pp559tyu8x3mzjc865wn7agkjucn464w4vfimw56ol7kola881
   hook:
-    identification: 9f0c4103fd64ea34ee4ecb1bca8892bd
+    identification: f660726bf8dc8a9b023d39bcc75c1a6c
     booking: 8636842cb03a3f8ec8aaec7526dbd31a

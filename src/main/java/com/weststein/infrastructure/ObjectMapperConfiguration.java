@@ -9,6 +9,7 @@ import ma.glasnost.orika.metadata.ClassMapBuilder;
 import ma.glasnost.orika.metadata.Type;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 public abstract class ObjectMapperConfiguration <A, B> {
@@ -37,6 +38,17 @@ public abstract class ObjectMapperConfiguration <A, B> {
             @Override
             public String convertFrom(LocalDate source, Type<String> destinationType, MappingContext mappingContext) {
                 return source.toString();
+            }
+        });
+        converterFactory.registerConverter(new BidirectionalConverter<LocalDateTime, LocalDateTime>() {
+            @Override
+            public LocalDateTime convertTo(LocalDateTime source, Type<LocalDateTime> destinationType, MappingContext mappingContext) {
+                return source;
+            }
+
+            @Override
+            public LocalDateTime convertFrom(LocalDateTime source, Type<LocalDateTime> destinationType, MappingContext mappingContext) {
+                return source;
             }
         });
 

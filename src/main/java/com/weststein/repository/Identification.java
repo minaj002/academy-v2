@@ -3,7 +3,7 @@ package com.weststein.repository;
 import lombok.Data;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
@@ -17,7 +17,7 @@ public class Identification {
     private String reference;
     private String url;
     private String status;
-    private Date completedAt;
+    private LocalDateTime completedAt;
     private String method;
     private String address;
     private String personId;
