@@ -25,7 +25,7 @@ public class WebConfiguration extends WebMvcConfigurerAdapter {
                 registry.addMapping("/api/**").allowedOrigins(
                         "http://localhost:3000",
                         "http://ec2-52-28-251-57.eu-central-1.compute.amazonaws.com"
-                );
+                ).allowedMethods("GET","OPTIONS","POST","PATCH","PUT");
             }
         };
     }
