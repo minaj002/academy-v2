@@ -78,7 +78,14 @@ public class HookProcessingFilter extends AbstractAuthenticationProcessingFilter
 
                 log.info("Calculated " + hmac);
                 log.info("Received   " + webHookSignature[1]);
+                log.info("are equal " + hmac.equals(webHookSignature[1]));
+                // TODO: Enable latter
 
+//                if(!hmac.equals(webHookSignature[1])){
+//                    response.setStatus(HttpStatus.UNAUTHORIZED.value());
+//                    response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+//                    return null;
+//                }
             } catch (SignatureException e) {
                 e.printStackTrace();
             } catch (NoSuchAlgorithmException e) {
