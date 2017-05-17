@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("api/identification")
+@RequestMapping("api/persons")
 public class IdentificationController {
 
     @Autowired
@@ -23,7 +23,7 @@ public class IdentificationController {
     @Autowired
     private GetPersonIdentificationHandler getPersonIdentificationHandler;
 
-    @GetMapping("/{personId}")
+    @GetMapping("/{personId}/identification")
     @ApiOperation(value = "see all identifications for this person", response = Identification.class)
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "")
@@ -32,7 +32,7 @@ public class IdentificationController {
         return getPersonIdentificationsHandler.handle(personId);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/{personId}/identification/{id}")
     @ApiOperation(value = "see identification", response = Identification.class)
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "")
