@@ -11,9 +11,9 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 @Component
-public class CustomDeSerializer extends StdDeserializer<LocalDateTime> {
+public class LocalDateTimeDeSerializer extends StdDeserializer<LocalDateTime> {
 
-    public CustomDeSerializer() {
+    public LocalDateTimeDeSerializer() {
         super(LocalDateTime.class);
     }
 

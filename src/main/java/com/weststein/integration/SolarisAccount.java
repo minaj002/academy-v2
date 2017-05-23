@@ -1,6 +1,7 @@
 package com.weststein.integration;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.weststein.repository.Account;
 import lombok.Data;
 
 @Data
@@ -10,7 +11,7 @@ public class SolarisAccount {
     private String solarisId;
     private String iban;
     private String bic;
-    private String type;
+    private Account.Type type;
     private SolarisAmount balance;
     @JsonProperty("locking-status")
     private String lockingStatus;

@@ -1,6 +1,7 @@
 package com.weststein.integration;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.weststein.repository.Booking;
 import lombok.Data;
 
 import java.util.Date;
@@ -16,7 +17,7 @@ public class SolarisBooking {
     @JsonProperty("boking_date")
     private Date bookingDate;
     @JsonProperty("booking_type")
-    private String bookingType;
+    private Booking.BookingType bookingType;
     private SolarisAmount amount;
     private String description;
     @JsonProperty("recipient_bic")

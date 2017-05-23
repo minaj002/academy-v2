@@ -16,7 +16,8 @@ public class Booking {
     private Date creationDate;
     private Date valutaDate;
     private Date bookingDate;
-    private String bookingType;
+    @Enumerated(EnumType.STRING)
+    private BookingType bookingType;
     @OneToOne(cascade=CascadeType.ALL)
     private Amount amount;
     private String description;
@@ -31,5 +32,12 @@ public class Booking {
     private String mandateReference;
     private String transactionId;
     private String accountId;
+
+    public enum BookingType {
+        SEPA_CREDIT_TRANSFER,
+        DIRECT_DEBIT,
+        ACCOUNT_MAINTENANCE_CHARGES,
+        OTHER
+    }
 
 }

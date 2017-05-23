@@ -2,7 +2,7 @@ package com.weststein.integration;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.weststein.configuration.CustomDeSerializer;
+import com.weststein.configuration.LocalDateTimeDeSerializer;
 import lombok.Data;
 
 import java.time.LocalDateTime;
@@ -18,8 +18,7 @@ public class SolarisIdentification {
     private String url;
     private String status;
     @JsonProperty("completed_at")
-//    @DateTimeFormat(pattern = "yyyy-MM-dd hh:mm:ss Z")
-    @JsonDeserialize(using = CustomDeSerializer.class)
+    @JsonDeserialize(using = LocalDateTimeDeSerializer.class)
     private LocalDateTime completedAt;
     private String method;
     private String address;
