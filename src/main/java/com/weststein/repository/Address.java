@@ -2,10 +2,9 @@ package com.weststein.repository;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Data
@@ -14,7 +13,15 @@ import javax.persistence.Id;
 public class Address {
 
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
+    @GenericGenerator(strategy =
+            "org.hibernate.id.enhanced.SequenceStyleGenerator",
+            name = "addressGenerator",
+            parameters = {
+                    @org.hibernate.annotations.Parameter(name = "sequence_name", value = "ADDRESS_SEQUENCE"),
+                    @org.hibernate.annotations.Parameter(name = "initial_value", value = "1000"),
+                    @org.hibernate.annotations.Parameter(name = "increment_size", value = "1")
+            }
+    )
     private Long id;
     private String line1;
     private String line2;
