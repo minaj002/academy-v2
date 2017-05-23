@@ -4,18 +4,18 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.weststein.repository.Booking;
 import lombok.Data;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 @Data
 public class SolarisBooking {
     @JsonProperty("id")
     private String solarisId;
     @JsonProperty("creation_date")
-    private Date creationDate;
+    private LocalDate creationDate;
     @JsonProperty("valuta_date")
-    private Date valutaDate;
+    private LocalDate valutaDate;
     @JsonProperty("boking_date")
-    private Date bookingDate;
+    private LocalDate bookingDate;
     @JsonProperty("booking_type")
     private Booking.BookingType bookingType;
     private SolarisAmount amount;

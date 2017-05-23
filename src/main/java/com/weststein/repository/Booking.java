@@ -4,7 +4,7 @@ import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.time.LocalDate;
 
 @Data
 @Entity
@@ -22,9 +22,9 @@ public class Booking {
     )
     private Long id;
     private String solarisId;
-    private Date creationDate;
-    private Date valutaDate;
-    private Date bookingDate;
+    private LocalDate creationDate;
+    private LocalDate valutaDate;
+    private LocalDate bookingDate;
     @Enumerated(EnumType.STRING)
     private BookingType bookingType;
     @OneToOne(cascade=CascadeType.ALL)
