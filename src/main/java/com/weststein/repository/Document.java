@@ -6,7 +6,7 @@ import org.hibernate.annotations.Parameter;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import java.util.Date;
+import java.time.LocalDate;
 
 @Data
 @Entity
@@ -29,6 +29,6 @@ public class Document {
     private String documentType;
     private String size;
     private String customerAccessible;
-    private Date deletedAt;
+    private LocalDate deletedAt;
 
 }

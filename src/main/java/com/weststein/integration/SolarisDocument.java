@@ -3,7 +3,7 @@ package com.weststein.integration;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 @Data
 public class SolarisDocument {
@@ -19,6 +19,6 @@ public class SolarisDocument {
     @JsonProperty("customer_accessible")
     private String customerAccessible;
     @JsonProperty("deleted_at")
-    private Date deletedAt;
+    private LocalDate deletedAt;
 
 }
