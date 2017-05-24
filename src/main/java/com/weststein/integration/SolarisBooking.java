@@ -14,7 +14,7 @@ public class SolarisBooking {
     private LocalDate creationDate;
     @JsonProperty("valuta_date")
     private LocalDate valutaDate;
-    @JsonProperty("boking_date")
+    @JsonProperty("booking_date")
     private LocalDate bookingDate;
     @JsonProperty("booking_type")
     private Booking.BookingType bookingType;
