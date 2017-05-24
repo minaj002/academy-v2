@@ -4,10 +4,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Data
 @Entity
@@ -15,11 +12,12 @@ import javax.persistence.Id;
 public class TaxInformation {
 
     @Id
+    @GeneratedValue(generator = "generator")
     @GenericGenerator(strategy =
             "org.hibernate.id.enhanced.SequenceStyleGenerator",
-            name = "taxGenerator",
+            name = "generator",
             parameters = {
-                    @org.hibernate.annotations.Parameter(name = "sequence_name", value = "TAX_SEQUENCE"),
+                    @org.hibernate.annotations.Parameter(name = "sequence_name", value = "hibernate_sequence"),
                     @org.hibernate.annotations.Parameter(name = "initial_value", value = "1000"),
                     @org.hibernate.annotations.Parameter(name = "increment_size", value = "1")
             }

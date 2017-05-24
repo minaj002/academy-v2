@@ -52,6 +52,18 @@ public abstract class ObjectMapperConfiguration <A, B> {
             }
         });
 
+        converterFactory.registerConverter(new BidirectionalConverter<LocalDate, LocalDate>() {
+            @Override
+            public LocalDate convertTo(LocalDate source, Type<LocalDate> destinationType, MappingContext mappingContext) {
+                return source;
+            }
+
+            @Override
+            public LocalDate convertFrom(LocalDate source, Type<LocalDate> destinationType, MappingContext mappingContext) {
+                return source;
+            }
+        });
+
     }
 
     protected void fieldMapping(ClassMapBuilder<A, B> classMapBuilder) {

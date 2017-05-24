@@ -2,9 +2,9 @@ package com.weststein.repository;
 
 import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.Parameter;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import java.time.LocalDate;
 
@@ -13,13 +13,14 @@ import java.time.LocalDate;
 public class Document {
 
     @Id
+    @GeneratedValue(generator = "generator")
     @GenericGenerator(strategy =
             "org.hibernate.id.enhanced.SequenceStyleGenerator",
-            name = "documentGenerator",
+            name = "generator",
             parameters = {
-                    @Parameter(name = "sequence_name", value = "DOCUMENT_SEQUENCE"),
-                    @Parameter(name = "initial_value", value = "1000"),
-                    @Parameter(name = "increment_size", value = "1")
+                    @org.hibernate.annotations.Parameter(name = "sequence_name", value = "hibernate_sequence"),
+                    @org.hibernate.annotations.Parameter(name = "initial_value", value = "1000"),
+                    @org.hibernate.annotations.Parameter(name = "increment_size", value = "1")
             }
     )
     private Long id;

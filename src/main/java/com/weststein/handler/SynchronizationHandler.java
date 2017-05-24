@@ -78,7 +78,7 @@ public class SynchronizationHandler {
         List<String> solarisBookingIds = solarisBookings.stream().map(booking -> booking.getSolarisId()).collect(Collectors.toList());
 
         List<Booking> bookingsInDB = bookingRepository.findAllBySolarisIdIn(solarisBookingIds);
-        if(accountsInDB.size() != solarisAccounts.size()) {
+        if (bookingsInDB.size() != solarisBookings.size()) {
             List<String> savedBookingIds = bookingsInDB.stream().map(account -> account.getSolarisId()).collect(Collectors.toList());
             List<SolarisBooking> solarisBookingsNotInDB = solarisBookings.stream()
                     .filter(booking -> !savedBookingIds.contains(booking.getSolarisId()))
