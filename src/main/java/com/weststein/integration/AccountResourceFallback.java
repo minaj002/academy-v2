@@ -14,7 +14,7 @@ public class AccountResourceFallback implements AccountResource {
     }
 
     @Override
-    public List<SolarisAccount> getAccount(String personId, String accountId) {
+    public SolarisAccount getAccount(String personId, String accountId) {
         return null;
     }
 

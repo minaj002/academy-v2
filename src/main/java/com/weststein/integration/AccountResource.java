@@ -21,7 +21,7 @@ public interface AccountResource {
     List<SolarisAccount> getAccounts(@PathVariable("personId") String personId);
 
     @RequestMapping(method = RequestMethod.GET, path = "/persons/{personId}/accounts/{accountId}")
-    List<SolarisAccount> getAccount(@PathVariable("personId") String personId, @PathVariable("accountId") String accountId );
+    SolarisAccount getAccount(@PathVariable("personId") String personId, @PathVariable("accountId") String accountId);
 
     @RequestMapping(method = RequestMethod.GET, path = "/persons/{personId}/accounts/{accountId}/bookings")
     List<SolarisBooking> getAccountBookings(@PathVariable("personId") String personId, @PathVariable("accountId") String accountId );

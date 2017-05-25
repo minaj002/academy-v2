@@ -55,7 +55,10 @@ public class SynchronizationHandler {
         if(accountsInDB.size() != solarisAccounts.size()) {
             List<String> savedAccountIds = accountsInDB.stream().map(account -> account.getSolarisId()).collect(Collectors.toList());
             List<SolarisAccount> solarisAccountsNotInDB = solarisAccounts.stream().filter(account -> !savedAccountIds.contains(account.getSolarisId())).collect(Collectors.toList());
-
+            List<SolarisAccount> solarisAccountsNotInDBFull = new ArrayList<>();
+            for (SolarisAccount solarisAccount : solarisAccountsNotInDB) {
+                solarisAccountsNotInDBFull.add(accountResource.getAccount(solarisAccount.getPersonId(), solarisAccount.getSolarisId()));
+            }
             Iterable<Account> savedAccounts = accountRepository.save(objectMapper.map(solarisAccountsNotInDB, Account.class));
             model.setAccounts(StreamUtils.createStreamFromIterator(savedAccounts.iterator()).collect(Collectors.toList()));
         }
