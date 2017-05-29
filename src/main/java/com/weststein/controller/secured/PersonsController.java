@@ -27,7 +27,7 @@ public class PersonsController {
     private UpdatePersonHandler updatePersonHandler;
 
     @GetMapping
-    @ApiOperation(value = "see all Persons", response = SolarisPerson.class)
+    @ApiOperation(value = "see all Persons", response = Persons.class)
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "")
     })
@@ -54,7 +54,7 @@ public class PersonsController {
     }
 
     @PatchMapping
-    @ApiOperation(value = "update Person info", response = SolarisPerson.class)
+    @ApiOperation(value = "update Person info", response = Person.class)
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "")
     })
