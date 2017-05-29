@@ -2,6 +2,7 @@ package com.weststein.configuration;
 
 import feign.Client;
 import feign.Logger;
+import feign.codec.ErrorDecoder;
 import feign.httpclient.ApacheHttpClient;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -17,6 +18,11 @@ public class FeignConfiguration {
     @Bean
     public Client client(){
         return new ApacheHttpClient();
+    }
+
+    @Bean
+    public ErrorDecoder decoder() {
+        return new SolarisErrorDecoder();
     }
 
 }
