@@ -1,5 +1,6 @@
 package com.weststein.controller.secured;
 
+import com.weststein.controller.secured.model.Identifications;
 import com.weststein.handler.identification.GetPersonIdentificationHandler;
 import com.weststein.handler.identification.GetPersonIdentificationsHandler;
 import com.weststein.repository.Identification;
@@ -24,12 +25,12 @@ public class IdentificationController {
     private GetPersonIdentificationHandler getPersonIdentificationHandler;
 
     @GetMapping("/{personId}/identification")
-    @ApiOperation(value = "see all identifications for this person", response = Identification.class)
+    @ApiOperation(value = "see all identifications for this person", response = Identifications.class)
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "")
     })
-    public List getPersonIdentifications(@PathVariable String personId) {
-        return getPersonIdentificationsHandler.handle(personId);
+    public Identifications getPersonIdentifications(@PathVariable String personId) {
+        return Identifications.builder().identifications(getPersonIdentificationsHandler.handle(personId)).build();
     }
 
     @GetMapping("/{personId}/identification/{id}")
