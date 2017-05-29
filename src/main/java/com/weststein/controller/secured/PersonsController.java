@@ -13,6 +13,8 @@ import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.ws.rs.QueryParam;
+
 @RestController
 @RequestMapping("api/persons")
 public class PersonsController {
@@ -31,8 +33,8 @@ public class PersonsController {
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "")
     })
-    public Persons getPersons(){
-        return Persons.builder().persons(getPersonsHandler.handle()).build();
+    public Persons getPersons(@RequestParam("page") int page, @RequestParam("size")int size){
+        return Persons.builder().persons(getPersonsHandler.handle(page, size)).build();
     }
 
     @GetMapping("/{personId}")
