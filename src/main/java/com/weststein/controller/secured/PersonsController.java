@@ -49,7 +49,7 @@ public class PersonsController {
     @ApiResponses(value = {
             @ApiResponse(code = 201, message = "")
     })
-    public Person createPerson(Person person){
+    public Person createPerson(@RequestBody Person person){
         return createPersonHandler.handle(person);
     }
 
