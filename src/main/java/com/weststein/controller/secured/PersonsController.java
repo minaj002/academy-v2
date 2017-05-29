@@ -58,7 +58,7 @@ public class PersonsController {
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "")
     })
-    public Person updatePerson(Person person){
+    public Person updatePerson(@RequestBody Person person){
         return updatePersonHandler.handle(person);
     }
 }

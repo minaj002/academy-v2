@@ -20,13 +20,14 @@ public class EntityUpdaterTest {
         Address outAddress = new Address();
         outAddress.setCity("New York");
         outPerson.setAddress(outAddress);
-        updater.apply(inPerson, outPerson);
+        inPerson.setSalutation(Person.Salutation.MR);
 
+        updater.apply(inPerson, outPerson);
 
         assertEquals("mail@mail.com", outPerson.getEmail());
         assertEquals("USA", outPerson.getAddress().getCountry());
         assertEquals("New York", outPerson.getAddress().getCity());
-
+        assertEquals(Person.Salutation.MR, outPerson.getSalutation());
     }
 
 }

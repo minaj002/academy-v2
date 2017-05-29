@@ -23,7 +23,10 @@ public class EntityUpdater {
             Object value = wrapperFrom.getPropertyValue(field.getName());
             if(Objects.nonNull(value)&& (value instanceof String || value instanceof Long)) {
                 wrapperTo.setPropertyValue(field.getName(), value);
-            } else if(Objects.nonNull(value)) {
+            } else if(Objects.nonNull(value)&& (value.getClass().isEnum() )){
+                wrapperTo.setPropertyValue(field.getName(), value);
+            }
+            else if(Objects.nonNull(value)) {
                 for (Field insideField: value.getClass().getDeclaredFields()) {
                     Object insideValue = wrapperFrom.getPropertyValue(field.getName()+"."+insideField.getName());
                     if(Objects.nonNull(insideValue)) {
