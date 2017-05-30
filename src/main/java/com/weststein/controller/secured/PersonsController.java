@@ -5,7 +5,6 @@ import com.weststein.handler.person.CreatePersonHandler;
 import com.weststein.handler.person.GetPersonHandler;
 import com.weststein.handler.person.GetPersonsHandler;
 import com.weststein.handler.person.UpdatePersonHandler;
-import com.weststein.integration.SolarisPerson;
 import com.weststein.repository.Person;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -13,7 +12,7 @@ import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.ws.rs.QueryParam;
+import java.util.List;
 
 @RestController
 @RequestMapping("api/persons")
@@ -34,7 +33,8 @@ public class PersonsController {
             @ApiResponse(code = 200, message = "")
     })
     public Persons getPersons(@RequestParam("page") int page, @RequestParam("size")int size){
-        return Persons.builder().persons(getPersonsHandler.handle(page, size)).build();
+        List<Person> persons = getPersonsHandler.handle(page, size);
+        return Persons.builder().persons(persons).total(persons.size()).build();
     }
 
     @GetMapping("/{personId}")

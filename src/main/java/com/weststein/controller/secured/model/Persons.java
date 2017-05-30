@@ -11,5 +11,6 @@ import java.util.List;
 public class Persons {
 
     private List<Person> persons;
+    private int total;
 
 }
