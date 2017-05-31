@@ -10,7 +10,7 @@ import java.util.List;
 
 @FeignClient(
         name = "identification-resource",
-        url = "https://api.solaris-sandbox.de/v1",
+        url = "${solaris.url}",
         configuration = FeignConfiguration.class
         , fallback = IdentificationResourceFallback.class
 )

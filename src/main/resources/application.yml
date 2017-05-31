@@ -28,3 +28,4 @@ solaris:
   hook:
     identification: f660726bf8dc8a9b023d39bcc75c1a6c
     booking: 8636842cb03a3f8ec8aaec7526dbd31a
+  url: ${solarisUrl}

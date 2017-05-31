@@ -46,7 +46,8 @@ dependencies {
 processResources {
     Properties props = new Properties();
     if(project.hasProperty('stage')){
-        props.load(new FileInputStream("src/profiles/cloud.properties"))
+        project.property('stage')
+        props.load(new FileInputStream("src/profiles/" + project.property('stage') + ".properties"))
     } else {
         props.load(new FileInputStream("src/profiles/local.properties"))
     }

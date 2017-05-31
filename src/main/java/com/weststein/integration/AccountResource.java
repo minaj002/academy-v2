@@ -10,10 +10,9 @@ import java.util.List;
 
 @FeignClient(
         name = "account-resource",
-        url = "https://api.solaris-sandbox.de/v1",
+        url = "${solaris.url}",
         configuration = FeignConfiguration.class
         ,fallback = AccountResourceFallback.class
-
 )
 public interface AccountResource {
 
