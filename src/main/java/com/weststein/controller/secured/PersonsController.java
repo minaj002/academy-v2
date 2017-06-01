@@ -10,9 +10,11 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.util.StreamUtils;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("api/persons")
@@ -33,8 +35,10 @@ public class PersonsController {
             @ApiResponse(code = 200, message = "")
     })
     public Persons getPersons(@RequestParam("page") int page, @RequestParam("size")int size){
-        List<Person> persons = getPersonsHandler.handle(page, size);
-        return Persons.builder().persons(persons).total(persons.size()).build();
+        Page<Person> persons = getPersonsHandler.handle(page, size);
+        return Persons.builder().persons(
+                StreamUtils.createStreamFromIterator(persons.iterator()).collect(Collectors.toList())
+        ).total(persons.getTotalElements()).build();
     }
 
     @GetMapping("/{personId}")
