@@ -5,6 +5,7 @@ import com.weststein.repository.PersonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.util.StreamUtils;
 import org.springframework.stereotype.Component;
 
@@ -17,9 +18,13 @@ public class GetPersonsHandler {
     @Autowired
     private PersonRepository personRepository;
 
-    public Page<Person> handle(int page, int size) {
-        PageRequest pageRequest = new PageRequest(page, size);
-        return personRepository.findAll(pageRequest);
+    public Page<Person> handle(Pageable page) {
+        //PageRequest pageRequest = new PageRequest(page, size);
+        return personRepository.findAll(page);
+    }
+
+    public Page<Person> handle(String search, Pageable pageable) {
+        return personRepository.findByFirstNameContainingIgnoreCaseOrLastNameContainingIgnoreCase(search, search, pageable);
     }
 
 }

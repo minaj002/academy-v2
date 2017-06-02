@@ -11,6 +11,7 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.util.StreamUtils;
 import org.springframework.web.bind.annotation.*;
 
@@ -34,12 +35,27 @@ public class PersonsController {
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "")
     })
-    public Persons getPersons(@RequestParam("page") int page, @RequestParam("size")int size){
-        Page<Person> persons = getPersonsHandler.handle(page, size);
+    public Persons getPersons(Pageable page){
+        Page<Person> persons = getPersonsHandler.handle(page);
+
         return Persons.builder().persons(
                 StreamUtils.createStreamFromIterator(persons.iterator()).collect(Collectors.toList())
         ).total(persons.getTotalElements()).build();
     }
+
+    @GetMapping(params = "search")
+    @ApiOperation(value = "search all Persons", response = Persons.class)
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "")
+    })
+    public Persons getPersons(Pageable page, @RequestParam("search") String search){
+        Page<Person> persons = getPersonsHandler.handle(search, page);
+
+        return Persons.builder().persons(
+                StreamUtils.createStreamFromIterator(persons.iterator()).collect(Collectors.toList())
+        ).total(persons.getTotalElements()).build();
+    }
+
 
     @GetMapping("/{personId}")
     @ApiOperation(value = "see Person info by id", response = Person.class)
