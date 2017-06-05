@@ -11,5 +11,5 @@ import java.util.List;
 public class Bookings {
 
     private List<Booking> bookings;
-
+    private long total;
 }

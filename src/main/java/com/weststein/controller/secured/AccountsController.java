@@ -6,14 +6,20 @@ import com.weststein.handler.account.GetPersonAccountBookingsHandler;
 import com.weststein.handler.account.GetPersonAccountHandler;
 import com.weststein.handler.account.GetPersonAccountsHandler;
 import com.weststein.repository.Account;
+import com.weststein.repository.Booking;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.util.StreamUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("api/persons")
@@ -49,8 +55,12 @@ public class AccountsController {
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "")
     })
-    public Bookings getPersonAccountBookings(@PathVariable String personId, @PathVariable String accountId) {
-        return Bookings.builder().bookings(getPersonAccountBookingsHandler.handle(accountId)).build();
+    public Bookings getPersonAccountBookings(@PathVariable String personId, @PathVariable String accountId, Pageable pageable) {
+        Page<Booking> bookings = getPersonAccountBookingsHandler.handle(accountId, pageable);
+
+        return Bookings.builder().bookings(
+                StreamUtils.createStreamFromIterator(bookings.iterator()).collect(Collectors.toList())
+        ).total(bookings.getTotalElements()).build();
     }
 
 }
