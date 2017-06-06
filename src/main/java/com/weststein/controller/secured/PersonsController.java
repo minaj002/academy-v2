@@ -35,27 +35,13 @@ public class PersonsController {
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "")
     })
-    public Persons getPersons(Pageable page){
-        Page<Person> persons = getPersonsHandler.handle(page);
+    public Persons getPersons(@RequestParam(value = "search", required = false) String search, Pageable page){
+        Page<Person> persons = search!=null ? getPersonsHandler.handle(search, page) : getPersonsHandler.handle(page);
 
         return Persons.builder().persons(
                 StreamUtils.createStreamFromIterator(persons.iterator()).collect(Collectors.toList())
         ).total(persons.getTotalElements()).build();
     }
-
-    @GetMapping(params = "search")
-    @ApiOperation(value = "search all Persons", response = Persons.class)
-    @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "")
-    })
-    public Persons getPersons(Pageable page, @RequestParam("search") String search){
-        Page<Person> persons = getPersonsHandler.handle(search, page);
-
-        return Persons.builder().persons(
-                StreamUtils.createStreamFromIterator(persons.iterator()).collect(Collectors.toList())
-        ).total(persons.getTotalElements()).build();
-    }
-
 
     @GetMapping("/{personId}")
     @ApiOperation(value = "see Person info by id", response = Person.class)
