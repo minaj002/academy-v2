@@ -22,6 +22,7 @@ public class SolarisIdentification {
     private LocalDateTime completedAt;
     private String method;
     private String address;
+    @JsonProperty("person_id")
     private String personId;
     private List<SolarisDocument> documents = new ArrayList<>();
 
