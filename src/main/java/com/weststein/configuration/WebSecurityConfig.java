@@ -46,9 +46,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private TokenExtractor tokenExtractor;
     @Autowired
-    private HookSignatures signatures;
-    
-    @Autowired
     private AuthenticationManager authenticationManager;
 
 
@@ -59,7 +56,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     protected HookProcessingFilter buildHookProcessingFilter() throws Exception {
-        HookProcessingFilter filter = new HookProcessingFilter(HOOK_ENTRY_POINT, successHandler, failureHandler, signatures);
+        HookProcessingFilter filter = new HookProcessingFilter(HOOK_ENTRY_POINT, successHandler, failureHandler);
         filter.setAuthenticationManager(this.authenticationManager);
         return filter;
     }

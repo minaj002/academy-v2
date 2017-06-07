@@ -1,4 +1,4 @@
-package com.weststein.security.auth.hook;
+package com.weststein.controller.unsecured;
 
 import org.junit.Test;
 
@@ -6,9 +6,7 @@ public class HookProcessingFilterTest {
     @Test
     public void calculateRFC2104HMAC() throws Exception {
 
-
-        HookProcessingFilter.calculateRFC2104HMAC("12345678".getBytes(), "key", "sha256");
-
+        HooksController.calculateRFC2104HMAC("12345678".getBytes(), "key", "sha256");
 
     }
 

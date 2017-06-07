@@ -89,7 +89,7 @@ public class HooksController {
         return ResponseEntity.ok().build();
     }
 
-    private static String calculateRFC2104HMAC(byte[] data, String key, String algorithm)
+    static String calculateRFC2104HMAC(byte[] data, String key, String algorithm)
             throws SignatureException, NoSuchAlgorithmException, InvalidKeyException {
         SecretKeySpec signingKey = new SecretKeySpec(key.getBytes(), "Hmac" + algorithm);
         Mac mac = Mac.getInstance("Hmac" + algorithm);
