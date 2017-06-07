@@ -39,6 +39,22 @@ public class HookProcessingFilter extends AbstractAuthenticationProcessingFilter
         this.failureHandler = failureHandler;
     }
 
+    private static String toHexString(byte[] bytes) {
+        Formatter formatter = new Formatter();
+        for (byte b : bytes) {
+            formatter.format("%02x", b);
+        }
+        return formatter.toString();
+    }
+
+    public static String calculateRFC2104HMAC(byte[] data, String key, String algorithm)
+            throws SignatureException, NoSuchAlgorithmException, InvalidKeyException {
+        SecretKeySpec signingKey = new SecretKeySpec(key.getBytes(), "Hmac" + algorithm);
+        Mac mac = Mac.getInstance("Hmac" + algorithm);
+        mac.init(signingKey);
+        return toHexString(mac.doFinal(data));
+    }
+
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
             throws AuthenticationException, IOException, ServletException {
@@ -54,7 +70,26 @@ public class HookProcessingFilter extends AbstractAuthenticationProcessingFilter
 
             log.info("algorithm:" + webHookSignature[0] + ", sign:" + webHookSignature[1]);
 
-
+//            try {
+////                String hmac = calculateRFC2104HMAC(IOUtils.toByteArray(request.getInputStream()), signature, webHookSignature[0]);
+////
+////                log.info("Calculated " + hmac);
+////                log.info("Received   " + webHookSignature[1]);
+////                log.info("are equal " + hmac.equals(webHookSignature[1]));
+//                // TODO: Enable latter
+//
+////                if(!hmac.equals(webHookSignature[1])){
+////                    response.setStatus(HttpStatus.UNAUTHORIZED.value());
+////                    response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+////                    return null;
+////                }
+//            } catch (SignatureException e) {
+//                e.printStackTrace();
+//            } catch (NoSuchAlgorithmException e) {
+//                e.printStackTrace();
+//            } catch (InvalidKeyException e) {
+//                e.printStackTrace();
+//            }
         }
 
         UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken("admin", "admin");

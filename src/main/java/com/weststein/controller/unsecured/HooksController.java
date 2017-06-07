@@ -9,6 +9,7 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,6 +19,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
+import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SignatureException;
@@ -41,7 +44,7 @@ public class HooksController {
     })
     public ResponseEntity identificationHook(@RequestHeader(value="Solaris-Webhook-Signature") String signatureWithAlgorithm,
                                              @RequestHeader(value="Solaris-Webhook-Event-Type") String event,
-                                             @RequestBody SolarisIdentification identification) {
+                                             HttpServletRequest request) {
 
         String webHookSignature[] = signatureWithAlgorithm.split("=");
 
@@ -50,8 +53,8 @@ public class HooksController {
         String signature = signatures.getSignature(event);
 
         try {
-                String hmac = calculateRFC2104HMAC(identification.toString().getBytes(), signature, webHookSignature[0]);
-
+//                String hmac = calculateRFC2104HMAC(identification.toString().getBytes(), signature, webHookSignature[0]);
+            String hmac = calculateRFC2104HMAC(IOUtils.toByteArray(request.getInputStream()), signature, webHookSignature[0]);
                 log.info("Calculated " + hmac);
                 log.info("Received   " + webHookSignature[1]);
                 log.info("are equal " + hmac.equals(webHookSignature[1]));
@@ -68,10 +71,12 @@ public class HooksController {
                 e.printStackTrace();
             } catch (InvalidKeyException e) {
                 e.printStackTrace();
-            }
+            } catch (IOException e) {
+            e.printStackTrace();
+        }
 
-        log.info("Identification hook with content: " + identification);
-        savePersonIdentificationHandler.handle(identification);
+//        log.info("Identification hook with content: " + identification);
+//        savePersonIdentificationHandler.handle(identification);
         return ResponseEntity.ok().build();
     }
 
