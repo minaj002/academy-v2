@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
+import javax.servlet.ServletInputStream;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.security.InvalidKeyException;
@@ -44,7 +45,7 @@ public class HooksController {
     })
     public ResponseEntity identificationHook(@RequestHeader(value="Solaris-Webhook-Signature") String signatureWithAlgorithm,
                                              @RequestHeader(value="Solaris-Webhook-Event-Type") String event,
-                                             HttpServletRequest request) {
+                                             HttpServletRequest request, SolarisIdentification identification) {
 
         String webHookSignature[] = signatureWithAlgorithm.split("=");
 
@@ -53,8 +54,10 @@ public class HooksController {
         String signature = signatures.getSignature(event);
 
         try {
-//                String hmac = calculateRFC2104HMAC(identification.toString().getBytes(), signature, webHookSignature[0]);
-            String hmac = calculateRFC2104HMAC(IOUtils.toByteArray(request.getInputStream()), signature, webHookSignature[0]);
+
+            ServletInputStream stream = request.getInputStream();
+
+            String hmac = calculateRFC2104HMAC(IOUtils.toByteArray(stream), signature, webHookSignature[0]);
                 log.info("Calculated " + hmac);
                 log.info("Received   " + webHookSignature[1]);
                 log.info("are equal " + hmac.equals(webHookSignature[1]));
@@ -65,6 +68,9 @@ public class HooksController {
 //                    response.setContentType(MediaType.APPLICATION_JSON_VALUE);
 //                    return null;
 //                }
+
+
+
             } catch (SignatureException e) {
                 e.printStackTrace();
             } catch (NoSuchAlgorithmException e) {
@@ -75,8 +81,8 @@ public class HooksController {
             e.printStackTrace();
         }
 
-//        log.info("Identification hook with content: " + identification);
-//        savePersonIdentificationHandler.handle(identification);
+        log.info("Identification hook with content: " + identification);
+        savePersonIdentificationHandler.handle(identification);
         return ResponseEntity.ok().build();
     }
 
