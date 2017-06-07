@@ -9,7 +9,6 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -50,28 +49,26 @@ public class HooksController {
 
         String signature = signatures.getSignature(event);
 
-//                    try {
-//                String hmac = calculateRFC2104HMAC(IOUtils.toByteArray(identification.toString()), signature, webHookSignature[0]);
-//
-//                log.info("Calculated " + hmac);
-//                log.info("Received   " + webHookSignature[1]);
-//                log.info("are equal " + hmac.equals(webHookSignature[1]));
-////                 TODO: Enable latter
-//
-////                if(!hmac.equals(webHookSignature[1])){
-////                    response.setStatus(HttpStatus.UNAUTHORIZED.value());
-////                    response.setContentType(MediaType.APPLICATION_JSON_VALUE);
-////                    return null;
-////                }
-//            } catch (SignatureException e) {
-//                e.printStackTrace();
-//            } catch (NoSuchAlgorithmException e) {
-//                e.printStackTrace();
-//            } catch (InvalidKeyException e) {
-//                e.printStackTrace();
-//            }
+        try {
+                String hmac = calculateRFC2104HMAC(identification.toString().getBytes(), signature, webHookSignature[0]);
 
+                log.info("Calculated " + hmac);
+                log.info("Received   " + webHookSignature[1]);
+                log.info("are equal " + hmac.equals(webHookSignature[1]));
+//                 TODO: Enable latter
 
+//                if(!hmac.equals(webHookSignature[1])){
+//                    response.setStatus(HttpStatus.UNAUTHORIZED.value());
+//                    response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+//                    return null;
+//                }
+            } catch (SignatureException e) {
+                e.printStackTrace();
+            } catch (NoSuchAlgorithmException e) {
+                e.printStackTrace();
+            } catch (InvalidKeyException e) {
+                e.printStackTrace();
+            }
 
         log.info("Identification hook with content: " + identification);
         savePersonIdentificationHandler.handle(identification);
