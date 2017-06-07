@@ -8,6 +8,7 @@ import org.springframework.cloud.netflix.feign.EnableFeignClients;
 @SpringBootApplication
 @EnableFeignClients
 @EnableConfigurationProperties
+//@EnableElasticsearchRepositories
 public class RestApplication {
 
     public static void main (String[] args) {

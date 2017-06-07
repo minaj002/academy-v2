@@ -7,8 +7,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
-
 @Component
 public class GetPersonAccountBookingsHandler {
 
@@ -18,6 +16,5 @@ public class GetPersonAccountBookingsHandler {
     public Page<Booking> handle(String accountId, Pageable pageable) {
         return bookingRepository.findByAccountId(accountId, pageable);
     }
-
 
 }

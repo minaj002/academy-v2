@@ -1,6 +1,6 @@
 package com.weststein.controller.secured;
 
-import com.weststein.controller.secured.model.Persons;
+import com.querydsl.core.types.Predicate;
 import com.weststein.handler.person.CreatePersonHandler;
 import com.weststein.handler.person.GetPersonHandler;
 import com.weststein.handler.person.GetPersonsHandler;
@@ -12,10 +12,8 @@ import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.util.StreamUtils;
+import org.springframework.data.querydsl.binding.QuerydslPredicate;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("api/persons")
@@ -31,16 +29,12 @@ public class PersonsController {
     private UpdatePersonHandler updatePersonHandler;
 
     @GetMapping
-    @ApiOperation(value = "see all Persons", response = Persons.class)
+    @ApiOperation(value = "see all Persons", response = Person.class)
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "")
     })
-    public Persons getPersons(@RequestParam(value = "search", required = false) String search, Pageable page){
-        Page<Person> persons = search!=null ? getPersonsHandler.handle(search, page) : getPersonsHandler.handle(page);
-
-        return Persons.builder().persons(
-                StreamUtils.createStreamFromIterator(persons.iterator()).collect(Collectors.toList())
-        ).total(persons.getTotalElements()).build();
+    public Page<Person> getPersons(@QuerydslPredicate(root = Person.class) Predicate predicate, Pageable page){
+        return getPersonsHandler.handle(predicate, page);
     }
 
     @GetMapping("/{personId}")
