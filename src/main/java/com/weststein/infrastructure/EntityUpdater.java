@@ -1,6 +1,5 @@
 package com.weststein.infrastructure;
 
-import com.weststein.repository.Person;
 import org.springframework.beans.BeanWrapper;
 import org.springframework.beans.BeanWrapperImpl;
 import org.springframework.stereotype.Component;
@@ -9,9 +8,9 @@ import java.lang.reflect.Field;
 import java.util.Objects;
 
 @Component
-public class EntityUpdater {
+public class EntityUpdater<T> {
 
-    public void apply(Person from, Person to){
+    public void apply(T from, T to){
 
         BeanWrapper wrapperFrom = new BeanWrapperImpl(from);
         BeanWrapper wrapperTo = new BeanWrapperImpl(to);
