@@ -7,15 +7,13 @@ import javax.persistence.*;
 
 @Builder
 @Data
-//@Entity
-//@Table(name = "USER_ROLE")
+@Entity
 public class UserRole {
 
-//    @Id
+    @Id
     private Long id;
 
-//    @Enumerated(EnumType.STRING)
-//    @Column(name = "ROLE", insertable=false, updatable=false)
+    @Enumerated(EnumType.STRING)
     private Role role;
 
 }

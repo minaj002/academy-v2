@@ -1,5 +1,6 @@
 package com.weststein.controller.unsecured;
 
+import com.weststein.handler.application.VerifyTokenHandler;
 import com.weststein.security.model.UserContext;
 import com.weststein.security.model.token.JwtToken;
 import com.weststein.security.model.token.JwtTokenFactory;
@@ -8,6 +9,7 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -20,6 +22,8 @@ public class LoginController {
 
     @Autowired
     private JwtTokenFactory tokenFactory;
+    @Autowired
+    private VerifyTokenHandler verifyTokenHandler;
 
     @PostMapping("/api/auth/login")
     @ApiOperation(value = "allow user to login, receives authorization token")
@@ -29,7 +33,22 @@ public class LoginController {
     public Map<String, String> login(@RequestParam String username, @RequestParam String password){
         JwtToken accessToken = tokenFactory.createAccessJwtToken((UserContext) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
 
-        Map<String, String> tokenMap = new HashMap<String, String>();
+        Map<String, String> tokenMap = new HashMap<>();
+        tokenMap.put("token", accessToken.getToken());
+
+        return tokenMap;
+    }
+
+    @PostMapping("/api/auth/confirm/{token}")
+    @ApiOperation(value = "allow user to verify login information, receives authorization token")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "")
+    })
+    public Map<String, String> confirm(@RequestParam String username, @RequestParam String password, @PathVariable String token){
+
+        verifyTokenHandler.handle(username, token);
+        JwtToken accessToken = tokenFactory.createAccessJwtToken((UserContext) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+        Map<String, String> tokenMap = new HashMap<>();
         tokenMap.put("token", accessToken.getToken());
 
         return tokenMap;

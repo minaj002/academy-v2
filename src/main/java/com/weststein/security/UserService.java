@@ -1,26 +1,36 @@
 package com.weststein.security;
 
 
-
+import com.weststein.repository.UserCredentialRepository;
+import com.weststein.repository.UserCredentials;
+import com.weststein.repository.UserRoleRepository;
 import com.weststein.security.model.entity.Role;
-import com.weststein.security.model.entity.User;
-import com.weststein.security.model.entity.UserRole;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.Optional;
+import java.util.*;
 
 @Component
 public class UserService {
 
-    public Optional<User> getByUsername(String username){
+    @Autowired
+    private UserCredentialRepository userCredentialRepository;
+    @Autowired
+    private UserRoleRepository userRoleRepository;
 
+    public Optional<UserCredentials> getByUsername(String username){
         if("admin".equals(username)){
-            ArrayList<UserRole> roles = new ArrayList<UserRole>();
-            roles.add(UserRole.builder().id(1l).role(Role.ADMIN).build());
-            return Optional.of(User.builder().id(1l).roles(roles).username("admin").password("$2a$10$GH8WZU4/ARexbRWhd0.7zO5LdwLSgDlmfuhJTtn1YKs64n6sRrEA.").build());
-        } else {
-            return Optional.empty();
+            Set<Role> roles = new HashSet<>();
+
+            UserCredentials cred = new UserCredentials();
+            cred.setRoles(roles);
+            roles.add(Role.ADMIN);
+            cred.setEmail("admin");
+            cred.setPassword("$2a$10$GH8WZU4/ARexbRWhd0.7zO5LdwLSgDlmfuhJTtn1YKs64n6sRrEA.");
+            return Optional.of(cred);}
+        else {
+            UserCredentials credentials = userCredentialRepository.findUserCredentialsByEmail(username).get();
+            return Optional.of(credentials);
         }
     }
 }

@@ -18,14 +18,10 @@ security.jwt:
 logging.level:
   org.springframework.web: DEBUG
   org.springframework.security: DEBUG
-  com.weststein.integration.PersonResource: DEBUG
+  com.weststein.integration.ApplicationResource: DEBUG
   org.springframework.web.filter.CommonsRequestLoggingFilter: DEBUG
 spring.mvc.dispatch-options-request: true
 # Dispatch OPTIONS requests to the FrameworkServlet doService method.
 
-solaris:
-  token: 2s7c2eeldhlr20t8ayf7pp559tyu8x3mzjc865wn7agkjucn464w4vfimw56ol7kola881
-  hook:
-    identification: f660726bf8dc8a9b023d39bcc75c1a6c
-    booking: 8636842cb03a3f8ec8aaec7526dbd31a
-  url: ${solarisUrl}
+spring.mail.username: cardservices@weststeincard.com
+spring.mail.password: Gertrudes10

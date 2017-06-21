@@ -1,18 +1,19 @@
 package com.weststein.repository;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.validator.constraints.NotEmpty;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Data
 @Entity
-@JsonInclude(JsonInclude.Include.NON_NULL)
-public class Address {
+public class Application {
+
+    public enum Gender {
+        MALE, FEMALE
+    }
 
     @Id
     @GeneratedValue(generator = "generator")
@@ -26,14 +27,16 @@ public class Address {
             }
     )
     private Long id;
-    @NotEmpty
-    private String line1;
-    private String line2;
-    @NotEmpty
-    private String postalCode;
-    @NotEmpty
-    private String city;
-    @NotEmpty
-    private String country;
+    private String firstName;
+    private String lastName;
+    private String email;
+    private LocalDate dateOfBirth;
+    private String phone;
+    @OneToOne(cascade= CascadeType.ALL)
+    private Address address;
+    @Enumerated(EnumType.STRING)
+    private Gender gender;
+    private Boolean agree;
+    private LocalDateTime agreeOn;
 
 }

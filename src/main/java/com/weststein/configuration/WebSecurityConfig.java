@@ -1,7 +1,6 @@
 package com.weststein.configuration;
 
 import com.weststein.security.RestAuthenticationEntryPoint;
-import com.weststein.security.auth.hook.HookProcessingFilter;
 import com.weststein.security.auth.jwt.JwtAuthenticationProvider;
 import com.weststein.security.auth.jwt.JwtTokenAuthenticationProcessingFilter;
 import com.weststein.security.auth.jwt.SkipPathRequestMatcher;
@@ -14,6 +13,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -28,7 +28,7 @@ import java.util.List;
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public static final String JWT_TOKEN_HEADER_PARAM = "Authorization";
-    public static final String FORM_BASED_LOGIN_ENTRY_POINT = "/api/auth/login";
+    public static final String FORM_BASED_LOGIN_ENTRY_POINT = "/api/auth/**";
     public static final String HOOK_ENTRY_POINT = "/api/hooks/**";
     public static final String TOKEN_BASED_AUTH_ENTRY_POINT = "/api/**";
 
@@ -42,7 +42,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private LoginAuthenticationProvider ajaxAuthenticationProvider;
     @Autowired
     private JwtAuthenticationProvider jwtAuthenticationProvider;
-    
     @Autowired
     private TokenExtractor tokenExtractor;
     @Autowired
@@ -55,12 +54,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         return filter;
     }
 
-    protected HookProcessingFilter buildHookProcessingFilter() throws Exception {
-        HookProcessingFilter filter = new HookProcessingFilter(HOOK_ENTRY_POINT, successHandler, failureHandler);
-        filter.setAuthenticationManager(this.authenticationManager);
-        return filter;
-    }
-    
     protected JwtTokenAuthenticationProcessingFilter buildJwtTokenAuthenticationProcessingFilter() throws Exception {
         List<String> pathsToSkip = Arrays.asList(FORM_BASED_LOGIN_ENTRY_POINT, HOOK_ENTRY_POINT);
         SkipPathRequestMatcher matcher = new SkipPathRequestMatcher(pathsToSkip, TOKEN_BASED_AUTH_ENTRY_POINT);
@@ -82,10 +75,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         auth.authenticationProvider(jwtAuthenticationProvider);
     }
 
-//    @Override
-//    public void configure(WebSecurity web) throws Exception {
-//        web.ignoring().antMatchers("/api/hooks/**");
-//    }
+    @Override
+    public void configure(WebSecurity web) throws Exception {
+        web.ignoring().antMatchers("/api/apply");
+        web.ignoring().antMatchers("/api/apply/**");
+        web.ignoring().antMatchers("/api/view-statement");
+        web.ignoring().antMatchers("/api/open/*");
+
+    }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -106,7 +103,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(TOKEN_BASED_AUTH_ENTRY_POINT).authenticated() // Protected API End-points
         .and()
             .addFilterBefore(buildLoginProcessingFilter(), UsernamePasswordAuthenticationFilter.class)
-                .addFilterBefore(buildJwtTokenAuthenticationProcessingFilter(), UsernamePasswordAuthenticationFilter.class)
-                .addFilterBefore(buildHookProcessingFilter(), UsernamePasswordAuthenticationFilter.class);
+                .addFilterBefore(buildJwtTokenAuthenticationProcessingFilter(), UsernamePasswordAuthenticationFilter.class);
     }
 }

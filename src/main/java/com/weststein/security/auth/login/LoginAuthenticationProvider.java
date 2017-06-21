@@ -1,8 +1,8 @@
 package com.weststein.security.auth.login;
 
+import com.weststein.repository.UserCredentials;
 import com.weststein.security.UserService;
 import com.weststein.security.model.UserContext;
-import com.weststein.security.model.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -38,7 +38,7 @@ public class LoginAuthenticationProvider implements AuthenticationProvider {
         String username = (String) authentication.getPrincipal();
         String password = (String) authentication.getCredentials();
 
-        User user = userService.getByUsername(username).orElseThrow(() -> new UsernameNotFoundException("User not found: " + username));
+        UserCredentials user = userService.getByUsername(username).orElseThrow(() -> new UsernameNotFoundException("User not found: " + username));
         
         if (!encoder.matches(password, user.getPassword())) {
             throw new BadCredentialsException("Authentication Failed. Username or Password not valid.");
@@ -47,10 +47,10 @@ public class LoginAuthenticationProvider implements AuthenticationProvider {
         if (user.getRoles() == null) throw new InsufficientAuthenticationException("User has no roles assigned");
         
         List<GrantedAuthority> authorities = user.getRoles().stream()
-                .map(authority -> new SimpleGrantedAuthority(authority.getRole().authority()))
+                .map(authority -> new SimpleGrantedAuthority(authority.authority()))
                 .collect(Collectors.toList());
         
-        UserContext userContext = UserContext.create(user.getUsername(), authorities);
+        UserContext userContext = UserContext.create(user.getEmail(), authorities);
         
         return new UsernamePasswordAuthenticationToken(userContext, null, userContext.getAuthorities());
     }

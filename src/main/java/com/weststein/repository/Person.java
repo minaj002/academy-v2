@@ -44,8 +44,6 @@ public class Person {
     private Address address;
     @OneToOne(cascade=CascadeType.ALL)
     private Address contactAddress;
-    @OneToOne(cascade=CascadeType.ALL)
-    private TaxInformation taxInformation;
 
     public enum Salutation {
         MR, MS

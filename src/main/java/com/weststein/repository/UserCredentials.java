@@ -1,18 +1,17 @@
 package com.weststein.repository;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
+import com.weststein.security.model.entity.Role;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.validator.constraints.NotEmpty;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.Set;
 
-@Data
 @Entity
-@JsonInclude(JsonInclude.Include.NON_NULL)
-public class Address {
+@Data
+@NoArgsConstructor
+public class UserCredentials {
 
     @Id
     @GeneratedValue(generator = "generator")
@@ -26,14 +25,12 @@ public class Address {
             }
     )
     private Long id;
-    @NotEmpty
-    private String line1;
-    private String line2;
-    @NotEmpty
-    private String postalCode;
-    @NotEmpty
-    private String city;
-    @NotEmpty
-    private String country;
-
+    private String email;
+    private String password;
+    @ElementCollection(fetch = FetchType.EAGER)
+    private Set<String> cardHolderIds;
+    private String verification;
+    private Boolean verified;
+    @ElementCollection(fetch = FetchType.EAGER)
+    private Set<Role> roles;
 }

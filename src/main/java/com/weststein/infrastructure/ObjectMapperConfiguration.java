@@ -37,7 +37,8 @@ public abstract class ObjectMapperConfiguration <A, B> {
 
             @Override
             public String convertFrom(LocalDate source, Type<String> destinationType, MappingContext mappingContext) {
-                return source.toString();
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+                return source.format(formatter);
             }
         });
         converterFactory.registerConverter(new BidirectionalConverter<LocalDateTime, LocalDateTime>() {

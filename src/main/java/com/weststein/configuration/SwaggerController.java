@@ -2,6 +2,7 @@ package com.weststein.configuration;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.querydsl.binding.QuerydslPredicate;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.ParameterBuilder;
 import springfox.documentation.builders.RequestHandlerSelectors;
@@ -24,6 +25,7 @@ public class SwaggerController {
         return  new Docket(DocumentationType.SWAGGER_2)
                 .groupName("secured")
                 .apiInfo(apiInfo())
+                .ignoredParameterTypes(QuerydslPredicate.class)
                 .select()
                 .apis(RequestHandlerSelectors.basePackage("com.weststein.controller.secured"))
                 .build()
