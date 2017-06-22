@@ -1,5 +1,7 @@
-package com.weststein.handler.application;
+package com.weststein.handler.card;
 
+import com.weststein.controller.secured.model.CardHolderModel;
+import com.weststein.infrastructure.OrikoObjectMapper;
 import com.weststein.integration.PPFService;
 import com.weststein.integration.request.CardInquiry;
 import com.weststein.integration.response.AccountAPIv2CardInfo;
@@ -9,16 +11,17 @@ import org.springframework.stereotype.Component;
 
 @Slf4j
 @Component
-public class GetCardInfoHandler {
+public class GetCardHolderHandler {
 
     @Autowired
     private PPFService<CardInquiry, AccountAPIv2CardInfo> ppfService;
+    @Autowired
+    private OrikoObjectMapper orikoObjectMapper;
 
-    public AccountAPIv2CardInfo handle(String cardHolderId) {
-
+    public CardHolderModel handle(String cardHolderId) {
 
         AccountAPIv2CardInfo res2 = ppfService.get(CardInquiry.builder().cardholderid(cardHolderId).build(),
                 AccountAPIv2CardInfo.class);
-        return res2;
+        return orikoObjectMapper.map(res2.getCardInquiry().getCardHolder(), CardHolderModel.class);
     }
 }

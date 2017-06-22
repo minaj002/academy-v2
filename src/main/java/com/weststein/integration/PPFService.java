@@ -3,6 +3,7 @@ package com.weststein.integration;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import com.weststein.integration.response.AccountAPIv2CardInfo;
 import com.weststein.integration.response.AccountAPIv2CardIssue;
+import com.weststein.integration.response.AccountAPIv2UpdateCard;
 import com.weststein.integration.response.AccountAPIv2ViewStatement;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,7 @@ public class PPFService <T,R>{
         classToMethodMap.put(AccountAPIv2ViewStatement.class, "ViewStatement");
         classToMethodMap.put(AccountAPIv2CardIssue.class, "CardIssue");
         classToMethodMap.put(AccountAPIv2CardInfo.class, "CardInquiry");
+        classToMethodMap.put(AccountAPIv2UpdateCard.class, "UpdateCard");
     }
 
     public R get(T req, Class<R> clazz) {

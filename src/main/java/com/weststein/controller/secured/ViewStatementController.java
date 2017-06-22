@@ -1,5 +1,6 @@
-package com.weststein.controller.unsecured;
+package com.weststein.controller.secured;
 
+import com.weststein.handler.viewstatement.ViewStatementHandler;
 import com.weststein.integration.PPFService;
 import com.weststein.integration.request.ViewStatement;
 import com.weststein.integration.response.AccountAPIv2ViewStatement;
@@ -11,29 +12,28 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @RestController
 public class ViewStatementController {
 
     @Autowired
-    private PPFService<ViewStatement, AccountAPIv2ViewStatement> ppfService;
+    private ViewStatementHandler viewStatementHandler;
 
     @GetMapping("/api/view-statement")
     @ApiOperation(value = "allow new user to apply for new membership")
     @ApiResponses(value = {
             @ApiResponse(code = 201, message = "")
     })
-    public ResponseEntity<ViewStatementResponse> view(){
-
-        ViewStatement object = new ViewStatement();
-        object.setCardholderid("400000557017");
-        object.setEndDate("2016-12-03");
-        object.setStartDate("2016-01-01");
-        object.setViewStyle("Y");
-        AccountAPIv2ViewStatement res = ppfService.get(object, AccountAPIv2ViewStatement.class);
-
-        return ResponseEntity.status(HttpStatus.CREATED).body(res.getViewStatement());
+    public ResponseEntity<ViewStatementResponse> view(@PathVariable String id, @RequestParam LocalDate start, @RequestParam LocalDate end){
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(viewStatementHandler.handle(id,start,end));
     }
 
 }
