@@ -5,7 +5,6 @@ import com.weststein.controller.secured.model.CardInfoModel;
 import com.weststein.handler.card.GetCardHolderHandler;
 import com.weststein.handler.card.GetCardInfoHandler;
 import com.weststein.handler.card.UpdateCardHolderHandler;
-import com.weststein.integration.response.AccountAPIv2CardInfo;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
@@ -32,6 +31,7 @@ public class CardController {
         return getCardInfoHandler.handle(cardHolderId);
     }
 
+    @GetMapping("/api/card-holder/{cardHolderId}")
     @ApiOperation(value = "getCardHolder")
     @ApiResponses(value = {
             @ApiResponse(code = 201, message = "")
