@@ -23,9 +23,7 @@ public class ViewStatementHandler {
         object.setCardholderid(id);
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DATE_FORMAT);
         object.setEndDate(formatter.format(end));
-//        object.setEndDate("2016-12-03");
         object.setStartDate(formatter.format(start));
-//        object.setStartDate("2016-01-01");
         object.setViewStyle("Y");
         AccountAPIv2ViewStatement res = ppfService.get(object, AccountAPIv2ViewStatement.class);
         return res.getViewStatement();
