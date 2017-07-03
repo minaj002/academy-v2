@@ -4,11 +4,11 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import lombok.Data;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
 
 @Data
 public class Transaction {
 
+    @JacksonXmlProperty(localName = "date")
     private String date;
     @JacksonXmlProperty(localName = "Cardholderid")
     private String cardHolderId;

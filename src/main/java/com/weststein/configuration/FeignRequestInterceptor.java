@@ -19,6 +19,8 @@ public class FeignRequestInterceptor implements RequestInterceptor {
 
     @Override
     public void apply(RequestTemplate template) {
+//        template.query("Username", "WeststeinExtAPIUser");//real
+//        template.query("Password", "MnaI6gf!*F4");//real
         template.query("Username", "weststeinapiuser");
         template.query("Password", "li*ade3ASD");
 

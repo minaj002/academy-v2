@@ -10,6 +10,7 @@ import java.util.LinkedHashMap;
 @FeignClient(
         name = "application-resource",
         url = "https://staging.prepaidfinancialservices.com/accountapiv2/service.asmx",
+//        url = "https://www.prepaidfinancialservices.com/accountapiv2/service.asmx",
         fallback = ApplicationResourceFallback.class
 
 )
