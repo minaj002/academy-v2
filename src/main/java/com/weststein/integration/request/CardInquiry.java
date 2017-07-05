@@ -9,6 +9,6 @@ import lombok.Data;
 public class CardInquiry {
 
     @JacksonXmlProperty(localName = "Cardholderid")
-    private String cardholderid;
+    private String cardholderId;
 
 }

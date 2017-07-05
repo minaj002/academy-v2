@@ -20,7 +20,7 @@ public class ViewStatementHandler {
 
     public ViewStatementResponse handle(String id, LocalDate start, LocalDate end) {
         ViewStatement object = new ViewStatement();
-        object.setCardholderid(id);
+        object.setCardholderId(id);
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DATE_FORMAT);
         object.setEndDate(formatter.format(end));
         object.setStartDate(formatter.format(start));

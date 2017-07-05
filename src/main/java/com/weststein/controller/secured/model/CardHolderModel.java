@@ -5,7 +5,7 @@ import lombok.Data;
 @Data
 public class CardHolderModel {
 
-    private String cardHolderId;
+    private String cardNumber;
     private String firstName;
     private String lastName;
     private String email;

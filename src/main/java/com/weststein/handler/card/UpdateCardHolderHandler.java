@@ -20,11 +20,10 @@ public class UpdateCardHolderHandler {
     @Autowired
     private OrikoObjectMapper objectMapper;
 
-
-    public AccountAPIv2UpdateCard handle(CardHolderModel updateCard) {
-
-        AccountAPIv2UpdateCard res2 = ppfService.get(objectMapper.map(updateCard, UpdateCard.class),
-                AccountAPIv2UpdateCard.class);
+    public AccountAPIv2UpdateCard handle(String cardHolderId, CardHolderModel updateCard) {
+        UpdateCard updateCardObject = objectMapper.map(updateCard, UpdateCard.class);
+        updateCardObject.setCardHolderId(cardHolderId);
+        AccountAPIv2UpdateCard res2 = ppfService.get(updateCardObject, AccountAPIv2UpdateCard.class);
         return res2;
     }
 }

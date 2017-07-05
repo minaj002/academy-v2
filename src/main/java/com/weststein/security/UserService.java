@@ -1,36 +1,37 @@
 package com.weststein.security;
 
 
+import com.weststein.infrastructure.exceptions.ValidationError;
+import com.weststein.infrastructure.exceptions.ValidationException;
 import com.weststein.repository.UserCredentialRepository;
 import com.weststein.repository.UserCredentials;
-import com.weststein.repository.UserRoleRepository;
-import com.weststein.security.model.entity.Role;
+import com.weststein.security.model.UserContext;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 
 @Component
 public class UserService {
 
     @Autowired
     private UserCredentialRepository userCredentialRepository;
-    @Autowired
-    private UserRoleRepository userRoleRepository;
 
-    public Optional<UserCredentials> getByUsername(String username){
-        if("admin".equals(username)){
-            Set<Role> roles = new HashSet<>();
+    public Optional<UserCredentials> getByUsername(String username) {
+        UserCredentials credentials = userCredentialRepository.findUserCredentialsByEmail(username).get();
+        return Optional.of(credentials);
+    }
 
-            UserCredentials cred = new UserCredentials();
-            cred.setRoles(roles);
-            roles.add(Role.ADMIN);
-            cred.setEmail("admin");
-            cred.setPassword("$2a$10$GH8WZU4/ARexbRWhd0.7zO5LdwLSgDlmfuhJTtn1YKs64n6sRrEA.");
-            return Optional.of(cred);}
-        else {
-            UserCredentials credentials = userCredentialRepository.findUserCredentialsByEmail(username).get();
-            return Optional.of(credentials);
+    public void isAuthorizedForCardHolder(String cardholderId) {
+        Set<String> usersCardholdersIds = ((UserContext) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getCardHolderIds();
+        if (!usersCardholdersIds.contains(cardholderId)) {
+            List errors = new ArrayList();
+            errors.add(ValidationError.builder().field("cardholderId").message("Not Authorized").build());
+            throw new ValidationException(errors, "User is not authorized to see information for cardholder " + cardholderId);
         }
     }
 }

@@ -7,7 +7,7 @@ import lombok.Data;
 public class ViewStatement {
 
     @JacksonXmlProperty(localName = "Cardholderid")
-    private String cardholderid;
+    private String cardholderId;
     @JacksonXmlProperty(localName = "StartDate")
     private String startDate;
     @JacksonXmlProperty(localName = "EndDate")

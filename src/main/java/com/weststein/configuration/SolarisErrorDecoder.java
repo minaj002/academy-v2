@@ -21,10 +21,10 @@ public class SolarisErrorDecoder implements ErrorDecoder {
         try {
             SolarisErrors errors = (SolarisErrors) jacksonDecoder.decode(response, SolarisErrors.class);
             errors.getErrors().forEach(e -> validationErrors.add(ValidationError.builder().field(e.getSource().getField()).message(e.getSource().getMessage()).build()));
-            return new ValidationException(validationErrors, "error from solaris");
+            return new ValidationException(validationErrors, "error from pfs");
         } catch (IOException e) {
             validationErrors.add(ValidationError.builder().message(e.getMessage()).build());
-            return new ValidationException(validationErrors, "error from solaris");
+            return new ValidationException(validationErrors, "error from pfs");
         }
     }
 

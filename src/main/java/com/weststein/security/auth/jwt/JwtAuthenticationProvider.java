@@ -1,5 +1,7 @@
 package com.weststein.security.auth.jwt;
 
+import com.weststein.repository.UserCredentials;
+import com.weststein.security.UserService;
 import com.weststein.security.auth.JwtAuthenticationToken;
 import com.weststein.configuration.JwtSettings;
 import com.weststein.security.model.UserContext;
@@ -15,13 +17,18 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Component
 @SuppressWarnings("unchecked")
 public class JwtAuthenticationProvider implements AuthenticationProvider {
     private final JwtSettings jwtSettings;
-    
+
+    @Autowired
+    private UserService userService;
+
     @Autowired
     public JwtAuthenticationProvider(JwtSettings jwtSettings) {
         this.jwtSettings = jwtSettings;
@@ -37,8 +44,8 @@ public class JwtAuthenticationProvider implements AuthenticationProvider {
         List<GrantedAuthority> authorities = scopes.stream()
                 .map(authority -> new SimpleGrantedAuthority(authority))
                 .collect(Collectors.toList());
-        
-        UserContext context = UserContext.create(subject, authorities);
+        Set<String> cardHolderIds = userService.getByUsername(subject).get().getCardHolderIds();
+        UserContext context = UserContext.create(subject, authorities, cardHolderIds);
         
         return new JwtAuthenticationToken(context, context.getAuthorities());
     }

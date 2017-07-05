@@ -50,7 +50,7 @@ public class LoginAuthenticationProvider implements AuthenticationProvider {
                 .map(authority -> new SimpleGrantedAuthority(authority.authority()))
                 .collect(Collectors.toList());
         
-        UserContext userContext = UserContext.create(user.getEmail(), authorities);
+        UserContext userContext = UserContext.create(user.getEmail(), authorities, user.getCardHolderIds());
         
         return new UsernamePasswordAuthenticationToken(userContext, null, userContext.getAuthorities());
     }

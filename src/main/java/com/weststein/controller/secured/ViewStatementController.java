@@ -2,6 +2,7 @@ package com.weststein.controller.secured;
 
 import com.weststein.handler.viewstatement.ViewStatementHandler;
 import com.weststein.integration.response.ViewStatementResponse;
+import com.weststein.security.UserService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
@@ -20,17 +21,20 @@ import java.time.LocalDate;
 public class ViewStatementController {
 
     @Autowired
+    private UserService userService;
+    @Autowired
     private ViewStatementHandler viewStatementHandler;
 
-    @GetMapping("/api/view-statement/{id}")
-    @ApiOperation(value = "allow new user to apply for new membership")
+    @GetMapping("/api/view-statement/{cardHolderId}")
+    @ApiOperation(value = "allows user to view his statement")
     @ApiResponses(value = {
             @ApiResponse(code = 201, message = "")
     })
-    public ResponseEntity<ViewStatementResponse> view(@PathVariable String id, @DateTimeFormat(pattern = "dd-MM-yyyy")@RequestParam LocalDate start, @DateTimeFormat(pattern = "dd-MM-yyyy")@RequestParam LocalDate end){
+    public ResponseEntity<ViewStatementResponse> view(@PathVariable String cardHolderId, @DateTimeFormat(pattern = "dd-MM-yyyy")@RequestParam LocalDate start, @DateTimeFormat(pattern = "dd-MM-yyyy")@RequestParam LocalDate end){
+        userService.isAuthorizedForCardHolder(cardHolderId);
         return ResponseEntity
                 .status(HttpStatus.CREATED)
-                .body(viewStatementHandler.handle(id,start,end));
+                .body(viewStatementHandler.handle(cardHolderId,start,end));
     }
 
 }

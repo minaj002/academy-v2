@@ -22,7 +22,7 @@ public class PPFServiceTest {
 
         XmlMapper mapper = new XmlMapper();
         ViewStatement object = new ViewStatement();
-        object.setCardholderid("400000557017");
+        object.setCardholderId("400000557017");
         object.setEndDate("2016-12-03");
         object.setStartDate("2016-01-01");
         object.setViewStyle("Y");
@@ -54,7 +54,7 @@ public class PPFServiceTest {
         object.setCardholderstatementdetails(cardHD);
         try {
             String res = mapper.writeValueAsString(object);
-            assertEquals("", res);
+            assertEquals("<ViewStatementResponse><cardholderstatementdetails><cardpan><currency>EUR</currency><account/><startdate/><enddate/><reportdate/><cardaccount/><cardaccount/></cardpan><RecCnt/></cardholderstatementdetails></ViewStatementResponse>", res);
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
