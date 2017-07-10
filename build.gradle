@@ -48,6 +48,7 @@ dependencies {
     compile 'org.springframework.boot:spring-boot-starter-mail:1.5.4.RELEASE'
 
     compile 'com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.9.0.pr3'
+    compile 'com.ibm.icu:icu4j:59.1'
 
     testCompile('org.springframework.boot:spring-boot-starter-test')
 }

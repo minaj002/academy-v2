@@ -25,5 +25,6 @@ public class CardInfoModel {
     private String bic;
     private String iban;
     private String phoneCardNumber;
+    private String cardNumber;
 
 }

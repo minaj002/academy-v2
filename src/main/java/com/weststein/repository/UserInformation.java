@@ -1,6 +1,7 @@
 package com.weststein.repository;
 
 import lombok.Data;
+import org.hibernate.Transaction;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -9,7 +10,7 @@ import java.time.LocalDateTime;
 
 @Data
 @Entity
-public class Application {
+public class UserInformation {
 
     public enum Gender {
         MALE, FEMALE
@@ -32,6 +33,8 @@ public class Application {
     private String email;
     private LocalDate dateOfBirth;
     private String phone;
+    private Boolean phoneVerified;
+    private String phoneVerificationCode;
     @OneToOne(cascade= CascadeType.ALL)
     private Address address;
     @Enumerated(EnumType.STRING)

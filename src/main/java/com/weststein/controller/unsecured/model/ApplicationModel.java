@@ -2,7 +2,7 @@ package com.weststein.controller.unsecured.model;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.weststein.configuration.LocalDateDeSerializer;
-import com.weststein.repository.Application;
+import com.weststein.repository.UserInformation;
 import lombok.Data;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
@@ -27,10 +27,11 @@ public class ApplicationModel {
     private String password;
     @NotEmpty
     private String phone;
+    private String phoneVerified;
     @NotNull
     private AddressModel address;
     @NotNull
-    private Application.Gender gender;
+    private UserInformation.Gender gender;
     @NotNull
     private Boolean agree;
 }

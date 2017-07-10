@@ -3,6 +3,7 @@ package com.weststein.controller.secured;
 import com.weststein.controller.secured.model.CardHolderModel;
 import com.weststein.controller.secured.model.CardInfoModel;
 import com.weststein.handler.card.*;
+import com.weststein.repository.UserInformation;
 import com.weststein.security.UserService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -21,20 +22,29 @@ public class CardController {
     @Autowired
     private GetCardInfoHandler getCardInfoHandler;
     @Autowired
-    private GetCardHolderHandler getCardHolderHandler;
-    @Autowired
     private UpdateCardHolderHandler updateCardHolderHandler;
     @Autowired
     private PinReminderHandler pinReminderHandler;
     @Autowired
     private GetCardHolderIdsHandler getCardHolderIdsHandler;
+    @Autowired
+    private CardRequestHandler cardRequestHandler;
+
+    @GetMapping("/api/card-request")
+    @ApiOperation(value = "Request Card")
+    @ApiResponses(value = {
+            @ApiResponse(code = 201, message = "")
+    })
+    public UserInformation requestCard() {
+        return cardRequestHandler.handle();
+    }
 
     @GetMapping("/api/card-holder")
     @ApiOperation(value = "getCardHolderIds")
     @ApiResponses(value = {
             @ApiResponse(code = 201, message = "")
     })
-    public Set<String> getCardholderIds(){
+    public Set<String> getCardholderIds() {
         return getCardHolderIdsHandler.handle();
     }
 
@@ -43,19 +53,9 @@ public class CardController {
     @ApiResponses(value = {
             @ApiResponse(code = 201, message = "")
     })
-    public CardInfoModel getCardInfo(@PathVariable String cardHolderId){
+    public CardInfoModel getCardInfo(@PathVariable String cardHolderId) {
         userService.isAuthorizedForCardHolder(cardHolderId);
         return getCardInfoHandler.handle(cardHolderId);
-    }
-
-    @GetMapping("/api/card-holder/{cardHolderId}")
-    @ApiOperation(value = "getCardHolder")
-    @ApiResponses(value = {
-            @ApiResponse(code = 201, message = "")
-    })
-    public CardHolderModel getCardHolder(@PathVariable String cardHolderId){
-        userService.isAuthorizedForCardHolder(cardHolderId);
-        return getCardHolderHandler.handle(cardHolderId);
     }
 
     @PutMapping("/api/card-info/{cardHolderId}")
@@ -64,7 +64,7 @@ public class CardController {
             @ApiResponse(code = 202, message = "")
     })
     @ResponseStatus(HttpStatus.ACCEPTED)
-    public void updateCardInfo(@PathVariable String cardHolderId, @RequestBody CardHolderModel cardHolder){
+    public void updateCardInfo(@PathVariable String cardHolderId, @RequestBody CardHolderModel cardHolder) {
         userService.isAuthorizedForCardHolder(cardHolderId);
         updateCardHolderHandler.handle(cardHolderId, cardHolder);
 
@@ -76,7 +76,7 @@ public class CardController {
             @ApiResponse(code = 201, message = "")
     })
     @ResponseStatus(HttpStatus.ACCEPTED)
-    public void pinReminder(@PathVariable String cardHolderId){
+    public void pinReminder(@PathVariable String cardHolderId) {
         pinReminderHandler.handle(cardHolderId);
     }
 }

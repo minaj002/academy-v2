@@ -21,6 +21,10 @@ public class UserService {
     @Autowired
     private UserCredentialRepository userCredentialRepository;
 
+    public String getCurrentUser() {
+        return ((UserContext) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername();
+    }
+
     public Optional<UserCredentials> getByUsername(String username) {
         UserCredentials credentials = userCredentialRepository.findUserCredentialsByEmail(username).get();
         return Optional.of(credentials);

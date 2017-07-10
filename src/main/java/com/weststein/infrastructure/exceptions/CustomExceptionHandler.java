@@ -1,6 +1,7 @@
 package com.weststein.infrastructure.exceptions;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.mail.MailException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -26,6 +27,15 @@ public class CustomExceptionHandler {
     public ValidationErrors handleMethodArgumentNotValidException(MethodArgumentNotValidException ex) {
         List<ValidationError> errors = new ArrayList<>();
         errors.add(ValidationError.builder().field(ex.getBindingResult().getFieldError().getField()).message(ex.getBindingResult().getFieldError().getDefaultMessage()).build());
+        return ValidationErrors.builder().errors(errors).build();
+    }
+
+    @ExceptionHandler(MailException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseBody
+    public ValidationErrors handleMailException(MailException ex) {
+        List<ValidationError> errors = new ArrayList<>();
+        errors.add(ValidationError.builder().field("email").message(ex.getLocalizedMessage()).build());
         return ValidationErrors.builder().errors(errors).build();
     }
 

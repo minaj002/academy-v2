@@ -22,6 +22,8 @@ public class GetCardInfoHandler {
 
         AccountAPIv2CardInfo res2 = ppfService.get(CardInquiry.builder().cardholderId(cardHolderId).build(),
                 AccountAPIv2CardInfo.class);
-        return orikoObjectMapper.map(res2.getCardInquiry().getCardInfo(), CardInfoModel.class);
+        CardInfoModel cardInfo = orikoObjectMapper.map(res2.getCardInquiry().getCardInfo(), CardInfoModel.class);
+        cardInfo.setCardNumber(res2.getCardInquiry().getCardHolder().getCardNumber());
+        return cardInfo;
     }
 }
