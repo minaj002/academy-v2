@@ -21,6 +21,7 @@ logging.level:
   org.springframework.web: DEBUG
   org.springframework.security: DEBUG
   com.weststein.integration.sms.SmsResource: DEBUG
+  com.weststein.integration.ApplicationResource: DEBUG
   org.springframework.web.filter.CommonsRequestLoggingFilter: DEBUG
 spring.mvc.dispatch-options-request: true
 # Dispatch OPTIONS requests to the FrameworkServlet doService method.

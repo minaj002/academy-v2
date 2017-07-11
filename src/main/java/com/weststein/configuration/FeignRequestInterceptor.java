@@ -24,7 +24,7 @@ public class FeignRequestInterceptor implements RequestInterceptor {
     public void apply(RequestTemplate template) {
 
         switch(template.url()) {
-            case "Process" :
+            case "/Process" :
                 template.query("Username", pfsUser);
                 template.query("Password", pfsPassword);
                 template.query("MessageID", nextMessageId());

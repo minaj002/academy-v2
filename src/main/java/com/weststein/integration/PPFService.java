@@ -16,7 +16,7 @@ import java.util.*;
 public class PPFService <T,R>{
 
     @Autowired
-    private ApplicationResource applicationResource;
+    private PFSResource applicationResource;
 
     private static Map<Class, String> classToMethodMap = new HashMap<>();
     static {

@@ -5,8 +5,7 @@ import org.springframework.stereotype.Component;
 import java.util.LinkedHashMap;
 
 @Component
-public class ApplicationResourceFallback implements ApplicationResource {
-
+public class PfsResourceFallback implements PFSResource {
 
     @Override
     public LinkedHashMap get(String data, String method) {

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
         fallback = SmsResourceFallback.class,
         configuration = FeignConfiguration.class
 
+
 )
 public interface SmsResource {
 

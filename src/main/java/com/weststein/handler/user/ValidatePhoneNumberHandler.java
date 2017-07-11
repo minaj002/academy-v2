@@ -37,7 +37,12 @@ public class ValidatePhoneNumberHandler {
     }
 
     protected String generateCode() {
-        return new BigInteger(17, random).remainder(BigInteger.valueOf(99999)).toString(10);
+        String code = new BigInteger(17, random).remainder(BigInteger.valueOf(99999)).toString(10);
+        if(code.length() < 6) {
+            return code;
+        } else {
+            return code.substring(0,5);
+        }
     }
 
 
