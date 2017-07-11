@@ -1,8 +1,12 @@
 package com.weststein.configuration;
 
+import com.google.gson.FieldNamingPolicy;
+import com.google.gson.GsonBuilder;
 import feign.Client;
 import feign.Logger;
+import feign.codec.Decoder;
 import feign.codec.ErrorDecoder;
+import feign.gson.GsonDecoder;
 import feign.httpclient.ApacheHttpClient;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -21,8 +25,14 @@ public class FeignConfiguration {
     }
 
     @Bean
-    public ErrorDecoder decoder() {
-        return new SolarisErrorDecoder();
+    public ErrorDecoder errorDecoder() {
+        return new SmsErrorDecoder();
+    }
+
+    @Bean
+    public Decoder decoder() {
+        GsonDecoder decoder = new GsonDecoder(new GsonBuilder().setFieldNamingPolicy(FieldNamingPolicy.UPPER_CAMEL_CASE).create());
+        return decoder;
     }
 
 }

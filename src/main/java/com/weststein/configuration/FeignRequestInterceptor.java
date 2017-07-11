@@ -7,13 +7,16 @@ import org.springframework.stereotype.Component;
 
 import java.math.BigInteger;
 import java.security.SecureRandom;
-import java.time.LocalDateTime;
 
 @Component
 public class FeignRequestInterceptor implements RequestInterceptor {
 
-//    @Value("${solaris.token}")
-    private String token;
+    @Value("${pfs.user}")
+    private String pfsUser;
+    @Value("${pfs.password}")
+    private String pfsPassword;
+    @Value("${sms.key}")
+    private String smsKey;
 
     private SecureRandom random = new SecureRandom();
 
@@ -22,19 +25,19 @@ public class FeignRequestInterceptor implements RequestInterceptor {
 
         switch(template.url()) {
             case "Process" :
-                template.query("Username", "weststeinapiuser");
-                template.query("Password", "li*ade3ASD");
-                template.query("MessageID", nextSessionId());
+                template.query("Username", pfsUser);
+                template.query("Password", pfsPassword);
+                template.query("MessageID", nextMessageId());
                 return;
             default:
-                template.query("APIKey", "ebb0baaff3d1b57519dc1f4c705c60661cea0a2e");
+                template.query("APIKey", smsKey);
                 template.query("Command", "SendOne");
                 template.query("Sender", "WestStein");
         }
 
     }
 
-    public String nextSessionId() {
+    public String nextMessageId() {
         return new BigInteger(130, random).toString(36);
     }
 }

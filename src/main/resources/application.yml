@@ -8,6 +8,8 @@ spring:
   jpa:
       database-platform: ${dbDatabasePlatform}
       hibernate.ddl-auto: ${dbHibernateDdlAuto}
+  profiles:
+    active: prod #prod for production
 
 # time in minutes
 security.jwt:
@@ -18,10 +20,16 @@ security.jwt:
 logging.level:
   org.springframework.web: DEBUG
   org.springframework.security: DEBUG
-  com.weststein.integration.ApplicationResource: DEBUG
+  com.weststein.integration.sms.SmsResource: DEBUG
   org.springframework.web.filter.CommonsRequestLoggingFilter: DEBUG
 spring.mvc.dispatch-options-request: true
 # Dispatch OPTIONS requests to the FrameworkServlet doService method.
 
 spring.mail.username: cardservices@weststeincard.com
 spring.mail.password: Gertrudes10
+
+pfs:
+  user: weststeinapiuser
+  password: li*ade3ASD
+
+sms.key: ebb0baaff3d1b57519dc1f4c705c60661cea0a2e

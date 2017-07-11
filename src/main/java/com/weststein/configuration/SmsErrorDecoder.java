@@ -1,5 +1,6 @@
 package com.weststein.configuration;
 
+import com.weststein.infrastructure.exceptions.SmsError;
 import com.weststein.infrastructure.exceptions.SolarisErrors;
 import com.weststein.infrastructure.exceptions.ValidationError;
 import com.weststein.infrastructure.exceptions.ValidationException;
@@ -11,7 +12,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SolarisErrorDecoder implements ErrorDecoder {
+public class SmsErrorDecoder implements ErrorDecoder {
 
     @Override
     public ValidationException decode(String methodKey, Response response) {
@@ -19,13 +20,12 @@ public class SolarisErrorDecoder implements ErrorDecoder {
         JacksonDecoder jacksonDecoder = new JacksonDecoder();
         List<ValidationError> validationErrors = new ArrayList<>();
         try {
-            SolarisErrors errors = (SolarisErrors) jacksonDecoder.decode(response, SolarisErrors.class);
-            errors.getErrors().forEach(e -> validationErrors.add(ValidationError.builder().field(e.getSource().getField()).message(e.getSource().getMessage()).build()));
-            return new ValidationException(validationErrors, "error from pfs");
+            SmsError error = (SmsError) jacksonDecoder.decode(response, SolarisErrors.class);
+            validationErrors.add(ValidationError.builder().field(error.getError()).message(error.getError()).build());
+            return new ValidationException(validationErrors, "error from sms");
         } catch (IOException e) {
             validationErrors.add(ValidationError.builder().message(e.getMessage()).build());
-            return new ValidationException(validationErrors, "error from pfs");
+            return new ValidationException(validationErrors, "error from sms");
         }
     }
-
 }

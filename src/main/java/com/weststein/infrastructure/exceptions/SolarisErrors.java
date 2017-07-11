@@ -7,6 +7,6 @@ import java.util.List;
 @Data
 public class SolarisErrors {
 
-    private List<SolarisError> errors;
+    private List<SmsError> errors;
 
 }
