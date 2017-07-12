@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -18,10 +19,14 @@ public class SmsServiceImpl implements SmsService {
 
     @Autowired
     private SmsResource smsResource;
+    @Autowired
+    private SmsTextSource smsTextSource;
 
     @Override
-    public void send(String number, String sms) {
-        SmsResponse result = smsResource.send(number, sms);
+    public void send(String number, String code, String language) {
+
+        String smsText = String.format(smsTextSource.getSms(language), code);
+        SmsResponse result = smsResource.send(number, smsText);
         if (!StringUtils.isEmpty(result.getError())) {
             List<ValidationError> errors = new ArrayList();
             errors.add(ValidationError.builder().field("phone").message(result.getError()).build());

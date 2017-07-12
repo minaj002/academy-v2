@@ -15,6 +15,9 @@ public class UserInformation {
     public enum Gender {
         MALE, FEMALE
     }
+    public enum Language {
+        LV, RU, EN
+    }
 
     @Id
     @GeneratedValue(generator = "generator")
@@ -41,5 +44,7 @@ public class UserInformation {
     private Gender gender;
     private Boolean agree;
     private LocalDateTime agreeOn;
+    @Enumerated(EnumType.STRING)
+    private Language language;
 
 }

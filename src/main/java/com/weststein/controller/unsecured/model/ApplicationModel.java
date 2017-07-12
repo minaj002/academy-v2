@@ -34,4 +34,6 @@ public class ApplicationModel {
     private UserInformation.Gender gender;
     @NotNull
     private Boolean agree;
+    @NotNull
+    private UserInformation.Language language;
 }

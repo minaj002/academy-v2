@@ -10,7 +10,7 @@ public class ValidatePhoneNumberHandlerTest {
 
         ValidatePhoneNumberHandler handler = new ValidatePhoneNumberHandler();
 
-        assertTrue(handler.generateCode().length() >= 5);
+        assertTrue(handler.generateCode().length() <= 5);
 
     }
 

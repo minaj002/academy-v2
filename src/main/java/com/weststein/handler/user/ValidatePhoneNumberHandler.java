@@ -29,10 +29,9 @@ public class ValidatePhoneNumberHandler {
         UserInformation userInfo = userInformationRepository.findByEmail(userService.getCurrentUser());
         String phone = userInfo.getPhone();
         String code = generateCode();
-        String smsText = "Your verification code is " + code + "\nYours sincerely, WestStein";
         userInfo.setPhoneVerificationCode(code);
         userInformationRepository.save(userInfo);
-        smsService.send(phone, smsText);
+        smsService.send(phone, code, userInfo.getLanguage().name());
 
     }
 
