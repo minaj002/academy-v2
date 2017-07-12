@@ -45,12 +45,12 @@ public class ApplyController {
     @PostMapping("/api/apply/verify")
     @ApiOperation(value = "allow new user to apply for new membership")
     @ApiResponses(value = {
-            @ApiResponse(code = 201, message = "")
+            @ApiResponse(code = 200, message = "")
     })
     public ResponseEntity validateEmail(@Valid @Email @RequestParam String email){
 
         emailValidator.validate(email);
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 
 
