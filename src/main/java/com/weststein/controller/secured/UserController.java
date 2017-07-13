@@ -1,5 +1,6 @@
 package com.weststein.controller.secured;
 
+import com.weststein.email.EmailTextSource;
 import com.weststein.handler.user.ConfirmPhoneNumberHandler;
 import com.weststein.handler.user.UserInformationHandler;
 import com.weststein.handler.user.ValidatePhoneNumberHandler;
@@ -21,6 +22,8 @@ public class UserController {
     private ValidatePhoneNumberHandler validatePhoneNumberHandler;
     @Autowired
     private ConfirmPhoneNumberHandler confirmPhoneNumberHandler;
+    @Autowired
+    private EmailTextSource emailTextSource;
 
     @GetMapping("/api/user")
     @ApiOperation(value = "User Information")
@@ -48,5 +51,17 @@ public class UserController {
     public void confirmPhoneNumber(String code) {
         confirmPhoneNumberHandler.handle(code);
     }
+
+    @PostMapping("/api/user/phone/confirm-email")
+    @ApiOperation(value = "Confirm phone number validation")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "")
+    })
+    public String confirmEmail(String template, String language) {
+       return emailTextSource.getBody(template, language);
+    }
+
+
+
 
 }

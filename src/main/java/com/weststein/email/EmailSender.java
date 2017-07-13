@@ -18,7 +18,7 @@ public class EmailSender {
     @Autowired
     private SentEmailRepository sentEmailRepository;
 
-    public void sendWelcomeEmail(String email, String token) {
+    public void sendVerifyEmail(String email, String token, String language) {
         SentEmail sentEmail = SentEmail.builder()
                 .email(email)
                 .subject("Welcome to Weststein")

@@ -30,7 +30,7 @@ public class EmailSenderTest {
 
     @Test
     public void sendWelcomeEmailSuccess() throws Exception {
-        emailSender.sendWelcomeEmail("mail@mail.com", "token");
+        emailSender.sendVerifyEmail("mail@mail.com", "token", "lv");
         ArgumentCaptor<SentEmail> sentEmail = ArgumentCaptor.forClass(SentEmail.class);
         verify(sentEmailRepository,times(1)).save(sentEmail.capture());
         assertTrue(sentEmail.getValue().getSuccessfullySent());
@@ -39,7 +39,7 @@ public class EmailSenderTest {
     @Test(expected = MailException.class)
     public void sendWelcomeEmailFail() throws Exception {
         doThrow(MailSendException.class).when(javaMailSender).send(any(SimpleMailMessage.class));
-        emailSender.sendWelcomeEmail("mail@mail.com", "token");
+        emailSender.sendVerifyEmail("mail@mail.com", "token", "lv");
         ArgumentCaptor<SentEmail> sentEmail = ArgumentCaptor.forClass(SentEmail.class);
         verify(sentEmailRepository,times(1)).save(sentEmail.capture());
         assertFalse(sentEmail.getValue().getSuccessfullySent());

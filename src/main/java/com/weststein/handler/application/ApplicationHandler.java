@@ -3,9 +3,6 @@ package com.weststein.handler.application;
 import com.weststein.controller.unsecured.model.ApplicationModel;
 import com.weststein.email.EmailSender;
 import com.weststein.infrastructure.OrikoObjectMapper;
-import com.weststein.integration.PPFService;
-import com.weststein.integration.request.CardIssue;
-import com.weststein.integration.response.AccountAPIv2CardIssue;
 import com.weststein.repository.*;
 import com.weststein.security.model.entity.Role;
 import lombok.extern.slf4j.Slf4j;
@@ -42,7 +39,7 @@ public class ApplicationHandler {
         UserCredentials credentials = createUserCredentials(applicationModel, application, verification);
         userCredentialRepository.save(credentials);
 
-        emailSender.sendWelcomeEmail(application.getEmail(), verification);
+        emailSender.sendVerifyEmail(application.getEmail(), verification, application.getLanguage().name());
         return application;
     }
 
