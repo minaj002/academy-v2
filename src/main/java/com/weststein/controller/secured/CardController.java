@@ -2,6 +2,7 @@ package com.weststein.controller.secured;
 
 import com.weststein.controller.secured.model.CardHolderModel;
 import com.weststein.controller.secured.model.CardInfoModel;
+import com.weststein.controller.secured.model.CardholderIdsModel;
 import com.weststein.handler.card.*;
 import com.weststein.repository.UserInformation;
 import com.weststein.security.UserService;
@@ -44,8 +45,8 @@ public class CardController {
     @ApiResponses(value = {
             @ApiResponse(code = 201, message = "")
     })
-    public Set<String> getCardholderIds() {
-        return getCardHolderIdsHandler.handle();
+    public CardholderIdsModel getCardholderIds() {
+        return CardholderIdsModel.builder().cardholderIds(getCardHolderIdsHandler.handle()).build();
     }
 
     @GetMapping("/api/card-info/{cardHolderId}")
