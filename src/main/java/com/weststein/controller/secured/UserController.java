@@ -1,5 +1,6 @@
 package com.weststein.controller.secured;
 
+import com.weststein.email.EmailSender;
 import com.weststein.email.EmailTextSource;
 import com.weststein.handler.user.ConfirmPhoneNumberHandler;
 import com.weststein.handler.user.UserInformationHandler;
@@ -24,6 +25,8 @@ public class UserController {
     private ConfirmPhoneNumberHandler confirmPhoneNumberHandler;
     @Autowired
     private EmailTextSource emailTextSource;
+    @Autowired
+    private EmailSender emailSender;
 
     @GetMapping("/api/user")
     @ApiOperation(value = "User Information")
@@ -60,8 +63,5 @@ public class UserController {
     public String confirmEmail(String template, String language) {
        return emailTextSource.getBody(template, language);
     }
-
-
-
 
 }

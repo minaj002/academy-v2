@@ -2,6 +2,7 @@ package com.weststein.handler.card;
 
 import com.ibm.icu.text.Transliterator;
 import com.netflix.config.validation.ValidationException;
+import com.weststein.email.EmailSender;
 import com.weststein.infrastructure.OrikoObjectMapper;
 import com.weststein.integration.PPFService;
 import com.weststein.integration.request.CardIssue;
@@ -33,7 +34,8 @@ public class CardRequestHandler {
     @Autowired
     private UserService userService;
     private Transliterator transliterator = Transliterator.getInstance("Any-Latin;Latin-ASCII");
-
+    @Autowired
+    private EmailSender emailSender;
 
     public UserInformation handle() {
 
@@ -46,7 +48,7 @@ public class CardRequestHandler {
         cardholderIds.add(res2.getCardIssue().getCardHolderId());
         credentials.setCardHolderIds(cardholderIds);
         userCredentialRepository.save(credentials);
-
+        emailSender.sendCardEmail(email, userInformation.getLanguage().name().toLowerCase());
         return userInformation;
     }
 

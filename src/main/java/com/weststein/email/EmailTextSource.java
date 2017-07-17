@@ -10,31 +10,42 @@ import java.io.*;
 @Component
 public class EmailTextSource {
 
-    public String getBody(String template, String language) {
+    public String getTemplate() {
+
+        ApplicationContext context = new ClassPathXmlApplicationContext();
+        Resource templateResource = context.getResource("email.html");
+
+        String emailTemplate = "";
 
         try {
-
-
-            ApplicationContext context =new ClassPathXmlApplicationContext();
-            Resource resource = context.getResource("email.html");
-
-//            FileReader reader = new FileReader(template);
-            BufferedReader br = new BufferedReader(new InputStreamReader(resource.getInputStream()));
-//            BufferedReader br = new BufferedReader(reader);
-            String sCurrentLine = "";
-
-            while (br.readLine() != null) {
-                sCurrentLine += br.readLine();
+            BufferedReader br = new BufferedReader(new InputStreamReader(templateResource.getInputStream()));
+            String line;
+            while ((line = br.readLine()) != null) {
+                emailTemplate += line;
             }
-            return sCurrentLine;
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
+            return emailTemplate;
+    }
 
+    public String getBody(String text, String language) {
+
+        try {
+            ApplicationContext context = new ClassPathXmlApplicationContext();
+            Resource textResource = context.getResource("email/" + text + "-" + language + ".html");
+
+            BufferedReader textBufferedReader = new BufferedReader(new InputStreamReader(textResource.getInputStream()));
+            String emailText = "";
+            String line;
+            while ((line = textBufferedReader.readLine()) != null) {
+                emailText += line;
+            }
+            return emailText;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         return null;
-
     }
 
 }
