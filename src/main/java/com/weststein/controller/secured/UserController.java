@@ -25,8 +25,8 @@ public class UserController {
     private ConfirmPhoneNumberHandler confirmPhoneNumberHandler;
     @Autowired
     private EmailTextSource emailTextSource;
-    @Autowired
-    private EmailSender emailSender;
+
+
 
     @GetMapping("/api/user")
     @ApiOperation(value = "User Information")
@@ -61,7 +61,7 @@ public class UserController {
             @ApiResponse(code = 200, message = "")
     })
     public String confirmEmail(String template, String language) {
-       return emailTextSource.getBody(template, language);
+        return emailTextSource.getBody(template, language);
     }
 
 }
