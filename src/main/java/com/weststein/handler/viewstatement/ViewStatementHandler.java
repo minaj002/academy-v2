@@ -1,9 +1,10 @@
 package com.weststein.handler.viewstatement;
 
+import com.weststein.controller.secured.model.ViewStatementModel;
+import com.weststein.infrastructure.OrikoObjectMapper;
 import com.weststein.integration.PPFService;
 import com.weststein.integration.request.ViewStatement;
 import com.weststein.integration.response.AccountAPIv2ViewStatement;
-import com.weststein.integration.response.ViewStatementResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -16,9 +17,10 @@ public class ViewStatementHandler {
 
     @Autowired
     private PPFService<ViewStatement, AccountAPIv2ViewStatement> ppfService;
+    @Autowired
+    private OrikoObjectMapper objectMapper;
 
-
-    public ViewStatementResponse handle(String id, LocalDate start, LocalDate end) {
+    public ViewStatementModel handle(String id, LocalDate start, LocalDate end) {
         ViewStatement object = new ViewStatement();
         object.setCardholderId(id);
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DATE_FORMAT);
@@ -26,7 +28,8 @@ public class ViewStatementHandler {
         object.setStartDate(formatter.format(start));
         object.setViewStyle("Y");
         AccountAPIv2ViewStatement res = ppfService.get(object, AccountAPIv2ViewStatement.class);
-        return res.getViewStatement();
+
+        return objectMapper.map(res.getViewStatement(), ViewStatementModel.class);
     }
 
 }
