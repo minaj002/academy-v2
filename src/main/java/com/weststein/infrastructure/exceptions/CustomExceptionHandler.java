@@ -1,5 +1,6 @@
 package com.weststein.infrastructure.exceptions;
 
+import com.weststein.security.exceptions.SessionTerminatedException;
 import org.springframework.http.HttpStatus;
 import org.springframework.mail.MailException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -36,6 +37,15 @@ public class CustomExceptionHandler {
     public ValidationErrors handleMailException(MailException ex) {
         List<ValidationError> errors = new ArrayList<>();
         errors.add(ValidationError.builder().field("email").message(ex.getLocalizedMessage()).build());
+        return ValidationErrors.builder().errors(errors).build();
+    }
+
+    @ExceptionHandler(SessionTerminatedException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseBody
+    public ValidationErrors handleMailException(SessionTerminatedException ex) {
+        List<ValidationError> errors = new ArrayList<>();
+        errors.add(ValidationError.builder().field("session").message(ex.getLocalizedMessage()).build());
         return ValidationErrors.builder().errors(errors).build();
     }
 

@@ -1,10 +1,6 @@
 package com.weststein.handler.card;
 
-import com.ibm.icu.text.Transliterator;
-import org.apache.commons.lang.StringUtils;
 import org.junit.Test;
-
-import java.util.Enumeration;
 
 import static org.junit.Assert.*;
 

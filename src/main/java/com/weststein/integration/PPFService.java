@@ -41,7 +41,7 @@ public class PPFService <T,R>{
             String resp2 = (String)resp.get("");
             result = mapper.readValue(resp2, clazz);
             if(!((AccountAPIv2)result).getErrorCode().equals("0000")) {
-                List validationErrors = new ArrayList();
+                List<ValidationError> validationErrors = new ArrayList();
                 validationErrors.add(ValidationError.builder().message(((AccountAPIv2)result).getDescription()).build());
                 throw new ValidationException(validationErrors, "error from pfs");
             }

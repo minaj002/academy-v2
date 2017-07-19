@@ -3,12 +3,10 @@ package com.weststein.integration;
 import com.weststein.controller.secured.model.TransactionModel;
 import com.weststein.controller.secured.model.ViewStatementModel;
 import com.weststein.infrastructure.ObjectMapperConfiguration;
-import com.weststein.infrastructure.OrikoObjectMapper;
 import com.weststein.integration.response.ViewStatementResponse;
 import ma.glasnost.orika.CustomMapper;
 import ma.glasnost.orika.MappingContext;
 import ma.glasnost.orika.metadata.ClassMapBuilder;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;

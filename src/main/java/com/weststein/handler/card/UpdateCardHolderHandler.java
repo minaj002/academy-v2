@@ -3,9 +3,7 @@ package com.weststein.handler.card;
 import com.weststein.controller.secured.model.CardHolderModel;
 import com.weststein.infrastructure.OrikoObjectMapper;
 import com.weststein.integration.PPFService;
-import com.weststein.integration.request.CardInquiry;
 import com.weststein.integration.request.UpdateCard;
-import com.weststein.integration.response.AccountAPIv2CardInfo;
 import com.weststein.integration.response.AccountAPIv2UpdateCard;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +21,6 @@ public class UpdateCardHolderHandler {
     public AccountAPIv2UpdateCard handle(String cardHolderId, CardHolderModel updateCard) {
         UpdateCard updateCardObject = objectMapper.map(updateCard, UpdateCard.class);
         updateCardObject.setCardHolderId(cardHolderId);
-        AccountAPIv2UpdateCard res2 = ppfService.get(updateCardObject, AccountAPIv2UpdateCard.class);
-        return res2;
+        return ppfService.get(updateCardObject, AccountAPIv2UpdateCard.class);
     }
 }

@@ -33,4 +33,7 @@ public class UserCredentials {
     private Boolean verified;
     @ElementCollection(fetch = FetchType.EAGER)
     private Set<Role> roles;
+    @Column(columnDefinition="TEXT")
+    private String token;
+
 }

@@ -1,6 +1,5 @@
 package com.weststein.controller.secured;
 
-import com.weststein.email.EmailSender;
 import com.weststein.email.EmailTextSource;
 import com.weststein.handler.user.ConfirmPhoneNumberHandler;
 import com.weststein.handler.user.UserInformationHandler;

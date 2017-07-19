@@ -28,8 +28,7 @@ public class FeignConfiguration {
 
     @Bean
     public Decoder feignDecoder() {
-        CustomDecoder decoder = new CustomDecoder();
-        return decoder;
+        return new CustomDecoder();
     }
 
 }

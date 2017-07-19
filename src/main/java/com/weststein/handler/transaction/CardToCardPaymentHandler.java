@@ -2,9 +2,7 @@ package com.weststein.handler.transaction;
 
 import com.weststein.integration.PPFService;
 import com.weststein.integration.request.CardToCard;
-import com.weststein.integration.request.DepositToCard;
 import com.weststein.integration.response.AccountAPIv2CardToCard;
-import com.weststein.integration.response.AccountAPIv2DepositToCard;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -35,8 +33,7 @@ public class CardToCardPaymentHandler {
         depositObject.setTerminalState("LV");
         depositObject.setCountry("LV");
         depositObject.setDirectFee("**WTR");
-        AccountAPIv2CardToCard res2 = ppfService.get(depositObject,
+        return ppfService.get(depositObject,
                 AccountAPIv2CardToCard.class);
-        return res2;
     }
 }

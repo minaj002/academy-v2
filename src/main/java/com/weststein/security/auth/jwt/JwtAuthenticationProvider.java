@@ -4,6 +4,7 @@ import com.weststein.repository.UserCredentials;
 import com.weststein.security.UserService;
 import com.weststein.security.auth.JwtAuthenticationToken;
 import com.weststein.configuration.JwtSettings;
+import com.weststein.security.exceptions.SessionTerminatedException;
 import com.weststein.security.model.UserContext;
 import com.weststein.security.model.token.RawAccessJwtToken;
 import io.jsonwebtoken.Claims;
@@ -14,10 +15,10 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.web.authentication.session.SessionAuthenticationException;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -42,9 +43,13 @@ public class JwtAuthenticationProvider implements AuthenticationProvider {
         String subject = jwsClaims.getBody().getSubject();
         List<String> scopes = jwsClaims.getBody().get("scopes", List.class);
         List<GrantedAuthority> authorities = scopes.stream()
-                .map(authority -> new SimpleGrantedAuthority(authority))
+                .map(SimpleGrantedAuthority::new)
                 .collect(Collectors.toList());
-        Set<String> cardHolderIds = userService.getByUsername(subject).get().getCardHolderIds();
+        UserCredentials userCredentials = userService.getByUsername(subject).get();
+        if(!rawAccessToken.getToken().equals(userCredentials.getToken())) {
+            throw new SessionAuthenticationException("Session was terminated");
+        }
+        Set<String> cardHolderIds = userCredentials.getCardHolderIds();
         UserContext context = UserContext.create(subject, authorities, cardHolderIds);
         
         return new JwtAuthenticationToken(context, context.getAuthorities());

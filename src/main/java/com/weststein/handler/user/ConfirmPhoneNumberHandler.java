@@ -27,12 +27,12 @@ public class ConfirmPhoneNumberHandler {
         UserInformation userInfo = userInformationRepository.findByEmail(userService.getCurrentUser());
         String verificationCode = userInfo.getPhoneVerificationCode();
         if(StringUtils.isEmpty(verificationCode)) {
-            List errors = new ArrayList();
+            List<ValidationError> errors = new ArrayList();
             errors.add(ValidationError.builder().field("code").message("Phone number is already verified").build());
             throw new ValidationException(errors, "Phone number is already verified");
         }
         if (!verificationCode.equals(code)) {
-            List errors = new ArrayList();
+            List<ValidationError> errors = new ArrayList();
             errors.add(ValidationError.builder().field("code").message("Invalid verification code").build());
             throw new ValidationException(errors, "Invalid verification code");
         }

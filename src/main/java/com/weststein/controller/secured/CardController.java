@@ -13,8 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Set;
-
 @RestController
 public class CardController {
 
@@ -72,7 +70,7 @@ public class CardController {
     }
 
     @PostMapping("/api/card-info/pin-reminder/{cardHolderId}")
-    @ApiOperation(value = "pinRemiobder")
+    @ApiOperation(value = "pinReminder")
     @ApiResponses(value = {
             @ApiResponse(code = 201, message = "")
     })

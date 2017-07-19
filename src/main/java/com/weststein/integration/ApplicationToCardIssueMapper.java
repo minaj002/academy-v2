@@ -3,7 +3,6 @@ package com.weststein.integration;
 import com.weststein.infrastructure.ObjectMapperConfiguration;
 import com.weststein.integration.request.CardIssue;
 import com.weststein.repository.UserInformation;
-import ma.glasnost.orika.Mapper;
 import ma.glasnost.orika.metadata.ClassMapBuilder;
 import org.springframework.stereotype.Component;
 

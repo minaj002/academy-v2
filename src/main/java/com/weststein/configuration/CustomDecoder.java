@@ -7,7 +7,6 @@ import com.weststein.integration.sms.SmsResponse;
 import feign.FeignException;
 import feign.Response;
 import feign.Util;
-import feign.codec.DecodeException;
 import feign.codec.Decoder;
 
 import java.io.IOException;

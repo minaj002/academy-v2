@@ -12,7 +12,6 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.mail.MailException;
 import org.springframework.mail.MailSendException;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 
 import javax.mail.internet.MimeMessage;
@@ -20,7 +19,6 @@ import javax.mail.internet.MimeMessage;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -44,13 +42,13 @@ public class EmailSenderTest {
         when(javaMailSender.createMimeMessage()).thenReturn(mimeMessage);
     }
 
-    @Test@Ignore
+    @Test
     public void sendWelcomeEmailSuccess() throws Exception {
         emailSender.sendVerifyEmail("mail@mail.com", "token", "lv");
         ArgumentCaptor<SentEmail> sentEmail = ArgumentCaptor.forClass(SentEmail.class);
         verify(sentEmailRepository,times(1)).save(sentEmail.capture());
         assertTrue(sentEmail.getValue().getSuccessfullySent());
-        assertEquals("Template  Body  End", sentEmail.getValue().getText());
+        assertEquals("Body", sentEmail.getValue().getText());
     }
 
     @Test(expected = MailException.class)

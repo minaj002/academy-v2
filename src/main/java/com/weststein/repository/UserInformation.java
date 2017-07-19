@@ -1,7 +1,6 @@
 package com.weststein.repository;
 
 import lombok.Data;
-import org.hibernate.Transaction;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;

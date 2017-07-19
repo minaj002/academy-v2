@@ -4,7 +4,6 @@ import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.weststein.infrastructure.exceptions.SmsError;
-import org.apache.commons.lang.StringEscapeUtils;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;

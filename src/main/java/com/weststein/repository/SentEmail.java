@@ -3,7 +3,6 @@ package com.weststein.repository;
 import lombok.Builder;
 import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.MimeMessageHelper;
 
 import javax.mail.MessagingException;

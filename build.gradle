@@ -57,7 +57,21 @@ dependencies {
 }
 
 processResources {
-    Properties props = new Properties();
+    Properties props = new Properties()
+    if(project.hasProperty('stage')){
+        project.property('stage')
+        props.load(new FileInputStream("src/profiles/" + project.property('stage') + ".properties"))
+    } else {
+        props.load(new FileInputStream("src/profiles/local.properties"))
+    }
+    expand props
+}
+
+task copyProperties(type: Copy) {
+
+    from 'src/main/resources/application.yml'
+    into 'out/production/resources'
+    Properties props = new Properties()
     if(project.hasProperty('stage')){
         project.property('stage')
         props.load(new FileInputStream("src/profiles/" + project.property('stage') + ".properties"))

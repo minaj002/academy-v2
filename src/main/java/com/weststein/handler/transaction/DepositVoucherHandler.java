@@ -31,8 +31,7 @@ public class DepositVoucherHandler {
         depositObject.setTerminalCity("Riga");
         depositObject.setCountry("LV");
         depositObject.setDirectFee("**VLO");
-        AccountAPIv2DepositToCard res2 = ppfService.get(depositObject,
+        return ppfService.get(depositObject,
                 AccountAPIv2DepositToCard.class);
-        return res2;
     }
 }
