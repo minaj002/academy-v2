@@ -1,5 +1,6 @@
 package com.weststein.security.model;
 
+import com.weststein.repository.UserRole;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.util.StringUtils;
 
@@ -10,18 +11,18 @@ import java.util.Set;
 public class UserContext {
     private final String username;
     private final List<GrantedAuthority> authorities;
-    private Set<String> cardHolderIds;
+    private List<UserRole> userRoles;
 
-    private UserContext(String username, List<GrantedAuthority> authorities, Set<String> cardHolderIds) {
+    private UserContext(String username, List<GrantedAuthority> authorities,  List<UserRole> userRoles) {
         this.username = username;
         this.authorities = authorities;
-        this.cardHolderIds = cardHolderIds;
+        this.userRoles = userRoles;
     }
     
-    public static UserContext create(String username, List<GrantedAuthority> authorities, Set<String> cardHolderIds) {
+    public static UserContext create(String username, List<GrantedAuthority> authorities, List<UserRole> userRoles) {
 
         if (StringUtils.isEmpty(username)) throw new IllegalArgumentException("Username is blank: " + username);
-        return new UserContext(username, authorities, cardHolderIds);
+        return new UserContext(username, authorities, userRoles);
     }
 
     public String getUsername() {
@@ -32,7 +33,7 @@ public class UserContext {
         return authorities;
     }
 
-    public Set<String> getCardHolderIds() {
-        return cardHolderIds;
+    public List<UserRole> getUserRoles() {
+        return userRoles;
     }
 }

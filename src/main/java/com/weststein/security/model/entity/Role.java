@@ -1,9 +1,10 @@
 package com.weststein.security.model.entity;
 
 public enum Role {
-    ADMIN, PREMIUM_MEMBER, MEMBER;
-    
+    OWNER, BOOKKEEPER, FINANCIAL_OFFICER, PRIVATE, NEW;
+
     public String authority() {
         return "ROLE_" + this.name();
     }
+
 }

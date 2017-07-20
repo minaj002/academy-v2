@@ -6,7 +6,7 @@ import static org.junit.Assert.*;
 
 public class CardRequestHandlerTest {
 
-    CardRequestHandler handler = new CardRequestHandler();
+    PrivateCardRequestHandler handler = new PrivateCardRequestHandler();
 
     @Test
     public void testToTranslite() throws Exception {

@@ -7,21 +7,20 @@ import com.weststein.infrastructure.OrikoObjectMapper;
 import com.weststein.integration.PPFService;
 import com.weststein.integration.request.CardIssue;
 import com.weststein.integration.response.AccountAPIv2CardIssue;
-import com.weststein.repository.UserCredentialRepository;
-import com.weststein.repository.UserCredentials;
-import com.weststein.repository.UserInformation;
-import com.weststein.repository.UserInformationRepository;
+import com.weststein.repository.*;
 import com.weststein.security.UserService;
+import com.weststein.security.model.entity.Role;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Component
-public class CardRequestHandler {
+public class PrivateCardRequestHandler {
     private static final String cardStyle = "01";
     @Autowired
     private UserInformationRepository userInformationRepository;
@@ -36,6 +35,8 @@ public class CardRequestHandler {
     private Transliterator transliterator = Transliterator.getInstance("Any-Latin;Latin-ASCII");
     @Autowired
     private EmailSender emailSender;
+    @Autowired
+    private CardholderIdRepository cardholderIdRepository;
 
     public UserInformation handle() {
 
@@ -44,9 +45,11 @@ public class CardRequestHandler {
         CardIssue cardRequest = createCardRequest(userInformation);
         AccountAPIv2CardIssue res2 = ppfService1.get(cardRequest, AccountAPIv2CardIssue.class);
         UserCredentials credentials = userCredentialRepository.findUserCredentialsByEmail(email).orElseThrow(() -> new ValidationException("No such user"));
-        Set<String> cardholderIds = new HashSet<>();
-        cardholderIds.add(res2.getCardIssue().getCardHolderId());
-        credentials.setCardHolderIds(cardholderIds);
+        CardholderId cardHolderId = cardholderIdRepository.save(CardholderId.builder().cardholderId(res2.getCardIssue().getCardHolderId()).build());
+
+        List<UserRole> roles = credentials.getRoles();
+        List<UserRole> rolesWithoutNew = roles.stream().filter(userRole -> Role.NEW.equals(userRole.getRole())).collect(Collectors.toList());
+        rolesWithoutNew.add(UserRole.builder().entityId(cardHolderId.getId()).roleType(UserRole.RoleType.PRIVATE).role(Role.PRIVATE).build());
         userCredentialRepository.save(credentials);
         emailSender.sendCardEmail(email, userInformation.getLanguage().name().toLowerCase());
         return userInformation;

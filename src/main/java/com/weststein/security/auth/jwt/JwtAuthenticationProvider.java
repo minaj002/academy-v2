@@ -1,6 +1,7 @@
 package com.weststein.security.auth.jwt;
 
 import com.weststein.repository.UserCredentials;
+import com.weststein.repository.UserRole;
 import com.weststein.security.UserService;
 import com.weststein.security.auth.JwtAuthenticationToken;
 import com.weststein.configuration.JwtSettings;
@@ -49,8 +50,8 @@ public class JwtAuthenticationProvider implements AuthenticationProvider {
         if(!rawAccessToken.getToken().equals(userCredentials.getToken())) {
             throw new SessionAuthenticationException("Session was terminated");
         }
-        Set<String> cardHolderIds = userCredentials.getCardHolderIds();
-        UserContext context = UserContext.create(subject, authorities, cardHolderIds);
+        List<UserRole> roles = userCredentials.getRoles();
+        UserContext context = UserContext.create(subject, authorities, roles);
         
         return new JwtAuthenticationToken(context, context.getAuthorities());
     }

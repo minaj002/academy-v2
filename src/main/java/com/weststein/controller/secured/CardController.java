@@ -2,7 +2,7 @@ package com.weststein.controller.secured;
 
 import com.weststein.controller.secured.model.CardHolderModel;
 import com.weststein.controller.secured.model.CardInfoModel;
-import com.weststein.controller.secured.model.CardholderIdsModel;
+import com.weststein.controller.secured.model.UserRolesModel;
 import com.weststein.handler.card.*;
 import com.weststein.repository.UserInformation;
 import com.weststein.security.UserService;
@@ -27,7 +27,7 @@ public class CardController {
     @Autowired
     private GetCardHolderIdsHandler getCardHolderIdsHandler;
     @Autowired
-    private CardRequestHandler cardRequestHandler;
+    private PrivateCardRequestHandler cardRequestHandler;
 
     @GetMapping("/api/card-request")
     @ApiOperation(value = "Request Card")
@@ -39,12 +39,12 @@ public class CardController {
     }
 
     @GetMapping("/api/card-holder")
-    @ApiOperation(value = "getCardHolderIds")
+    @ApiOperation(value = "getUserRoles")
     @ApiResponses(value = {
             @ApiResponse(code = 201, message = "")
     })
-    public CardholderIdsModel getCardholderIds() {
-        return CardholderIdsModel.builder().cardholderIds(getCardHolderIdsHandler.handle()).build();
+    public UserRolesModel getCardholderIds() {
+        return UserRolesModel.builder().userRoles(getCardHolderIdsHandler.handle()).build();
     }
 
     @GetMapping("/api/card-info/{cardHolderId}")

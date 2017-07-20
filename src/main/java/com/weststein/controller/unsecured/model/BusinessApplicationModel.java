@@ -2,7 +2,6 @@ package com.weststein.controller.unsecured.model;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.weststein.configuration.LocalDateDeSerializer;
-import com.weststein.repository.Language;
 import com.weststein.repository.UserInformation;
 import lombok.Data;
 import org.hibernate.validator.constraints.Email;
@@ -12,7 +11,19 @@ import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
 @Data
-public class ApplicationModel {
+public class BusinessApplicationModel {
+
+    @NotEmpty
+    private String enterpriseName;
+    @NotEmpty
+    private String legalStatus;
+    @NotNull
+    private AddressModel businessAddress;
+    @NotNull
+    @JsonDeserialize(using= LocalDateDeSerializer.class)
+    private LocalDate dateOfIncorporation;
+    @NotEmpty
+    private String registrationNumber;
 
     @NotEmpty
     private String firstName;
@@ -21,20 +32,12 @@ public class ApplicationModel {
     @NotEmpty
     @Email
     private String email;
-    @NotNull
-    @JsonDeserialize(using= LocalDateDeSerializer.class)
-    private LocalDate dateOfBirth;
     @NotEmpty
     private String password;
     @NotEmpty
     private String phone;
-    private String phoneVerified;
+    @NotEmpty
+    private String ownerCountry;
     @NotNull
-    private AddressModel address;
-    @NotNull
-    private UserInformation.Gender gender;
-    @NotNull
-    private Boolean agree;
-    @NotNull
-    private Language language;
+    private String position;
 }

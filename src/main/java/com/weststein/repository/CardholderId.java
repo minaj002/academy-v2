@@ -1,19 +1,17 @@
 package com.weststein.repository;
 
+import lombok.Builder;
 import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.*;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 
 @Data
 @Entity
-public class UserInformation {
-
-    public enum Gender {
-        MALE, FEMALE
-    }
+@Builder
+public class CardholderId {
 
     @Id
     @GeneratedValue(generator = "generator")
@@ -27,20 +25,6 @@ public class UserInformation {
             }
     )
     private Long id;
-    private String firstName;
-    private String lastName;
-    private String email;
-    private LocalDate dateOfBirth;
-    private String phone;
-    private Boolean phoneVerified;
-    private String phoneVerificationCode;
-    @OneToOne(cascade= CascadeType.ALL)
-    private Address address;
-    @Enumerated(EnumType.STRING)
-    private Gender gender;
-    private Boolean agree;
-    private LocalDateTime agreeOn;
-    @Enumerated(EnumType.STRING)
-    private Language language;
+    private String cardholderId;
 
 }

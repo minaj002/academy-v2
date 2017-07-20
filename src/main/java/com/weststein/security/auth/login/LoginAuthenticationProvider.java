@@ -47,10 +47,10 @@ public class LoginAuthenticationProvider implements AuthenticationProvider {
         if (user.getRoles() == null) throw new InsufficientAuthenticationException("User has no roles assigned");
         
         List<GrantedAuthority> authorities = user.getRoles().stream()
-                .map(authority -> new SimpleGrantedAuthority(authority.authority()))
+                .map(userRole -> new SimpleGrantedAuthority(userRole.getRole().authority()))
                 .collect(Collectors.toList());
         
-        UserContext userContext = UserContext.create(user.getEmail(), authorities, user.getCardHolderIds());
+        UserContext userContext = UserContext.create(user.getEmail(), authorities, user.getRoles());
         
         return new UsernamePasswordAuthenticationToken(userContext, null, userContext.getAuthorities());
     }

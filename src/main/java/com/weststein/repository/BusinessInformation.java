@@ -9,11 +9,7 @@ import java.time.LocalDateTime;
 
 @Data
 @Entity
-public class UserInformation {
-
-    public enum Gender {
-        MALE, FEMALE
-    }
+public class BusinessInformation {
 
     @Id
     @GeneratedValue(generator = "generator")
@@ -27,17 +23,12 @@ public class UserInformation {
             }
     )
     private Long id;
-    private String firstName;
-    private String lastName;
-    private String email;
-    private LocalDate dateOfBirth;
-    private String phone;
-    private Boolean phoneVerified;
-    private String phoneVerificationCode;
+    private String enterpriseName;
+    private String legalStatus;
     @OneToOne(cascade= CascadeType.ALL)
     private Address address;
-    @Enumerated(EnumType.STRING)
-    private Gender gender;
+    private LocalDate dateOfIncorporation;
+    private String registrationNumber;
     private Boolean agree;
     private LocalDateTime agreeOn;
     @Enumerated(EnumType.STRING)

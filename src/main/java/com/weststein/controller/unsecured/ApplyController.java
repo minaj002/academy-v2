@@ -1,7 +1,9 @@
 package com.weststein.controller.unsecured;
 
 import com.weststein.controller.unsecured.model.ApplicationModel;
+import com.weststein.controller.unsecured.model.BusinessApplicationModel;
 import com.weststein.handler.application.ApplicationHandler;
+import com.weststein.handler.application.BusinessApplicationHandler;
 import com.weststein.validator.EmailValidator;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -24,15 +26,27 @@ public class ApplyController {
     @Autowired
     private ApplicationHandler applicationHandler;
     @Autowired
+    private BusinessApplicationHandler businessApplicationHandler;
+    @Autowired
     private EmailValidator emailValidator;
 
-    @PostMapping("/api/apply")
+    @PostMapping("/api/apply/personal")
     @ApiOperation(value = "allow new user to apply for new membership")
     @ApiResponses(value = {
             @ApiResponse(code = 201, message = "")
     })
-    public ResponseEntity login(@Valid @RequestBody @DateTimeFormat(pattern = "ddMMyyyy") ApplicationModel application){
+    public ResponseEntity applyPersonal(@Valid @RequestBody @DateTimeFormat(pattern = "ddMMyyyy") ApplicationModel application){
         applicationHandler.handle(application);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
+    }
+
+    @PostMapping("/api/apply/business")
+    @ApiOperation(value = "allow new user to apply for new membership")
+    @ApiResponses(value = {
+            @ApiResponse(code = 201, message = "")
+    })
+    public ResponseEntity applyBusiness(@Valid @RequestBody @DateTimeFormat(pattern = "ddMMyyyy") BusinessApplicationModel application){
+        businessApplicationHandler.handle(application);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 

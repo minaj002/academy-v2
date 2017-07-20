@@ -1,20 +1,21 @@
 package com.weststein.repository;
 
+import com.weststein.security.model.entity.Role;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 
-@Data
 @Entity
-public class UserInformation {
+@Data
+@Builder
+public class UserRole {
 
-    public enum Gender {
-        MALE, FEMALE
+    public enum RoleType {
+        BUSINESS, PRIVATE
     }
-
     @Id
     @GeneratedValue(generator = "generator")
     @GenericGenerator(strategy =
@@ -27,20 +28,10 @@ public class UserInformation {
             }
     )
     private Long id;
-    private String firstName;
-    private String lastName;
-    private String email;
-    private LocalDate dateOfBirth;
-    private String phone;
-    private Boolean phoneVerified;
-    private String phoneVerificationCode;
-    @OneToOne(cascade= CascadeType.ALL)
-    private Address address;
     @Enumerated(EnumType.STRING)
-    private Gender gender;
-    private Boolean agree;
-    private LocalDateTime agreeOn;
+    private Role role;
+    private Long entityId;
     @Enumerated(EnumType.STRING)
-    private Language language;
+    private RoleType roleType;
 
 }

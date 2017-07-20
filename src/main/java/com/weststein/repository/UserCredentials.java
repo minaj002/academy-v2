@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -27,12 +28,10 @@ public class UserCredentials {
     private Long id;
     private String email;
     private String password;
-    @ElementCollection(fetch = FetchType.EAGER)
-    private Set<String> cardHolderIds;
     private String verification;
     private Boolean verified;
     @ElementCollection(fetch = FetchType.EAGER)
-    private Set<Role> roles;
+    private List<UserRole> roles;
     @Column(columnDefinition="TEXT")
     private String token;
 
