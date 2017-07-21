@@ -1,6 +1,5 @@
 package com.weststein.repository;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.validator.constraints.NotEmpty;
@@ -11,7 +10,6 @@ import javax.persistence.Id;
 
 @Data
 @Entity
-@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Address {
 
     @Id

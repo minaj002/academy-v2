@@ -1,19 +1,16 @@
 package com.weststein.repository;
 
-import com.weststein.security.model.entity.Role;
 import lombok.Data;
-import lombok.NoArgsConstructor;
-import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
-import java.util.List;
-import java.util.Set;
+import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
-@Entity
 @Data
-@NoArgsConstructor
-public class UserCredentials {
+@Entity
+public class ShareHolder {
 
     @Id
     @GeneratedValue(generator = "generator")
@@ -27,13 +24,17 @@ public class UserCredentials {
             }
     )
     private Long id;
+    private Long businessId;
+    private String firstName;
+    private String lastName;
+    @Enumerated(EnumType.STRING)
+    private ShareHolderRole role;
+    private BigDecimal percentageOwned;
+    private LocalDate dateOfBirth;
+    @OneToOne(cascade = CascadeType.ALL)
+    private Address address;
+    private String phone;
     private String email;
-    private String password;
-    private String verification;
-    private Boolean verified;
-    @ElementCollection(fetch = FetchType.EAGER)
-    private List<UserRole> roles;
-    @Column(columnDefinition="TEXT")
-    private String token;
+    private LocalDateTime created;
 
 }
