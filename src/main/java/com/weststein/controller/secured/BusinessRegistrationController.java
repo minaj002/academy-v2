@@ -30,7 +30,7 @@ public class BusinessRegistrationController {
         createCompanyInfoHandler.handle(businessId, companyInfo);
     }
 
-    @PostMapping("/api/business/{businessId}/application/company-structure/")
+    @PostMapping("/api/business/{businessId}/application/company-structure")
     @ApiOperation(value = "Create company structure")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "")
