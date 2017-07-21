@@ -34,4 +34,13 @@ public class UserRole {
     @Enumerated(EnumType.STRING)
     private RoleType roleType;
 
+    public UserRole() {}
+
+    public UserRole(Long id, Role role, Long entityId, RoleType roleType) {
+        this.id = id;
+        this.role = role;
+        this.entityId = entityId;
+        this.roleType = roleType;
+    }
+
 }

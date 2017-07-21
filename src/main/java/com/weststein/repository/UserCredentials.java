@@ -3,6 +3,7 @@ package com.weststein.repository;
 import com.weststein.security.model.entity.Role;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -31,6 +32,7 @@ public class UserCredentials {
     private String verification;
     private Boolean verified;
     @ElementCollection(fetch = FetchType.EAGER)
+
     private List<UserRole> roles;
     @Column(columnDefinition="TEXT")
     private String token;

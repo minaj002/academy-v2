@@ -2,6 +2,7 @@ package com.weststein.controller.unsecured.model;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.weststein.configuration.LocalDateDeSerializer;
+import com.weststein.repository.Language;
 import com.weststein.repository.UserInformation;
 import lombok.Data;
 import org.hibernate.validator.constraints.Email;
@@ -18,7 +19,7 @@ public class BusinessApplicationModel {
     @NotEmpty
     private String legalStatus;
     @NotNull
-    private AddressModel businessAddress;
+    private AddressModel address;
     @NotNull
     @JsonDeserialize(using= LocalDateDeSerializer.class)
     private LocalDate dateOfIncorporation;
@@ -40,4 +41,6 @@ public class BusinessApplicationModel {
     private String ownerCountry;
     @NotNull
     private String position;
+    @NotNull
+    private Language language;
 }
