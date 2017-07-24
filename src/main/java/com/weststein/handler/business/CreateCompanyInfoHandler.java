@@ -1,6 +1,6 @@
 package com.weststein.handler.business;
 
-import com.weststein.controller.secured.model.CompanyInformationModel;
+import com.weststein.controller.secured.model.business.CompanyInformationModel;
 import com.weststein.infrastructure.OrikoObjectMapper;
 import com.weststein.repository.CompanyInformation;
 import com.weststein.repository.CompanyInformationRepository;

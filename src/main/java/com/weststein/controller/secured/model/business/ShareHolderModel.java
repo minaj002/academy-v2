@@ -1,4 +1,4 @@
-package com.weststein.controller.secured.model;
+package com.weststein.controller.secured.model.business;
 
 import com.weststein.controller.unsecured.model.AddressModel;
 import com.weststein.repository.ShareHolderRole;
