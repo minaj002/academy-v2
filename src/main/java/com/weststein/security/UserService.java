@@ -63,4 +63,23 @@ public class UserService {
 
         }
     }
+
+    public void isAuthorizedForBusiness(Long businessId) {
+        List<UserRole> userRoles = ((UserContext) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUserRoles();
+
+        if (userRoles.stream().noneMatch(userRole -> {
+            if (UserRole.RoleType.BUSINESS.equals(userRole.getRoleType())) {
+
+                return businessId.equals(userRole.getEntityId());
+
+            }
+            return true;
+        })) {
+
+            List errors = new ArrayList();
+            errors.add(ValidationError.builder().field("businessId").message("Not Authorized").build());
+            throw new ValidationException(errors, "User is not authorized to see information for business " + businessId);
+
+        }
+    }
 }

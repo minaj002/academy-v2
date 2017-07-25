@@ -10,6 +10,7 @@ import com.weststein.security.model.UserContext;
 import com.weststein.security.model.token.RawAccessJwtToken;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.core.Authentication;
@@ -47,7 +48,8 @@ public class JwtAuthenticationProvider implements AuthenticationProvider {
                 .map(SimpleGrantedAuthority::new)
                 .collect(Collectors.toList());
         UserCredentials userCredentials = userService.getByUsername(subject).get();
-        if(!rawAccessToken.getToken().equals(userCredentials.getToken())) {
+
+        if(!StringUtils.equals(rawAccessToken.getToken(),userCredentials.getToken())) {
             throw new SessionAuthenticationException("Session was terminated");
         }
         List<UserRole> roles = userCredentials.getRoles();

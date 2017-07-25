@@ -1,19 +1,23 @@
 package com.weststein.repository;
 
-import com.weststein.security.model.entity.Role;
-import lombok.Builder;
 import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import java.time.LocalDateTime;
 
 @Entity
 @Data
-@Builder
-public class UserRole {
+public class RequiredDocument {
 
-    public enum RoleType {
-        BUSINESS, PRIVATE
+    public enum Type {
+        CertificateOfRegistration, ArticleOfAssociation,
+        AnnualReturn, ConfirmationOfShareholdingDetails,
+        ConfirmationOfCompanyDirectors, BankAccountEvidence,
+        ShareholderPhotoId, ShareholderAddressVerification,
+        DirectorPhotoId, DirectorAddressVerification
     }
 
     @Id
@@ -28,20 +32,9 @@ public class UserRole {
             }
     )
     private Long id;
-    @Enumerated(EnumType.STRING)
-    private Role role;
-    private Long entityId;
-    @Enumerated(EnumType.STRING)
-    private RoleType roleType;
-
-    public UserRole() {
-    }
-
-    public UserRole(Long id, Role role, Long entityId, RoleType roleType) {
-        this.id = id;
-        this.role = role;
-        this.entityId = entityId;
-        this.roleType = roleType;
-    }
-
+    private Long businessId;
+    private LocalDateTime created;
+    private Type type;
+    private String bucket;
+    private String name;
 }

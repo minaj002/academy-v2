@@ -36,6 +36,7 @@ dependencies {
     compile 'org.springframework.boot:spring-boot-starter-security:1.5.4.RELEASE'
     compile 'org.springframework.boot:spring-boot-starter-mail:1.5.4.RELEASE'
     compile 'org.springframework.boot:spring-boot-starter-actuator:1.5.4.RELEASE'
+    compile 'org.springframework.cloud:spring-cloud-aws-context:1.2.1.RELEASE'
 
     compile 'com.h2database:h2:1.4.193'
     compile 'ma.glasnost.orika:orika-core:1.5.0'
