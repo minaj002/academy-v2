@@ -34,4 +34,8 @@ public class Address {
     @NotEmpty
     private String country;
 
+    @Override
+    public String toString() {
+        return line1 + ", " + line2 + ", " + city + ", " + country +", " +postalCode;
+    }
 }

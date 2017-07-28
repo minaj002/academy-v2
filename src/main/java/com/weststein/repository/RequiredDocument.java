@@ -1,5 +1,6 @@
 package com.weststein.repository;
 
+import com.weststein.pdf.PDFFields;
 import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
 
@@ -13,11 +14,23 @@ import java.time.LocalDateTime;
 public class RequiredDocument {
 
     public enum Type {
-        CertificateOfRegistration, ArticleOfAssociation,
-        AnnualReturn, ConfirmationOfShareholdingDetails,
-        ConfirmationOfCompanyDirectors, BankAccountEvidence,
+        CertificateOfRegistration(PDFFields.REQ_CERT_INCORP), ArticleOfAssociation(PDFFields.REQ_ARTS_ASSOC),
+        AnnualReturn(PDFFields.REQ_ANNUAL_RETURN ), ConfirmationOfShareholdingDetails(PDFFields.REQ_SHAREHOLDER_DETAIL),
+        ConfirmationOfCompanyDirectors(PDFFields.REQ_DIRECTOR_DETAIL), BankAccountEvidence(PDFFields.REQ_BANK_ACCOUNT),
         ShareholderPhotoId, ShareholderAddressVerification,
-        DirectorPhotoId, DirectorAddressVerification
+        DirectorPhotoId, DirectorAddressVerification;
+
+        private String pdfMapping;
+
+        Type(String pdfMapping) {
+            this.pdfMapping = pdfMapping;
+        }
+
+        Type() {}
+
+        public String getPdfMapping() {
+            return pdfMapping;
+        }
     }
 
     @Id

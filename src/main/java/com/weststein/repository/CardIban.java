@@ -31,7 +31,7 @@ public class CardIban {
     private String holdersLocation;
     @Enumerated(EnumType.STRING)
     private CardUse use;
-    private String otherCardType;
+    private String otherCardUse;
     private Currency currency;
     private Integer numberOfCards;
     @Enumerated(EnumType.STRING)

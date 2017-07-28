@@ -1,6 +1,7 @@
 package com.weststein.controller.secured.model.business;
 
 import com.weststein.controller.unsecured.model.AddressModel;
+import com.weststein.repository.CompanyInformation;
 import com.weststein.repository.Title;
 import lombok.Data;
 
@@ -9,7 +10,7 @@ public class CompanyInformationModel {
 
     private String legalName;
     private String tradingName;
-    private String legalStatus;
+    private CompanyInformation.LegalStatus legalStatus;
     private AddressModel registeredAddress;
     private String principalPlaceOfBusiness;
     private String landLinePhone;

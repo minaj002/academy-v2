@@ -8,8 +8,12 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.core.io.Resource;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.io.ByteArrayOutputStream;
 
 @RestController
 public class BusinessRegistrationController {
@@ -30,6 +34,8 @@ public class BusinessRegistrationController {
     private CreateProjectedLoadingFiguresHandler createProjectedLoadingFiguresHandler;
     @Autowired
     private RequiredDocumentsUploadHandler requiredDocumentsUploadHandler;
+    @Autowired
+    private CreateRegistrationPDFHandler createRegistrationPDFHandler;
 
     @PostMapping("/api/business/{businessId}/application/company-info")
     @ApiOperation(value = "Create company info")
@@ -100,6 +106,28 @@ public class BusinessRegistrationController {
     ) {
         userService.isAuthorizedForBusiness(businessId);
         requiredDocumentsUploadHandler.handle(businessId, file, type);
+    }
+
+    @GetMapping(value = "/api/business/{businessId}/pdf", produces = "application/pdf")
+    @ApiOperation(value = "download pdf")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "")
+    })
+    public Resource getPdf(@PathVariable Long businessId) {
+        ByteArrayOutputStream res = createRegistrationPDFHandler.handle(businessId);
+        ByteArrayResource resource = new ByteArrayResource(res.toByteArray());
+        return resource;
+    }
+
+    @GetMapping(value = "/api/apply/{businessId}/pdf", produces = "application/pdf")
+    @ApiOperation(value = "download pdf")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "")
+    })
+    public Resource getPdfOpen(@PathVariable Long businessId) {
+        ByteArrayOutputStream res = createRegistrationPDFHandler.handle(businessId);
+        ByteArrayResource resource = new ByteArrayResource(res.toByteArray());
+        return resource;
     }
 
 }

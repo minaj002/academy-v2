@@ -10,6 +10,21 @@ import java.time.LocalDateTime;
 @Entity
 public class CompanyInformation {
 
+    public enum LegalStatus {
+
+        Private("Private Limited Company"), Public("Public Limited Company"), Other("Other");
+
+        private final String description;
+
+        LegalStatus(String description) {
+            this.description = description;
+        }
+
+        public String getDescription() {
+            return description;
+        }
+    }
+
     @Id
     @GeneratedValue(generator = "generator")
     @GenericGenerator(strategy =
@@ -25,7 +40,9 @@ public class CompanyInformation {
     private Long businessId;
     private String legalName;
     private String tradingName;
-    private String legalStatus;
+    @Enumerated(EnumType.STRING)
+    private LegalStatus legalStatus;
+    private String otherLegalStatus;
     @OneToOne(cascade= CascadeType.ALL)
     private Address registeredAddress;
     private String principalPlaceOfBusiness;
@@ -40,7 +57,7 @@ public class CompanyInformation {
     private String registrationNumber;
     private String taxNumber;
     private String vatNumber;
-    private boolean regulatedByAuthority;
+    private Boolean regulatedByAuthority;
     private String regulationAuthorityName;
     private String licenceNumberGrantedByAuthority;
     private LocalDateTime created;
