@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import com.weststein.integration.request.ViewStatement;
 import com.weststein.integration.response.*;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.File;
@@ -14,6 +15,7 @@ import java.util.*;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+@Ignore
 public class PPFServiceTest {
 
 
