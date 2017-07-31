@@ -67,6 +67,7 @@ processResources {
         props.load(new FileInputStream("src/profiles/local.properties"))
     }
     expand props
+    exclude '*.pdf'
 }
 
 task copyProperties(type: Copy) {
@@ -82,3 +83,10 @@ task copyProperties(type: Copy) {
     }
     expand props
 }
+
+task copyPdf(type: Copy) {
+    from 'src/main/resources/pfs_application.pdf'
+    into 'build/resources/main'
+}
+
+processResources.finalizedBy copyPdf
