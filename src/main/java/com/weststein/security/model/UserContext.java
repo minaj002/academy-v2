@@ -36,4 +36,11 @@ public class UserContext {
     public List<UserRole> getUserRoles() {
         return userRoles;
     }
+
+    @Override
+    public String toString() {
+        StringBuilder builder = new StringBuilder(username);
+        userRoles.forEach(role -> builder.append(", ").append(role));
+        return builder.toString();
+    }
 }

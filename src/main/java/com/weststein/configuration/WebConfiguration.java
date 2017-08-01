@@ -1,8 +1,11 @@
 package com.weststein.configuration;
 
+import com.weststein.infrastructure.logger.WeststeinLoggingFilter;
+import com.weststein.repository.AuditRecordRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.actuate.audit.AuditEventRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.filter.CommonsRequestLoggingFilter;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -11,6 +14,8 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 @Configuration
 public class WebConfiguration extends WebMvcConfigurerAdapter {
 
+    @Autowired
+    private AuditRecordRepository auditRecordRepository;
 
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
@@ -18,7 +23,7 @@ public class WebConfiguration extends WebMvcConfigurerAdapter {
     }
 
     @Bean
-    public WebMvcConfigurer corsConfigurer(){
+    public WebMvcConfigurer corsConfigurer() {
         return new WebMvcConfigurerAdapter() {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
@@ -26,14 +31,14 @@ public class WebConfiguration extends WebMvcConfigurerAdapter {
                         "http://localhost:3000",
                         "http://ec2-52-57-94-206.eu-central-1.compute.amazonaws.com",
                         "http://52.57.94.206" // Public ipv4
-                ).allowedMethods("GET","OPTIONS","POST","PATCH","PUT","DELETE");
+                ).allowedMethods("GET", "OPTIONS", "POST", "PATCH", "PUT", "DELETE");
             }
         };
     }
 
     @Bean
-    public CommonsRequestLoggingFilter requestLoggingFilter() {
-        CommonsRequestLoggingFilter loggingFilter = new CommonsRequestLoggingFilter();
+    public WeststeinLoggingFilter requestLoggingFilter() {
+        WeststeinLoggingFilter loggingFilter = new WeststeinLoggingFilter(auditRecordRepository);
         loggingFilter.setIncludeClientInfo(true);
         loggingFilter.setIncludeQueryString(true);
         loggingFilter.setIncludePayload(true);
