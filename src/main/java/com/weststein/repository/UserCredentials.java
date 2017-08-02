@@ -40,6 +40,7 @@ public class UserCredentials {
     private List<UserRole> roles;
     @Column(columnDefinition="TEXT")
     private String token;
+    @Enumerated(EnumType.STRING)
     private Status status;
     private Integer loginAttempt;
     private LocalDateTime blockedAt;
