@@ -7,6 +7,7 @@ import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
 
@@ -14,6 +15,10 @@ import java.util.Set;
 @Data
 @NoArgsConstructor
 public class UserCredentials {
+
+    public enum Status {
+        ACTIVE, BLOCKED, TEMPORARY_BLOCKED
+    }
 
     @Id
     @GeneratedValue(generator = "generator")
@@ -35,5 +40,8 @@ public class UserCredentials {
     private List<UserRole> roles;
     @Column(columnDefinition="TEXT")
     private String token;
+    private Status status;
+    private Integer loginAttempt;
+    private LocalDateTime blockedAt;
 
 }

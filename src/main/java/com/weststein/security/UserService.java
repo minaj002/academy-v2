@@ -26,6 +26,10 @@ public class UserService {
     @Autowired
     private JwtTokenFactory tokenFactory;
 
+    public void update(UserCredentials userCredentials) {
+        userCredentialRepository.save(userCredentials);
+    }
+
     public String getCurrentUser() {
         return ((UserContext) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername();
     }
