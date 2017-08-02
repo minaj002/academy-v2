@@ -18,7 +18,7 @@ public class RequiredDocument {
         AnnualReturn(PDFFields.REQ_ANNUAL_RETURN ), ConfirmationOfShareholdingDetails(PDFFields.REQ_SHAREHOLDER_DETAIL),
         ConfirmationOfCompanyDirectors(PDFFields.REQ_DIRECTOR_DETAIL), BankAccountEvidence(PDFFields.REQ_BANK_ACCOUNT),
         ShareholderPhotoId, ShareholderAddressVerification,
-        DirectorPhotoId, DirectorAddressVerification;
+        DirectorPhotoId, DirectorAddressVerification, SignedLastPage;
 
         private String pdfMapping;
 

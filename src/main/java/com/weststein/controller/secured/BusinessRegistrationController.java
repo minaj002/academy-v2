@@ -119,15 +119,4 @@ public class BusinessRegistrationController {
         return resource;
     }
 
-    @GetMapping(value = "/api/apply/{businessId}/pdf", produces = "application/pdf")
-    @ApiOperation(value = "download pdf")
-    @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "")
-    })
-    public Resource getPdfOpen(@PathVariable Long businessId) {
-        ByteArrayOutputStream res = createRegistrationPDFHandler.handle(businessId);
-        ByteArrayResource resource = new ByteArrayResource(res.toByteArray());
-        return resource;
-    }
-
 }
