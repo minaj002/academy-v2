@@ -40,3 +40,5 @@ confirmation: ${confirmUrl}
 aws:
   access: AKIAILKMEW772YE2JE2A
   secret: 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
+
+temporary.block.minutes: 30
