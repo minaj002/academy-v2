@@ -26,9 +26,9 @@ public class EmailSender {
 
 
 
-    public void sendResetPasswordEmail(String email, String token, String language) {
+    public void sendResetPasswordEmail(String email,String token, String language) {
 
-        String emailText = String.format(emailTextSource.getBody("reset", language.toLowerCase()), url+token);
+        String emailText = String.format(emailTextSource.getBody("reset", language.toLowerCase()), email, url+token);
         sendEmail(email, emailText);
     }
 
