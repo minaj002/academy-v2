@@ -41,5 +41,6 @@ public class UserCredentials {
     private Status status;
     private Integer loginAttempt;
     private LocalDateTime blockedAt;
+    private String resetToken;
 
 }

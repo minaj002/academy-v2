@@ -24,6 +24,14 @@ public class EmailSender {
     @Autowired
     private EmailTextSource emailTextSource;
 
+
+
+    public void sendResetPasswordEmail(String email, String token, String language) {
+
+        String emailText = String.format(emailTextSource.getBody("reset", language.toLowerCase()), url+token);
+        sendEmail(email, emailText);
+    }
+
     public void sendVerifyEmail(String email, String token, String language) {
 
         String emailText = String.format(emailTextSource.getBody("confirm", language.toLowerCase()), url+token);
