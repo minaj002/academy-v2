@@ -1,7 +1,7 @@
 package com.weststein.controller.secured.model.business;
 
 import com.weststein.controller.unsecured.model.AddressModel;
-import com.weststein.repository.CompanyInformation;
+import com.weststein.repository.business.CompanyInformation;
 import com.weststein.repository.Title;
 import lombok.Data;
 

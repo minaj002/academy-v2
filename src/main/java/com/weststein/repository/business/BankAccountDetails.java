@@ -1,15 +1,17 @@
-package com.weststein.repository;
+package com.weststein.repository.business;
 
+import com.weststein.repository.Currency;
 import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Data
 @Entity
-public class BusinessProfile {
+public class BankAccountDetails {
 
     @Id
     @GeneratedValue(generator = "generator")
@@ -25,16 +27,13 @@ public class BusinessProfile {
     private Long id;
     private Long businessId;
     private LocalDateTime created;
-    private String url;
-    private String ipAddress;
-    private String industry;
-    private String descriptionOfBusiness;
-    @ElementCollection(fetch = FetchType.EAGER)
-    private List<String> countriesOfOperation;
-    private String detailsOfTargetMarket;
-    private boolean affiliatesSellProducts;
-    private String purposeOfRelationshipsWithAffiliates;
-
+    private Currency currency;
+    private String bic;
+    private String iban;
+    private String sortCode;
+    private String accountNumber;
+    private String routingNumber;
+    private String bankNameAndAddress;
+    private String accountHolderName;
 
 }
-

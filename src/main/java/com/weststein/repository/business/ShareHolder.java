@@ -1,16 +1,17 @@
-package com.weststein.repository;
+package com.weststein.repository.business;
 
+import com.weststein.repository.Address;
 import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Data
 @Entity
-public class BankAccountDetails {
+public class ShareHolder {
 
     @Id
     @GeneratedValue(generator = "generator")
@@ -25,14 +26,17 @@ public class BankAccountDetails {
     )
     private Long id;
     private Long businessId;
+    private String firstName;
+    private String lastName;
+    @Enumerated(EnumType.STRING)
+    private ShareHolderRole role;
+    private BigDecimal percentageOwned;
+    private LocalDate dateOfBirth;
+    @OneToOne(cascade = CascadeType.ALL)
+    private Address address;
+    private String phone;
+    private String email;
     private LocalDateTime created;
-    private Currency currency;
-    private String bic;
-    private String iban;
-    private String sortCode;
-    private String accountNumber;
-    private String routingNumber;
-    private String bankNameAndAddress;
-    private String accountHolderName;
+
 
 }

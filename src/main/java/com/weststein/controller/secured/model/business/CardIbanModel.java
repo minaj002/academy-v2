@@ -1,12 +1,10 @@
 package com.weststein.controller.secured.model.business;
 
-import com.weststein.repository.CardType;
-import com.weststein.repository.CardUse;
+import com.weststein.repository.business.CardType;
+import com.weststein.repository.business.CardUse;
 import com.weststein.repository.CardholderCategory;
 import com.weststein.repository.Currency;
 import lombok.Data;
-
-import java.util.List;
 
 @Data
 public class CardIbanModel {

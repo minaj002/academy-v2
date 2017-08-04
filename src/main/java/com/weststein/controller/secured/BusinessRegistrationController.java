@@ -2,7 +2,7 @@ package com.weststein.controller.secured;
 
 import com.weststein.controller.secured.model.business.*;
 import com.weststein.handler.business.*;
-import com.weststein.repository.RequiredDocument;
+import com.weststein.repository.business.RequiredDocument;
 import com.weststein.security.UserService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;

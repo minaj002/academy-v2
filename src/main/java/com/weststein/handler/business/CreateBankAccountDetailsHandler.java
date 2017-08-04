@@ -2,8 +2,8 @@ package com.weststein.handler.business;
 
 import com.weststein.controller.secured.model.business.BankAccountDetailsModel;
 import com.weststein.infrastructure.OrikoObjectMapper;
-import com.weststein.repository.BankAccountDetails;
-import com.weststein.repository.BankAccountDetailsRepository;
+import com.weststein.repository.business.BankAccountDetails;
+import com.weststein.repository.business.BankAccountDetailsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

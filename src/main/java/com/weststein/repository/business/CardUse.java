@@ -1,4 +1,4 @@
-package com.weststein.repository;
+package com.weststein.repository.business;
 
 public enum CardUse {
 

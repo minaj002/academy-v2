@@ -2,8 +2,8 @@ package com.weststein.handler.business;
 
 import com.weststein.controller.secured.model.business.CompanyStructureModel;
 import com.weststein.infrastructure.OrikoObjectMapper;
-import com.weststein.repository.ShareHolder;
-import com.weststein.repository.ShareHolderRepository;
+import com.weststein.repository.business.ShareHolder;
+import com.weststein.repository.business.ShareHolderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

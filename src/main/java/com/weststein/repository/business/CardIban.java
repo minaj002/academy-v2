@@ -1,11 +1,12 @@
-package com.weststein.repository;
+package com.weststein.repository.business;
 
+import com.weststein.repository.CardholderCategory;
+import com.weststein.repository.Currency;
 import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Data
 @Entity

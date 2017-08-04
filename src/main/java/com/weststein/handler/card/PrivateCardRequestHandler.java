@@ -14,7 +14,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -29,7 +28,7 @@ public class PrivateCardRequestHandler {
     @Autowired
     private OrikoObjectMapper objectMapper;
     @Autowired
-    private PPFService<CardIssue, AccountAPIv2CardIssue> ppfService1;
+    private PPFService<CardIssue, AccountAPIv2CardIssue> ppfService;
     @Autowired
     private UserService userService;
     private Transliterator transliterator = Transliterator.getInstance("Any-Latin;Latin-ASCII");
@@ -43,7 +42,7 @@ public class PrivateCardRequestHandler {
         String email = userService.getCurrentUser();
         UserInformation userInformation = userInformationRepository.findByEmail(email);
         CardIssue cardRequest = createCardRequest(userInformation);
-        AccountAPIv2CardIssue res2 = ppfService1.get(cardRequest, AccountAPIv2CardIssue.class);
+        AccountAPIv2CardIssue res2 = ppfService.get(cardRequest, AccountAPIv2CardIssue.class);
         UserCredentials credentials = userCredentialRepository.findUserCredentialsByEmail(email).orElseThrow(() -> new ValidationException("No such user"));
         CardholderId cardHolderId = cardholderIdRepository.save(CardholderId.builder().cardholderId(res2.getCardIssue().getCardHolderId()).build());
 

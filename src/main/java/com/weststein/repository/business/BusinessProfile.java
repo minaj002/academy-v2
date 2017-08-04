@@ -1,17 +1,15 @@
-package com.weststein.repository;
+package com.weststein.repository.business;
 
 import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import java.math.BigDecimal;
+import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 @Entity
-public class ProjectedLoadingFigures {
+public class BusinessProfile {
 
     @Id
     @GeneratedValue(generator = "generator")
@@ -26,9 +24,17 @@ public class ProjectedLoadingFigures {
     )
     private Long id;
     private Long businessId;
-    private Currency currency;
-    private BigDecimal monthly;
-    private BigDecimal quarterly;
-    private BigDecimal yearly;
     private LocalDateTime created;
+    private String url;
+    private String ipAddress;
+    private String industry;
+    private String descriptionOfBusiness;
+    @ElementCollection(fetch = FetchType.EAGER)
+    private List<String> countriesOfOperation;
+    private String detailsOfTargetMarket;
+    private boolean affiliatesSellProducts;
+    private String purposeOfRelationshipsWithAffiliates;
+
+
 }
+

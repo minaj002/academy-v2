@@ -1,16 +1,18 @@
-package com.weststein.repository;
+package com.weststein.repository.business;
 
+import com.weststein.repository.Currency;
 import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Data
 @Entity
-public class ShareHolder {
+public class ProjectedLoadingFigures {
 
     @Id
     @GeneratedValue(generator = "generator")
@@ -25,17 +27,9 @@ public class ShareHolder {
     )
     private Long id;
     private Long businessId;
-    private String firstName;
-    private String lastName;
-    @Enumerated(EnumType.STRING)
-    private ShareHolderRole role;
-    private BigDecimal percentageOwned;
-    private LocalDate dateOfBirth;
-    @OneToOne(cascade = CascadeType.ALL)
-    private Address address;
-    private String phone;
-    private String email;
+    private Currency currency;
+    private BigDecimal monthly;
+    private BigDecimal quarterly;
+    private BigDecimal yearly;
     private LocalDateTime created;
-
-
 }

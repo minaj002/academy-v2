@@ -1,10 +1,11 @@
 package com.weststein.handler.application;
 
-import com.weststein.controller.unsecured.model.ApplicationModel;
 import com.weststein.controller.unsecured.model.BusinessApplicationModel;
 import com.weststein.email.EmailSender;
 import com.weststein.infrastructure.OrikoObjectMapper;
 import com.weststein.repository.*;
+import com.weststein.repository.business.BusinessInformation;
+import com.weststein.repository.business.BusinessInformationRepository;
 import com.weststein.security.model.entity.Role;
 import com.weststein.validator.EmailValidator;
 import lombok.extern.slf4j.Slf4j;
@@ -45,7 +46,6 @@ public class BusinessApplicationHandler {
         application = userInformationRepository.save(application);
 
         BusinessInformation businessInformation = objectMapper.map(applicationModel, BusinessInformation.class);
-
         businessInformation = businessInformationRepository.save(businessInformation);
 
         String verification = UUID.randomUUID().toString();

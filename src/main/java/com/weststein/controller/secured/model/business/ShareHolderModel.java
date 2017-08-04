@@ -1,7 +1,7 @@
 package com.weststein.controller.secured.model.business;
 
 import com.weststein.controller.unsecured.model.AddressModel;
-import com.weststein.repository.ShareHolderRole;
+import com.weststein.repository.business.ShareHolderRole;
 import lombok.Data;
 
 import java.math.BigDecimal;

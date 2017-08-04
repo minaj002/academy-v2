@@ -1,7 +1,7 @@
 package com.weststein.handler.business;
 
-import com.weststein.repository.RequiredDocument;
-import com.weststein.repository.RequiredDocumentRepository;
+import com.weststein.repository.business.RequiredDocument;
+import com.weststein.repository.business.RequiredDocumentRepository;
 import com.weststein.storage.Storage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

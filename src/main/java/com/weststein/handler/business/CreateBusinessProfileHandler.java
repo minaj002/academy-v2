@@ -2,8 +2,8 @@ package com.weststein.handler.business;
 
 import com.weststein.controller.secured.model.business.BusinessProfileModel;
 import com.weststein.infrastructure.OrikoObjectMapper;
-import com.weststein.repository.BusinessProfile;
-import com.weststein.repository.BusinessProfileRepository;
+import com.weststein.repository.business.BusinessProfile;
+import com.weststein.repository.business.BusinessProfileRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

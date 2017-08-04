@@ -1,5 +1,7 @@
-package com.weststein.repository;
+package com.weststein.repository.business;
 
+import com.weststein.repository.Address;
+import com.weststein.repository.Language;
 import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
 

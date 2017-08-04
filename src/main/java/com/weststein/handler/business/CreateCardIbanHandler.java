@@ -2,8 +2,8 @@ package com.weststein.handler.business;
 
 import com.weststein.controller.secured.model.business.CardIbanModel;
 import com.weststein.infrastructure.OrikoObjectMapper;
-import com.weststein.repository.CardIban;
-import com.weststein.repository.CardIbanRepository;
+import com.weststein.repository.business.CardIban;
+import com.weststein.repository.business.CardIbanRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

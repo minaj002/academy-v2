@@ -1,6 +1,6 @@
 package com.weststein.pdf;
 
-import com.weststein.repository.*;
+import com.weststein.repository.business.*;
 
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;

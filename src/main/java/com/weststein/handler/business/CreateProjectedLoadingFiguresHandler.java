@@ -2,8 +2,8 @@ package com.weststein.handler.business;
 
 import com.weststein.controller.secured.model.business.ProjectedLoadingFiguresModel;
 import com.weststein.infrastructure.OrikoObjectMapper;
-import com.weststein.repository.ProjectedLoadingFigures;
-import com.weststein.repository.ProjectedLoadingFiguresRepository;
+import com.weststein.repository.business.ProjectedLoadingFigures;
+import com.weststein.repository.business.ProjectedLoadingFiguresRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
