@@ -22,9 +22,9 @@ public class UserService {
     @Autowired
     private UserCredentialRepository userCredentialRepository;
     @Autowired
-    private CardholderIdRepository cardholderIdRepository;
-    @Autowired
     private JwtTokenFactory tokenFactory;
+    @Autowired
+    private UserInformationRepository userInformationRepository;
 
     public void update(UserCredentials userCredentials) {
         userCredentialRepository.save(userCredentials);
@@ -37,6 +37,11 @@ public class UserService {
     public Optional<UserCredentials> getByUsername(String username) {
         UserCredentials credentials = userCredentialRepository.findUserCredentialsByEmail(username).get();
         return Optional.of(credentials);
+    }
+
+    public UserCredentials getCurrentUserCredentials() {
+        UserCredentials credentials = userCredentialRepository.findUserCredentialsByEmail(getCurrentUser()).get();
+        return credentials;
     }
 
     public String startSession() {
@@ -53,8 +58,8 @@ public class UserService {
 
         if (usersCardholdersIds.stream().noneMatch(userRole -> {
             if (Role.PRIVATE.equals(userRole.getRole())) {
-                CardholderId cardholder = cardholderIdRepository.findOne(userRole.getEntityId());
-                return cardholder.getCardholderId().equals(cardholderId);
+                UserInformation userInformation = userInformationRepository.findOne(userRole.getEntityId());
+                return userInformation.getCardholderIds().stream().anyMatch(cardHolder -> cardHolder.getCardholderId().equals(cardholderId));
 
             }
             return true;

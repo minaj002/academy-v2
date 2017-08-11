@@ -19,7 +19,7 @@ public class EmailValidator {
 
     public void validate(String email) {
 
-        Optional<UserCredentials> userCredential = userCredentialRepository.findUserCredentialsByEmail(email);
+        Optional<UserCredentials> userCredential = userCredentialRepository.findUserCredentialsByEmailAndStatusNot(email, UserCredentials.Status.DELETED);
         userCredential.ifPresent(userCredentials -> {
             List<ValidationError> errors = new ArrayList<>();
             errors.add(ValidationError.builder().field("email").message("this email is already registered").build());

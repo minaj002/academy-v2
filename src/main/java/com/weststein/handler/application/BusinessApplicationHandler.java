@@ -14,7 +14,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 
 @Slf4j
 @Component
@@ -43,7 +45,7 @@ public class BusinessApplicationHandler {
         UserInformation application = objectMapper.map(applicationModel, UserInformation.class);
         application.setAgreeOn(LocalDateTime.now());
         application.setPhoneVerified(false);
-        application = userInformationRepository.save(application);
+        userInformationRepository.save(application);
 
         BusinessInformation businessInformation = objectMapper.map(applicationModel, BusinessInformation.class);
         businessInformation = businessInformationRepository.save(businessInformation);
@@ -53,7 +55,7 @@ public class BusinessApplicationHandler {
         UserCredentials credentials = createUserCredentials(applicationModel, businessInformation, verification);
         userCredentialRepository.save(credentials);
 
-        emailSender.sendVerifyEmail(application.getEmail(), verification, application.getLanguage().name());
+        emailSender.sendVerifyEmail(applicationModel.getEmail(), verification, applicationModel.getLanguage().name());
     }
 
     private UserCredentials createUserCredentials(BusinessApplicationModel applicationModel, BusinessInformation businessInformation, String verification) {
@@ -61,7 +63,9 @@ public class BusinessApplicationHandler {
         UserRole role = UserRole.builder().role(Role.OWNER).entityId(businessInformation.getId()).roleType(UserRole.RoleType.BUSINESS).build();
         role = userRoleRepository.save(role);
         roles.add(role);
+        UserProfile profile = objectMapper.map(applicationModel, UserProfile.class);
         UserCredentials credentials = new UserCredentials();
+        credentials.setUserProfile(profile);
         credentials.setEmail(applicationModel.getEmail());
         credentials.setPassword(encoder.encode(applicationModel.getPassword()));
         credentials.setVerified(Boolean.FALSE);

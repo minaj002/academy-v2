@@ -40,21 +40,22 @@ public class PrivateCardRequestHandler {
     public UserInformation handle() {
 
         String email = userService.getCurrentUser();
-        UserInformation userInformation = userInformationRepository.findByEmail(email);
-        CardIssue cardRequest = createCardRequest(userInformation);
+        UserCredentials credentials = userService.getCurrentUserCredentials();
+        UserRole privateRole = credentials.getRoles().stream().filter(userRole -> Role.PRIVATE.equals(userRole.getRole())).findFirst().get();
+        UserInformation userInformation = userInformationRepository.findOne(privateRole.getEntityId());
+        CardIssue cardRequest = createCardRequest(userInformation, email);
         AccountAPIv2CardIssue res2 = ppfService.get(cardRequest, AccountAPIv2CardIssue.class);
-        UserCredentials credentials = userCredentialRepository.findUserCredentialsByEmail(email).orElseThrow(() -> new ValidationException("No such user"));
         CardholderId cardHolderId = cardholderIdRepository.save(CardholderId.builder().cardholderId(res2.getCardIssue().getCardHolderId()).build());
 
-        List<UserRole> roles = credentials.getRoles();
-        List<UserRole> rolesWithoutNew = roles.stream().filter(userRole -> Role.NEW.equals(userRole.getRole())).collect(Collectors.toList());
-        rolesWithoutNew.add(UserRole.builder().entityId(cardHolderId.getId()).roleType(UserRole.RoleType.PRIVATE).role(Role.PRIVATE).build());
+        userInformation.getCardholderIds().add(cardHolderId);
+        userInformationRepository.save(userInformation);
+
         userCredentialRepository.save(credentials);
-        emailSender.sendCardEmail(email, userInformation.getLanguage().name().toLowerCase());
+        emailSender.sendCardEmail(email, credentials.getUserProfile().getLanguage().name().toLowerCase());
         return userInformation;
     }
 
-    private CardIssue createCardRequest(UserInformation application) {
+    private CardIssue createCardRequest(UserInformation application, String email) {
         CardIssue cardRequest = objectMapper.map(application, CardIssue.class);
 
         cardRequest.setAddress1(toTransilte(application.getAddress().getLine1()));
@@ -67,6 +68,7 @@ public class PrivateCardRequestHandler {
         cardRequest.setUserDefinedField2("1");
         cardRequest.setCardStyle(cardStyle);
         cardRequest.setDistributorCode("723");
+        cardRequest.setEmail(email);
         return cardRequest;
     }
 

@@ -45,17 +45,19 @@ public class ApplicationHandler {
         UserCredentials credentials = createUserCredentials(applicationModel, application, verification);
         userCredentialRepository.save(credentials);
 
-        emailSender.sendVerifyEmail(application.getEmail(), verification, application.getLanguage().name());
+        emailSender.sendVerifyEmail(applicationModel.getEmail(), verification, applicationModel.getLanguage().name());
         return application;
     }
 
     private UserCredentials createUserCredentials(ApplicationModel applicationModel, UserInformation application, String verification) {
         List<UserRole> roles = new ArrayList<>();
-        UserRole role = UserRole.builder().role(Role.NEW).build();
+        UserRole role = UserRole.builder().role(Role.PRIVATE).roleType(UserRole.RoleType.PRIVATE).entityId(application.getId()).build();
         role = userRoleRepository.save(role);
         roles.add(role);
+        UserProfile profile = objectMapper.map(applicationModel, UserProfile.class);
         UserCredentials credentials = new UserCredentials();
-        credentials.setEmail(application.getEmail());
+        credentials.setUserProfile(profile);
+        credentials.setEmail(applicationModel.getEmail());
         credentials.setPassword(encoder.encode(applicationModel.getPassword()));
         credentials.setVerified(Boolean.FALSE);
         credentials.setVerification(verification);

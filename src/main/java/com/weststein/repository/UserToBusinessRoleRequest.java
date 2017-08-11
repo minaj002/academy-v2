@@ -1,20 +1,21 @@
 package com.weststein.repository;
 
+import com.weststein.repository.business.BusinessInformation;
+import com.weststein.security.model.entity.Role;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Entity
 @Data
 @NoArgsConstructor
-public class UserCredentials {
+public class UserToBusinessRoleRequest {
 
     public enum Status {
-        ACTIVE, BLOCKED, TEMPORARY_BLOCKED, REQUESTED, DELETED
+        REQUESTED, GRANTED, DECLINED
     }
 
     @Id
@@ -29,20 +30,15 @@ public class UserCredentials {
             }
     )
     private Long id;
-    private String email;
-    private String password;
-    private String verification;
-    private Boolean verified;
-    @ElementCollection(fetch = FetchType.EAGER)
-    private List<UserRole> roles;
-    @Column(columnDefinition = "TEXT")
-    private String token;
+    @OneToOne(cascade = CascadeType.ALL)
+    private UserCredentials user;
+    @OneToOne
+    private BusinessInformation business;
     @Enumerated(EnumType.STRING)
     private Status status;
-    private Integer loginAttempt;
-    private LocalDateTime blockedAt;
-    private String resetToken;
-    @OneToOne(cascade = CascadeType.ALL)
-    private UserProfile userProfile;
+    @OneToOne
+    private UserCredentials requester;
+    private LocalDateTime created;
+    private Role requestedRole;
 
 }

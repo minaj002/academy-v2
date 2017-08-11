@@ -25,16 +25,49 @@ public class EmailSender {
     private EmailTextSource emailTextSource;
 
 
+    public void sendResetPasswordEmail(String email, String token, String language) {
 
-    public void sendResetPasswordEmail(String email,String token, String language) {
-
-        String emailText = String.format(emailTextSource.getBody("reset", language.toLowerCase()), email, url+token);
+        String emailText = String.format(emailTextSource.getBody("reset", language.toLowerCase()), email, url + token);
         sendEmail(email, emailText);
     }
 
     public void sendVerifyEmail(String email, String token, String language) {
 
-        String emailText = String.format(emailTextSource.getBody("confirm", language.toLowerCase()), url+token);
+        String emailText = String.format(emailTextSource.getBody("confirm", language.toLowerCase()), url + token);
+        sendEmail(email, emailText);
+    }
+
+    public void sendAcceptedNewUserEmail(String email, String owner, String role, String companyName, String token, String password, String language) {
+
+        String emailText = String.format(emailTextSource.getBody("accept-new", language.toLowerCase()), owner, role, companyName, password, url + token);
+        sendEmail(email, emailText);
+    }
+
+    public void sendAcceptedNewUserOwnerEmail(String email, String user, String role, String companyName, String language) {
+
+        String emailText = String.format(emailTextSource.getBody("accept-new-owner", language.toLowerCase()), user, role, companyName, user);
+        sendEmail(email, emailText);
+    }
+
+    public void sendAcceptedExistingUserEmail(String email,  String owner, String role, String companyName, String language) {
+        String emailText = String.format(emailTextSource.getBody("accept-existing", language.toLowerCase()), owner, role, companyName, companyName);
+        sendEmail(email, emailText);
+    }
+
+    public void sendAcceptedExistingUserOwnerEmail(String email, String user, String role, String companyName, String language) {
+        String emailText = String.format(emailTextSource.getBody("accept-existing", language.toLowerCase()), user, role, companyName, user, companyName);
+        sendEmail(email, emailText);
+    }
+
+    public void sendDeclinedEmail(String email, String owner, String role, String companyName, String language) {
+
+        String emailText = String.format(emailTextSource.getBody("decline", language.toLowerCase()), owner, role, companyName);
+        sendEmail(email, emailText);
+    }
+
+    public void sendDeclinedOwnerEmail(String email, String user, String role, String companyName, String language) {
+
+        String emailText = String.format(emailTextSource.getBody("decline-owner", language.toLowerCase()), user, role, companyName);
         sendEmail(email, emailText);
     }
 
@@ -47,12 +80,12 @@ public class EmailSender {
     private void sendEmail(String email, String emailText) {
         String emailTemplate = emailTextSource.getTemplate();
         SentEmail sentEmail = SentEmail.builder()
-                    .email(email)
-                    .subject("Welcome to Weststein")
-                    .template(emailTemplate)
-                    .text(emailText)
-                    .sendingTime(LocalDateTime.now())
-                    .build();
+                .email(email)
+                .subject("Welcome to Weststein")
+                .template(emailTemplate)
+                .text(emailText)
+                .sendingTime(LocalDateTime.now())
+                .build();
         try {
             javaMailSender.send(sentEmail.toMailMessage(javaMailSender.createMimeMessage()));
             sentEmail.setSuccessfullySent(true);

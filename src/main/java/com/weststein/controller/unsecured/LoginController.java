@@ -3,6 +3,8 @@ package com.weststein.controller.unsecured;
 import com.weststein.handler.application.RequestResetPasswordHandler;
 import com.weststein.handler.application.ResetPasswordHandler;
 import com.weststein.handler.application.VerifyTokenHandler;
+import com.weststein.repository.UserProfile;
+import com.weststein.security.UserService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
@@ -21,13 +23,16 @@ public class LoginController {
     private RequestResetPasswordHandler requestResetPasswordHandler;
     @Autowired
     private ResetPasswordHandler resetPasswordHandler;
+    @Autowired
+    private UserService userService;
 
     @PostMapping("/api/auth/login")
     @ApiOperation(value = "allow user to login, receives authorization token")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "")
     })
-    public void login(@RequestParam String username, @RequestParam String password) {
+    public UserProfile login(@RequestParam String username, @RequestParam String password) {
+        return userService.getCurrentUserCredentials().getUserProfile();
     }
 
     @PostMapping("/api/auth/confirm/{token}")
@@ -56,5 +61,7 @@ public class LoginController {
     public void resetRequest(@RequestParam String username) {
         requestResetPasswordHandler.handle(username);
     }
+
+
 
 }

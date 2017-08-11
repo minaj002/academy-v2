@@ -1,6 +1,7 @@
 package com.weststein.repository.business;
 
 import com.weststein.repository.Address;
+import com.weststein.repository.CardholderId;
 import com.weststein.repository.Language;
 import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
@@ -8,6 +9,7 @@ import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 @Entity
@@ -33,7 +35,7 @@ public class BusinessInformation {
     private String registrationNumber;
     private Boolean agree;
     private LocalDateTime agreeOn;
-    @Enumerated(EnumType.STRING)
-    private Language language;
+    @ElementCollection(fetch = FetchType.LAZY)
+    private List<CardholderId> cardholderIds;
 
 }

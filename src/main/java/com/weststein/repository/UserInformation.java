@@ -6,6 +6,7 @@ import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 @Entity
@@ -27,11 +28,7 @@ public class UserInformation {
             }
     )
     private Long id;
-    private String firstName;
-    private String lastName;
-    private String email;
     private LocalDate dateOfBirth;
-    private String phone;
     private Boolean phoneVerified;
     private String phoneVerificationCode;
     @OneToOne(cascade= CascadeType.ALL)
@@ -40,7 +37,8 @@ public class UserInformation {
     private Gender gender;
     private Boolean agree;
     private LocalDateTime agreeOn;
-    @Enumerated(EnumType.STRING)
-    private Language language;
+    @ElementCollection(fetch = FetchType.EAGER)
+    private List<CardholderId> cardholderIds;
+
 
 }

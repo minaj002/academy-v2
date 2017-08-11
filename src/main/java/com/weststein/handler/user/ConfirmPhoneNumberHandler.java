@@ -2,9 +2,12 @@ package com.weststein.handler.user;
 
 import com.weststein.infrastructure.exceptions.ValidationError;
 import com.weststein.infrastructure.exceptions.ValidationException;
+import com.weststein.repository.UserCredentials;
 import com.weststein.repository.UserInformation;
 import com.weststein.repository.UserInformationRepository;
+import com.weststein.repository.UserRole;
 import com.weststein.security.UserService;
+import com.weststein.security.model.entity.Role;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +27,9 @@ public class ConfirmPhoneNumberHandler {
 
     public void handle(String code) {
 
-        UserInformation userInfo = userInformationRepository.findByEmail(userService.getCurrentUser());
+        UserCredentials credentials = userService.getCurrentUserCredentials();
+        UserRole privateRole = credentials.getRoles().stream().filter(userRole -> Role.PRIVATE.equals(userRole.getRole())).findFirst().get();
+        UserInformation userInfo = userInformationRepository.findOne(privateRole.getEntityId());
         String verificationCode = userInfo.getPhoneVerificationCode();
         if(StringUtils.isEmpty(verificationCode)) {
             List<ValidationError> errors = new ArrayList();

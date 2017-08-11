@@ -20,19 +20,16 @@ public class RequestResetPasswordHandler {
     private UserCredentialRepository userCredentialRepository;
     @Autowired
     private EmailSender emailSender;
-    @Autowired
-    private UserInformationRepository userInformationRepository;
 
     public void handle(String email) {
 
         Optional<UserCredentials> credentialsOptional = userCredentialRepository.findUserCredentialsByEmail(email);
         if (credentialsOptional.isPresent()) {
-            UserInformation userInformation = userInformationRepository.findByEmail(email);
             String resetToken = UUID.randomUUID().toString();
             UserCredentials credentials = credentialsOptional.get();
             credentials.setResetToken(resetToken);
             userCredentialRepository.save(credentials);
-            emailSender.sendResetPasswordEmail(email, resetToken, userInformation.getLanguage().name());
+            emailSender.sendResetPasswordEmail(email, resetToken, credentials.getUserProfile().getLanguage().name());
         } else {
             // no message if email is incorrect
             return;

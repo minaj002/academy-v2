@@ -1,6 +1,10 @@
 package com.weststein.controller.secured;
 
+import com.weststein.controller.secured.model.RequestedUsersModel;
+import com.weststein.controller.secured.model.UserProfileModel;
 import com.weststein.email.EmailTextSource;
+import com.weststein.handler.application.GetRequestedUsersHandler;
+import com.weststein.handler.application.RequestNewUserHandler;
 import com.weststein.handler.user.ConfirmPhoneNumberHandler;
 import com.weststein.handler.user.UserInformationHandler;
 import com.weststein.handler.user.ValidatePhoneNumberHandler;
@@ -24,8 +28,8 @@ public class UserController {
     private ConfirmPhoneNumberHandler confirmPhoneNumberHandler;
     @Autowired
     private EmailTextSource emailTextSource;
-
-
+    @Autowired
+    private RequestNewUserHandler requestNewUserHandler;
 
     @GetMapping("/api/user")
     @ApiOperation(value = "User Information")
@@ -61,6 +65,15 @@ public class UserController {
     })
     public String confirmEmail(String template, String language) {
         return emailTextSource.getBody(template, language);
+    }
+
+    @PostMapping("/api/user/request-new")
+    @ApiOperation(value = "request new user foe business account")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "")
+    })
+    public void requestNewUser(UserProfileModel userProfileModel) {
+        requestNewUserHandler.handle(userProfileModel);
     }
 
 }

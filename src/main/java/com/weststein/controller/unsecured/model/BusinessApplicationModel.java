@@ -25,7 +25,6 @@ public class BusinessApplicationModel {
     private LocalDate dateOfIncorporation;
     @NotEmpty
     private String registrationNumber;
-
     @NotEmpty
     private String firstName;
     @NotEmpty
