@@ -1,9 +1,7 @@
 package com.weststein.controller.secured;
 
-import com.weststein.controller.secured.model.RequestedUsersModel;
 import com.weststein.controller.secured.model.UserProfileModel;
 import com.weststein.email.EmailTextSource;
-import com.weststein.handler.application.GetRequestedUsersHandler;
 import com.weststein.handler.application.RequestNewUserHandler;
 import com.weststein.handler.user.ChangePasswordHandler;
 import com.weststein.handler.user.ConfirmPhoneNumberHandler;
