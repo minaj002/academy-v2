@@ -1,25 +1,20 @@
 package com.weststein.controller.secured;
 
-import com.weststein.controller.secured.model.RequestedUsersModel;
-import com.weststein.controller.secured.model.UserProfileModel;
-import com.weststein.email.EmailTextSource;
+import com.weststein.controller.ResponseWrapper;
+import com.weststein.controller.secured.model.RequestedUserModel;
 import com.weststein.handler.application.ConfirmRequestedUserHandler;
 import com.weststein.handler.application.DeclineRequestedUserHandler;
+import com.weststein.handler.application.DeleteUserHandler;
 import com.weststein.handler.application.GetRequestedUsersHandler;
-import com.weststein.handler.application.RequestNewUserHandler;
-import com.weststein.handler.user.ConfirmPhoneNumberHandler;
-import com.weststein.handler.user.UserInformationHandler;
-import com.weststein.handler.user.ValidatePhoneNumberHandler;
-import com.weststein.repository.UserInformation;
+import com.weststein.infrastructure.MessageBean;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 public class AdminController {
@@ -30,38 +25,54 @@ public class AdminController {
     private DeclineRequestedUserHandler declineRequestedUserHandler;
     @Autowired
     private ConfirmRequestedUserHandler confirmRequestedUserHandler;
+    @Autowired
+    private DeleteUserHandler deleteUserHandler;
+    @Autowired
+    private MessageBean messageBean;
 
     @GetMapping("/api/admin/user/requested")
     @ApiOperation(value = "get all requested users")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "")
     })
-    public RequestedUsersModel getRequestedUsers() {
-        return RequestedUsersModel.builder()
-                .requestedUserModels(getRequestedUsersHandler.handle())
+    public ResponseWrapper<List<RequestedUserModel>> getRequestedUsers() {
+        return ResponseWrapper.<List<RequestedUserModel>>builder()
+                .response(getRequestedUsersHandler.handle())
+                .messages(messageBean.getMessages())
                 .build();
+
     }
 
-    @PostMapping("/api/admin/user/requested/decline")
+    @DeleteMapping("/api/admin/user/{id}")
+    @ApiOperation(value = "delete user")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "")
+    })
+    public ResponseWrapper deleteUser(@PathVariable Long id) {
+        deleteUserHandler.handle(id);
+        return ResponseWrapper.builder().messages(messageBean.getMessages()).build();
+    }
+
+    @PostMapping("/api/admin/user/{id}/requested/decline")
     @ApiOperation(value = "get all requested users")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "")
     })
     @ResponseStatus(HttpStatus.OK)
-    public void declinePermission(Long id) {
+    public ResponseWrapper declinePermission(@PathVariable Long id) {
         declineRequestedUserHandler.handle(id);
+        return ResponseWrapper.builder().messages(messageBean.getMessages()).build();
     }
 
-    @PostMapping("/api/admin/user/requested/confirm")
+    @PostMapping("/api/admin/user/{id}/requested/confirm")
     @ApiOperation(value = "get all requested users")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "")
     })
     @ResponseStatus(HttpStatus.OK)
-    public void grantPermission(Long id) {
+    public ResponseWrapper grantPermission(@PathVariable Long id) {
         confirmRequestedUserHandler.handle(id);
+        return ResponseWrapper.builder().messages(messageBean.getMessages()).build();
     }
-
-
 
 }

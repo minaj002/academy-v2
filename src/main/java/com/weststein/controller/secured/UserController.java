@@ -5,6 +5,7 @@ import com.weststein.controller.secured.model.UserProfileModel;
 import com.weststein.email.EmailTextSource;
 import com.weststein.handler.application.GetRequestedUsersHandler;
 import com.weststein.handler.application.RequestNewUserHandler;
+import com.weststein.handler.user.ChangePasswordHandler;
 import com.weststein.handler.user.ConfirmPhoneNumberHandler;
 import com.weststein.handler.user.UserInformationHandler;
 import com.weststein.handler.user.ValidatePhoneNumberHandler;
@@ -30,6 +31,8 @@ public class UserController {
     private EmailTextSource emailTextSource;
     @Autowired
     private RequestNewUserHandler requestNewUserHandler;
+    @Autowired
+    private ChangePasswordHandler changePasswordHandler;
 
     @GetMapping("/api/user")
     @ApiOperation(value = "User Information")
@@ -68,12 +71,22 @@ public class UserController {
     }
 
     @PostMapping("/api/user/request-new")
-    @ApiOperation(value = "request new user foe business account")
+    @ApiOperation(value = "request new user for business account")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "")
     })
     public void requestNewUser(UserProfileModel userProfileModel) {
         requestNewUserHandler.handle(userProfileModel);
     }
+
+    @PostMapping("/api/user/change-password")
+    @ApiOperation(value = "change password")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "")
+    })
+    public void changePassword(String oldPassword, String newPassword) {
+        changePasswordHandler.handle(oldPassword, newPassword);
+    }
+
 
 }

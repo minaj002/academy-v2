@@ -30,7 +30,7 @@ public class UserToBusinessRoleRequest {
             }
     )
     private Long id;
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne
     private UserCredentials user;
     @OneToOne
     private BusinessInformation business;

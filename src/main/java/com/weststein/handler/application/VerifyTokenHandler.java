@@ -1,5 +1,6 @@
 package com.weststein.handler.application;
 
+import com.weststein.infrastructure.MessageBean;
 import com.weststein.infrastructure.exceptions.AccountVerificationException;
 import com.weststein.repository.UserCredentialRepository;
 import com.weststein.repository.UserCredentials;
@@ -13,6 +14,8 @@ public class VerifyTokenHandler {
 
     @Autowired
     private UserCredentialRepository userCredentialRepository;
+    @Autowired
+    private MessageBean messageBean;
 
     public void handle(String email, String token) {
 
@@ -24,6 +27,9 @@ public class VerifyTokenHandler {
             credentials.setVerified(true);
             credentials.setVerification(null);
             userCredentialRepository.save(credentials);
+            if(UserCredentials.Status.REQUESTED.equals(credentials.getStatus())) {
+                messageBean.add("Password reset required");
+            }
             return;
         }
 

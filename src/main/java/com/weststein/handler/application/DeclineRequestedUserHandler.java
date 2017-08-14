@@ -18,6 +18,8 @@ public class DeclineRequestedUserHandler {
     @Autowired
     private UserCredentialRepository userCredentialRepository;
     @Autowired
+    private UserRoleRepository userRoleRepository;
+    @Autowired
     private EmailSender emailSender;
 
     @Transactional
@@ -31,6 +33,7 @@ public class DeclineRequestedUserHandler {
         List<UserRole> roles = requestedUser.getRoles();
         UserRole roleToBeRemoved = roles.stream().filter(role -> UserRole.RoleType.BUSINESS.equals(role.getRoleType()) && businessId.equals(role.getEntityId())).findFirst().get();
         requestedUser.getRoles().remove(roleToBeRemoved);
+        userRoleRepository.delete(roleToBeRemoved);
         if(UserCredentials.Status.REQUESTED.equals(requestedUser.getStatus())&& requestedUser.getRoles().isEmpty()) {
             requestedUser.setStatus(UserCredentials.Status.DELETED);
         }

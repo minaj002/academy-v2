@@ -44,5 +44,5 @@ public class UserCredentials {
     private String resetToken;
     @OneToOne(cascade = CascadeType.ALL)
     private UserProfile userProfile;
-
 }
+

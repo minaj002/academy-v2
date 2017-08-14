@@ -34,12 +34,13 @@ public class ConfirmRequestedUserHandler {
 
         UserCredentials requestedUser = requestToAccept.getUser();
         if (UserCredentials.Status.REQUESTED.equals(requestedUser.getStatus())) {
-            requestedUser.setStatus(UserCredentials.Status.ACTIVE);
-            String tempPassword = new BigInteger(130, new SecureRandom()).toString(32);
+            String tempPassword = new BigInteger(50, new SecureRandom()).toString(32);
             requestedUser.setPassword(encoder.encode(tempPassword));
             String verification = UUID.randomUUID().toString();
             requestedUser.setVerification(verification);
             requestedUser.setVerified(false);
+            userCredentialRepository.save(requestedUser);
+
             emailSender.sendAcceptedNewUserEmail(requestedUser.getEmail(), requestToAccept.getRequester().getUserProfile().getFirstName() + " " + requestToAccept.getRequester().getUserProfile().getLastName(), requestToAccept.getRequestedRole().name(), requestToAccept.getBusiness().getEnterpriseName(), verification, tempPassword, requestedUser.getUserProfile().getLanguage().name());
             emailSender.sendAcceptedNewUserOwnerEmail(requestToAccept.getRequester().getEmail(), requestToAccept.getUser().getUserProfile().getFirstName() + " " + requestToAccept.getUser().getUserProfile().getLastName(), requestToAccept.getRequestedRole().name(), requestToAccept.getBusiness().getEnterpriseName(), requestedUser.getUserProfile().getLanguage().name());
         } else {
@@ -47,7 +48,6 @@ public class ConfirmRequestedUserHandler {
             emailSender.sendAcceptedExistingUserOwnerEmail(requestToAccept.getRequester().getEmail(), requestToAccept.getUser().getUserProfile().getFirstName() + " " + requestToAccept.getUser().getUserProfile().getLastName(), requestToAccept.getRequestedRole().name(), requestToAccept.getBusiness().getEnterpriseName(), requestedUser.getUserProfile().getLanguage().name());
 
         }
-        userCredentialRepository.save(requestedUser);
     }
 
 }

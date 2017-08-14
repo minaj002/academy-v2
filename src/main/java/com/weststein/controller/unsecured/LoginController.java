@@ -1,8 +1,10 @@
 package com.weststein.controller.unsecured;
 
+import com.weststein.controller.ResponseWrapper;
 import com.weststein.handler.application.RequestResetPasswordHandler;
 import com.weststein.handler.application.ResetPasswordHandler;
 import com.weststein.handler.application.VerifyTokenHandler;
+import com.weststein.infrastructure.MessageBean;
 import com.weststein.repository.UserProfile;
 import com.weststein.security.UserService;
 import io.swagger.annotations.ApiOperation;
@@ -25,14 +27,19 @@ public class LoginController {
     private ResetPasswordHandler resetPasswordHandler;
     @Autowired
     private UserService userService;
+    @Autowired
+    private MessageBean messageBean;
 
-    @PostMapping("/api/auth/login")
+
+        @PostMapping("/api/auth/login")
     @ApiOperation(value = "allow user to login, receives authorization token")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "")
     })
-    public UserProfile login(@RequestParam String username, @RequestParam String password) {
-        return userService.getCurrentUserCredentials().getUserProfile();
+    public ResponseWrapper<UserProfile> login(@RequestParam String username, @RequestParam String password) {
+        return ResponseWrapper.<UserProfile>builder()
+                .response(userService.getCurrentUserCredentials().getUserProfile())
+                .messages(messageBean.getMessages()).build();
     }
 
     @PostMapping("/api/auth/confirm/{token}")
@@ -40,8 +47,10 @@ public class LoginController {
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "")
     })
-    public void confirm(@RequestParam String username, @RequestParam String password, @PathVariable String token) {
-        verifyTokenHandler.handle(username, token);
+    public ResponseWrapper confirm(@RequestParam String username, @RequestParam String password, @PathVariable String token) {
+            verifyTokenHandler.handle(username, token);
+        return ResponseWrapper.builder()
+                .messages(messageBean.getMessages()).build();
     }
 
     @PostMapping("/api/reset/{token}")
@@ -49,8 +58,10 @@ public class LoginController {
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "")
     })
-    public void reset(@RequestParam String username, @RequestParam String password, @PathVariable String token) {
+    public ResponseWrapper reset(@RequestParam String username, @RequestParam String password, @PathVariable String token) {
         resetPasswordHandler.handle(username, password, token);
+        return ResponseWrapper.builder()
+                .messages(messageBean.getMessages()).build();
     }
 
     @PostMapping("/api/reset/request")
@@ -58,8 +69,10 @@ public class LoginController {
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "")
     })
-    public void resetRequest(@RequestParam String username) {
+    public ResponseWrapper resetRequest(@RequestParam String username) {
         requestResetPasswordHandler.handle(username);
+        return ResponseWrapper.builder()
+                .messages(messageBean.getMessages()).build();
     }
 
 
