@@ -8,6 +8,7 @@ import lombok.Getter;
 @Getter
 public class AuthorizedUser {
 
+    private Long userId;
     private Long roleId;
     private String firstName;
     private String lastName;

@@ -11,5 +11,6 @@ public interface UserCredentialRepository extends CrudRepository<UserCredentials
     Optional<UserCredentials> findUserCredentialsByEmailAndStatusNot(String email, UserCredentials.Status status);
     List<UserCredentials> findAllByStatus(UserCredentials.Status status);
     UserCredentials findUserCredentialsByRolesContains(UserRole role);
+    List<UserCredentials> findUserCredentialsByRolesIsNull();
 
 }

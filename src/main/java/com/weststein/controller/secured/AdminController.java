@@ -2,6 +2,8 @@ package com.weststein.controller.secured;
 
 import com.weststein.controller.ResponseWrapper;
 import com.weststein.controller.secured.model.RequestedUserModel;
+import com.weststein.controller.secured.model.business.AuthorizedUser;
+import com.weststein.handler.administartion.GetUsersWithoutRolesHandler;
 import com.weststein.handler.application.ConfirmRequestedUserHandler;
 import com.weststein.handler.application.DeclineRequestedUserHandler;
 import com.weststein.handler.application.DeleteUserHandler;
@@ -28,6 +30,8 @@ public class AdminController {
     @Autowired
     private DeleteUserHandler deleteUserHandler;
     @Autowired
+    private GetUsersWithoutRolesHandler getUsersWithoutRolesHandler;
+    @Autowired
     private MessageBean messageBean;
 
     @GetMapping("/api/admin/user/requested")
@@ -38,6 +42,19 @@ public class AdminController {
     public ResponseWrapper<List<RequestedUserModel>> getRequestedUsers() {
         return ResponseWrapper.<List<RequestedUserModel>>builder()
                 .response(getRequestedUsersHandler.handle())
+                .messages(messageBean.getMessages())
+                .build();
+
+    }
+
+    @GetMapping("/api/admin/user/without-roles")
+    @ApiOperation(value = "get users without roles")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "")
+    })
+    public ResponseWrapper<List<AuthorizedUser>> getUsersWithoutRoles() {
+        return ResponseWrapper.<List<AuthorizedUser>>builder()
+                .response(getUsersWithoutRolesHandler.handle())
                 .messages(messageBean.getMessages())
                 .build();
 
