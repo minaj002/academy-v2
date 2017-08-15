@@ -1,9 +1,11 @@
 package com.weststein.controller.secured;
 
+import com.weststein.controller.ResponseWrapper;
 import com.weststein.controller.secured.model.SepaTransferModel;
 import com.weststein.handler.transaction.CardToCardPaymentHandler;
 import com.weststein.handler.transaction.DepositVoucherHandler;
 import com.weststein.handler.transaction.SepaPaymentHandler;
+import com.weststein.infrastructure.MessageBean;
 import com.weststein.security.UserService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -25,6 +27,8 @@ public class TransactionController {
     private SepaPaymentHandler sepaPaymentHandler;
     @Autowired
     private CardToCardPaymentHandler cardToCardPaymentHandler;
+    @Autowired
+    private MessageBean messageBean;
 
     @PostMapping("/api/payment/deposit-voucher/{cardHolderId}")
     @ApiOperation(value = "depositVoucher")
@@ -32,10 +36,10 @@ public class TransactionController {
             @ApiResponse(code = 200, message = "")
     })
     @ResponseStatus(HttpStatus.OK)
-    public void depositVoucher(@PathVariable String cardHolderId, String voucher) {
+    public ResponseWrapper depositVoucher(@PathVariable String cardHolderId, String voucher) {
         userService.isAuthorizedForCardHolder(cardHolderId);
         depositVoucherHandler.handle(cardHolderId, voucher);
-
+        return ResponseWrapper.builder().messages(messageBean.getMessages()).build();
     }
 
     @PostMapping("/api/payment/sepa/{cardHolderId}")
@@ -44,9 +48,10 @@ public class TransactionController {
             @ApiResponse(code = 200, message = "")
     })
     @ResponseStatus(HttpStatus.OK)
-    public void sepaPayment(@PathVariable String cardHolderId, @RequestBody SepaTransferModel sepa) {
+    public ResponseWrapper sepaPayment(@PathVariable String cardHolderId, @RequestBody SepaTransferModel sepa) {
         userService.isAuthorizedForCardHolder(cardHolderId);
         sepaPaymentHandler.handle(cardHolderId, sepa);
+        return ResponseWrapper.builder().messages(messageBean.getMessages()).build();
     }
 
     @PostMapping("/api/payment/card-to-card/{cardHolderId}")
@@ -55,8 +60,9 @@ public class TransactionController {
             @ApiResponse(code = 200, message = "")
     })
     @ResponseStatus(HttpStatus.OK)
-    public void cardToCardPayment(@PathVariable String cardHolderId, BigDecimal amount, String cardNumberTo) {
+    public ResponseWrapper cardToCardPayment(@PathVariable String cardHolderId, BigDecimal amount, String cardNumberTo) {
         userService.isAuthorizedForCardHolder(cardHolderId);
         cardToCardPaymentHandler.handle(cardHolderId, cardNumberTo, amount);
+        return ResponseWrapper.builder().messages(messageBean.getMessages()).build();
     }
 }

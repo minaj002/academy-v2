@@ -1,7 +1,9 @@
 package com.weststein.controller.secured;
 
+import com.weststein.controller.ResponseWrapper;
 import com.weststein.controller.secured.model.ViewStatementModel;
 import com.weststein.handler.viewstatement.ViewStatementHandler;
+import com.weststein.infrastructure.MessageBean;
 import com.weststein.security.UserService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -22,15 +24,20 @@ public class ViewStatementController {
     private UserService userService;
     @Autowired
     private ViewStatementHandler viewStatementHandler;
+    @Autowired
+    private MessageBean messageBean;
 
     @GetMapping("/api/view-statement/{cardHolderId}")
     @ApiOperation(value = "allows user to view his statement")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "")
     })
-    public ViewStatementModel view(@PathVariable String cardHolderId, @DateTimeFormat(pattern = "dd-MM-yyyy") @RequestParam LocalDate start, @DateTimeFormat(pattern = "dd-MM-yyyy") @RequestParam LocalDate end) {
+    public ResponseWrapper<ViewStatementModel> view(@PathVariable String cardHolderId, @DateTimeFormat(pattern = "dd-MM-yyyy") @RequestParam LocalDate start, @DateTimeFormat(pattern = "dd-MM-yyyy") @RequestParam LocalDate end) {
         userService.isAuthorizedForCardHolder(cardHolderId);
-        return viewStatementHandler.handle(cardHolderId, start, end);
+        return ResponseWrapper.<ViewStatementModel>builder()
+                .response(viewStatementHandler.handle(cardHolderId, start, end))
+                .messages(messageBean.getMessages())
+                .build();
     }
 
 }

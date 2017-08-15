@@ -1,10 +1,12 @@
 package com.weststein.controller.secured;
 
+import com.weststein.controller.ResponseWrapper;
 import com.weststein.controller.secured.model.CardHolderModel;
 import com.weststein.controller.secured.model.CardInfoModel;
-import com.weststein.controller.secured.model.UserRolesModel;
 import com.weststein.handler.card.*;
+import com.weststein.infrastructure.MessageBean;
 import com.weststein.repository.UserInformation;
+import com.weststein.repository.UserRole;
 import com.weststein.security.UserService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -12,6 +14,8 @@ import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 public class CardController {
@@ -28,14 +32,19 @@ public class CardController {
     private GetCardHolderIdsHandler getCardHolderIdsHandler;
     @Autowired
     private PrivateCardRequestHandler cardRequestHandler;
+    @Autowired
+    private MessageBean messageBean;
 
     @GetMapping("/api/card-request")
     @ApiOperation(value = "Request Card")
     @ApiResponses(value = {
             @ApiResponse(code = 201, message = "")
     })
-    public UserInformation requestCard() {
-        return cardRequestHandler.handle();
+    public ResponseWrapper<UserInformation> requestCard() {
+        return ResponseWrapper.<UserInformation>builder()
+                .response(cardRequestHandler.handle())
+                .messages(messageBean.getMessages())
+                .build();
     }
 
     @GetMapping("/api/card-holder")
@@ -43,8 +52,11 @@ public class CardController {
     @ApiResponses(value = {
             @ApiResponse(code = 201, message = "")
     })
-    public UserRolesModel getCardholderIds() {
-        return UserRolesModel.builder().userRoles(getCardHolderIdsHandler.handle()).build();
+    public ResponseWrapper<List<UserRole>> getCardholderIds() {
+        return ResponseWrapper.<List<UserRole>>builder()
+                .response(getCardHolderIdsHandler.handle())
+                .messages(messageBean.getMessages())
+                .build();
     }
 
     @GetMapping("/api/card-info/{cardHolderId}")
@@ -52,9 +64,12 @@ public class CardController {
     @ApiResponses(value = {
             @ApiResponse(code = 201, message = "")
     })
-    public CardInfoModel getCardInfo(@PathVariable String cardHolderId) {
+    public ResponseWrapper<CardInfoModel> getCardInfo(@PathVariable String cardHolderId) {
         userService.isAuthorizedForCardHolder(cardHolderId);
-        return getCardInfoHandler.handle(cardHolderId);
+        return ResponseWrapper.<CardInfoModel>builder()
+                .response(getCardInfoHandler.handle(cardHolderId))
+                .messages(messageBean.getMessages())
+                .build();
     }
 
     @PutMapping("/api/card-info/{cardHolderId}")
@@ -63,10 +78,10 @@ public class CardController {
             @ApiResponse(code = 202, message = "")
     })
     @ResponseStatus(HttpStatus.ACCEPTED)
-    public void updateCardInfo(@PathVariable String cardHolderId, @RequestBody CardHolderModel cardHolder) {
+    public ResponseWrapper updateCardInfo(@PathVariable String cardHolderId, @RequestBody CardHolderModel cardHolder) {
         userService.isAuthorizedForCardHolder(cardHolderId);
         updateCardHolderHandler.handle(cardHolderId, cardHolder);
-
+        return ResponseWrapper.builder().messages(messageBean.getMessages()).build();
     }
 
     @PostMapping("/api/card-info/pin-reminder/{cardHolderId}")
@@ -75,7 +90,8 @@ public class CardController {
             @ApiResponse(code = 201, message = "")
     })
     @ResponseStatus(HttpStatus.ACCEPTED)
-    public void pinReminder(@PathVariable String cardHolderId) {
+    public ResponseWrapper pinReminder(@PathVariable String cardHolderId) {
         pinReminderHandler.handle(cardHolderId);
+        return ResponseWrapper.builder().messages(messageBean.getMessages()).build();
     }
 }

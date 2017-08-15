@@ -1,5 +1,6 @@
 package com.weststein.infrastructure.exceptions;
 
+import com.weststein.controller.ResponseWrapper;
 import com.weststein.security.exceptions.SessionTerminatedException;
 import org.springframework.http.HttpStatus;
 import org.springframework.mail.MailException;
@@ -18,35 +19,35 @@ public class CustomExceptionHandler {
     @ExceptionHandler(ValidationException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ResponseBody
-    public ValidationErrors handle(ValidationException ex) {
-        return ValidationErrors.builder().errors(ex.getErrors()).build();
+    public ResponseWrapper handle(ValidationException ex) {
+        return ResponseWrapper.builder().errors(ex.getErrors()).build();
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ResponseBody
-    public ValidationErrors handleMethodArgumentNotValidException(MethodArgumentNotValidException ex) {
+    public ResponseWrapper handleMethodArgumentNotValidException(MethodArgumentNotValidException ex) {
         List<ValidationError> errors = new ArrayList<>();
         errors.add(ValidationError.builder().field(ex.getBindingResult().getFieldError().getField()).message(ex.getBindingResult().getFieldError().getDefaultMessage()).build());
-        return ValidationErrors.builder().errors(errors).build();
+        return ResponseWrapper.builder().errors(errors).build();
     }
 
     @ExceptionHandler(MailException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ResponseBody
-    public ValidationErrors handleMailException(MailException ex) {
+    public ResponseWrapper handleMailException(MailException ex) {
         List<ValidationError> errors = new ArrayList<>();
         errors.add(ValidationError.builder().field("email").message(ex.getLocalizedMessage()).build());
-        return ValidationErrors.builder().errors(errors).build();
+        return ResponseWrapper.builder().errors(errors).build();
     }
 
     @ExceptionHandler(SessionTerminatedException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ResponseBody
-    public ValidationErrors handleMailException(SessionTerminatedException ex) {
+    public ResponseWrapper handleMailException(SessionTerminatedException ex) {
         List<ValidationError> errors = new ArrayList<>();
         errors.add(ValidationError.builder().field("session").message(ex.getLocalizedMessage()).build());
-        return ValidationErrors.builder().errors(errors).build();
+        return ResponseWrapper.builder().errors(errors).build();
     }
 
 }

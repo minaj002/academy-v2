@@ -1,5 +1,6 @@
 package com.weststein.controller.secured;
 
+import com.weststein.controller.ResponseWrapper;
 import com.weststein.controller.secured.model.UserProfileModel;
 import com.weststein.email.EmailTextSource;
 import com.weststein.handler.application.RequestNewUserHandler;
@@ -7,6 +8,7 @@ import com.weststein.handler.user.ChangePasswordHandler;
 import com.weststein.handler.user.ConfirmPhoneNumberHandler;
 import com.weststein.handler.user.UserInformationHandler;
 import com.weststein.handler.user.ValidatePhoneNumberHandler;
+import com.weststein.infrastructure.MessageBean;
 import com.weststein.repository.UserInformation;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -26,19 +28,19 @@ public class UserController {
     @Autowired
     private ConfirmPhoneNumberHandler confirmPhoneNumberHandler;
     @Autowired
-    private EmailTextSource emailTextSource;
-    @Autowired
     private RequestNewUserHandler requestNewUserHandler;
     @Autowired
     private ChangePasswordHandler changePasswordHandler;
+    @Autowired
+    private MessageBean messageBean;
 
     @GetMapping("/api/user")
     @ApiOperation(value = "User Information")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "")
     })
-    public UserInformation getUserInfo() {
-        return userInformationHandler.handle();
+    public ResponseWrapper<UserInformation> getUserInfo() {
+        return ResponseWrapper.<UserInformation>builder().response(userInformationHandler.handle()).messages(messageBean.getMessages()).build();
     }
 
     @GetMapping("/api/user/phone/validate")
@@ -46,8 +48,9 @@ public class UserController {
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "")
     })
-    public void validatePhoneNumber() {
+    public ResponseWrapper validatePhoneNumber() {
         validatePhoneNumberHandler.handle();
+        return ResponseWrapper.builder().messages(messageBean.getMessages()).build();
     }
 
     @PostMapping("/api/user/phone/confirm-validation")
@@ -55,17 +58,9 @@ public class UserController {
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "")
     })
-    public void confirmPhoneNumber(String code) {
+    public ResponseWrapper confirmPhoneNumber(String code) {
         confirmPhoneNumberHandler.handle(code);
-    }
-
-    @PostMapping("/api/user/phone/confirm-email")
-    @ApiOperation(value = "Confirm phone number validation")
-    @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "")
-    })
-    public String confirmEmail(String template, String language) {
-        return emailTextSource.getBody(template, language);
+        return ResponseWrapper.builder().messages(messageBean.getMessages()).build();
     }
 
     @PostMapping("/api/user/request-new")
@@ -73,8 +68,9 @@ public class UserController {
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "")
     })
-    public void requestNewUser(UserProfileModel userProfileModel) {
+    public ResponseWrapper requestNewUser(UserProfileModel userProfileModel) {
         requestNewUserHandler.handle(userProfileModel);
+        return ResponseWrapper.builder().messages(messageBean.getMessages()).build();
     }
 
     @PostMapping("/api/user/change-password")
@@ -82,8 +78,9 @@ public class UserController {
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "")
     })
-    public void changePassword(String oldPassword, String newPassword) {
+    public ResponseWrapper changePassword(String oldPassword, String newPassword) {
         changePasswordHandler.handle(oldPassword, newPassword);
+        return ResponseWrapper.builder().messages(messageBean.getMessages()).build();
     }
 
 

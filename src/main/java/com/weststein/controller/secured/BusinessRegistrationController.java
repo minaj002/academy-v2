@@ -1,7 +1,9 @@
 package com.weststein.controller.secured;
 
+import com.weststein.controller.ResponseWrapper;
 import com.weststein.controller.secured.model.business.*;
 import com.weststein.handler.business.*;
+import com.weststein.infrastructure.MessageBean;
 import com.weststein.repository.business.RequiredDocument;
 import com.weststein.security.UserService;
 import io.swagger.annotations.ApiOperation;
@@ -36,15 +38,20 @@ public class BusinessRegistrationController {
     private RequiredDocumentsUploadHandler requiredDocumentsUploadHandler;
     @Autowired
     private CreateRegistrationPDFHandler createRegistrationPDFHandler;
+    @Autowired
+    private MessageBean messageBean;
 
     @PostMapping("/api/business/{businessId}/application/company-info")
     @ApiOperation(value = "Create company info")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "")
     })
-    public void companyInfo(@PathVariable Long businessId, @RequestBody CompanyInformationModel companyInfo) {
+    public ResponseWrapper companyInfo(@PathVariable Long businessId, @RequestBody CompanyInformationModel companyInfo) {
         userService.isAuthorizedForBusiness(businessId);
         createCompanyInfoHandler.handle(businessId, companyInfo);
+        return ResponseWrapper.builder()
+                .messages(messageBean.getMessages())
+                .build();
     }
 
     @PostMapping("/api/business/{businessId}/application/company-structure")
@@ -52,9 +59,12 @@ public class BusinessRegistrationController {
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "")
     })
-    public void companyStructure(@PathVariable Long businessId, @RequestBody CompanyStructureModel companyStructure) {
+    public ResponseWrapper companyStructure(@PathVariable Long businessId, @RequestBody CompanyStructureModel companyStructure) {
         userService.isAuthorizedForBusiness(businessId);
         createCompanyStructureHandler.handle(businessId, companyStructure);
+        return ResponseWrapper.builder()
+                .messages(messageBean.getMessages())
+                .build();
     }
 
     @PostMapping("/api/business/{businessId}/application/business-profile")
@@ -62,9 +72,12 @@ public class BusinessRegistrationController {
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "")
     })
-    public void businessProfile(@PathVariable Long businessId, @RequestBody BusinessProfileModel businessProfileModel) {
+    public ResponseWrapper businessProfile(@PathVariable Long businessId, @RequestBody BusinessProfileModel businessProfileModel) {
         userService.isAuthorizedForBusiness(businessId);
         createBusinessProfileHandler.handle(businessId, businessProfileModel);
+        return ResponseWrapper.builder()
+                .messages(messageBean.getMessages())
+                .build();
     }
 
     @PostMapping("/api/business/{businessId}/application/card-iban")
@@ -72,9 +85,12 @@ public class BusinessRegistrationController {
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "")
     })
-    public void cardIban(@PathVariable Long businessId, @RequestBody CardIbanModel cardIbanModel) {
+    public ResponseWrapper cardIban(@PathVariable Long businessId, @RequestBody CardIbanModel cardIbanModel) {
         userService.isAuthorizedForBusiness(businessId);
         createCardIbanHandler.handle(businessId, cardIbanModel);
+        return ResponseWrapper.builder()
+                .messages(messageBean.getMessages())
+                .build();
     }
 
     @PostMapping("/api/business/{businessId}/application/bank-account-details")
@@ -82,9 +98,12 @@ public class BusinessRegistrationController {
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "")
     })
-    public void bankAccountDetails(@PathVariable Long businessId, @RequestBody BankAccountDetailsModel bankAccountDetailsModel) {
+    public ResponseWrapper bankAccountDetails(@PathVariable Long businessId, @RequestBody BankAccountDetailsModel bankAccountDetailsModel) {
         userService.isAuthorizedForBusiness(businessId);
         createBankAccountDetailsHandler.handle(businessId, bankAccountDetailsModel);
+        return ResponseWrapper.builder()
+                .messages(messageBean.getMessages())
+                .build();
     }
 
     @PostMapping("/api/business/{businessId}/application/projected-loading-figures")
@@ -92,9 +111,12 @@ public class BusinessRegistrationController {
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "")
     })
-    public void projectedLoadingFigures(@PathVariable Long businessId, @RequestBody ProjectedLoadingFiguresModel projectedLoadingFiguresModel) {
+    public ResponseWrapper projectedLoadingFigures(@PathVariable Long businessId, @RequestBody ProjectedLoadingFiguresModel projectedLoadingFiguresModel) {
         userService.isAuthorizedForBusiness(businessId);
         createProjectedLoadingFiguresHandler.handle(businessId, projectedLoadingFiguresModel);
+        return ResponseWrapper.builder()
+                .messages(messageBean.getMessages())
+                .build();
     }
 
     @PostMapping("/api/business/{businessId}/application/required-documents")
@@ -102,10 +124,13 @@ public class BusinessRegistrationController {
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "")
     })
-    public void requiredDocumentsUpload(@PathVariable Long businessId, @RequestParam("file") MultipartFile file, @RequestParam("type") RequiredDocument.Type type
+    public ResponseWrapper requiredDocumentsUpload(@PathVariable Long businessId, @RequestParam("file") MultipartFile file, @RequestParam("type") RequiredDocument.Type type
     ) {
         userService.isAuthorizedForBusiness(businessId);
         requiredDocumentsUploadHandler.handle(businessId, file, type);
+        return ResponseWrapper.builder()
+                .messages(messageBean.getMessages())
+                .build();
     }
 
     @GetMapping(value = "/api/business/{businessId}/pdf", produces = "application/pdf")
