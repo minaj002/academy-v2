@@ -4,7 +4,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import com.weststein.integration.request.ViewStatement;
 import com.weststein.integration.response.*;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.File;
@@ -15,7 +14,6 @@ import java.util.*;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-@Ignore
 public class PPFServiceTest {
 
 
@@ -31,8 +29,8 @@ public class PPFServiceTest {
         try {
             String res = mapper.writeValueAsString(object);
             assertEquals("<ViewStatement><Cardholderid>400000557017</Cardholderid>" +
-                "<StartDate>2016-01-01</StartDate><EndDate>2016-12-03</EndDate>" +
-                "<ViewStyle>Y</ViewStyle></ViewStatement>", res);
+                    "<StartDate>2016-01-01</StartDate><EndDate>2016-12-03</EndDate>" +
+                    "<ViewStyle>Y</ViewStyle></ViewStatement>", res);
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
@@ -70,13 +68,13 @@ public class PPFServiceTest {
         File file = new File("src/test/resources/statement.xml");
         AccountAPIv2ViewStatement statement = mapper.readValue(file, AccountAPIv2ViewStatement.class);
 
-        assertTrue(statement.getViewStatement().getCardholderstatementdetails().getCardpan().getCardAccount().size()>1);
+        assertTrue(statement.getViewStatement().getCardholderstatementdetails().getCardpan().getCardAccount().size() > 1);
 
         Map<String, Set<String>> codeDescriptionMap = new HashMap<>();
 
         statement.getViewStatement().getCardholderstatementdetails().getCardpan().getCardAccount().forEach(cardAccount -> {
             cardAccount.getTransaction().forEach(transaction -> {
-                if(codeDescriptionMap.containsKey(transaction.getTransactionType())) {
+                if (codeDescriptionMap.containsKey(transaction.getTransactionType())) {
                     codeDescriptionMap.get(transaction.getTransactionType()).add(transaction.getDescription());
                 } else {
                     Set<String> descriptionSet = new HashSet<>();
@@ -85,8 +83,8 @@ public class PPFServiceTest {
                 }
             });
         });
-        codeDescriptionMap.forEach((type, set)-> {
-            System.out.println(type+ " " + set);
+        codeDescriptionMap.forEach((type, set) -> {
+            System.out.println(type + " " + set);
         });
     }
 
