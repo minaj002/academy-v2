@@ -45,7 +45,7 @@ public class ApplyController {
         CardholderId cardholderId = CardholderId.builder().cardholderId("400000626035").build();
         cardholderId = cardholderIdRepository.save(cardholderId);
 
-        UserCredentials cred = userCredentialRepository.findUserCredentialsByEmail("jevgenijs.minajevs@weststeincard.com").get();
+        UserCredentials cred = userCredentialRepository.findUserCredentialsByEmailAndStatusNot("jevgenijs.minajevs@weststeincard.com", UserCredentials.Status.DELETED).get();
         UserRole userRole = new UserRole();
         Role role = Role.PRIVATE;
         userRole.setRole(role);

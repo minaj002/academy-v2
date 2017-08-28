@@ -1,6 +1,7 @@
 package com.weststein.security;
 
 
+import com.weststein.infrastructure.MessageBean;
 import com.weststein.infrastructure.exceptions.ValidationError;
 import com.weststein.infrastructure.exceptions.ValidationException;
 import com.weststein.repository.*;
@@ -19,12 +20,15 @@ import java.util.Optional;
 @Component
 public class UserService {
 
+    public static final String RESET_YOUR_PASSWORD = "Please reset your password";
     @Autowired
     private UserCredentialRepository userCredentialRepository;
     @Autowired
     private JwtTokenFactory tokenFactory;
     @Autowired
     private UserInformationRepository userInformationRepository;
+    @Autowired
+    private MessageBean messageBean;
 
     public void update(UserCredentials userCredentials) {
         userCredentialRepository.save(userCredentials);
@@ -35,21 +39,24 @@ public class UserService {
     }
 
     public Optional<UserCredentials> getByUsername(String username) {
-        UserCredentials credentials = userCredentialRepository.findUserCredentialsByEmail(username).get();
+        UserCredentials credentials = userCredentialRepository.findUserCredentialsByEmailAndStatusNot(username, UserCredentials.Status.DELETED).get();
         return Optional.of(credentials);
     }
 
     public UserCredentials getCurrentUserCredentials() {
-        UserCredentials credentials = userCredentialRepository.findUserCredentialsByEmail(getCurrentUser()).get();
+        UserCredentials credentials = userCredentialRepository.findUserCredentialsByEmailAndStatusNot(getCurrentUser(), UserCredentials.Status.DELETED).get();
         return credentials;
     }
 
     public String startSession() {
         UserContext context = (UserContext) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         JwtToken accessToken = tokenFactory.createAccessJwtToken(context);
-        UserCredentials credentials = userCredentialRepository.findUserCredentialsByEmail(context.getUsername()).get();
+        UserCredentials credentials = userCredentialRepository.findUserCredentialsByEmailAndStatusNot(context.getUsername(), UserCredentials.Status.DELETED).get();
         credentials.setToken(accessToken.getToken());
         userCredentialRepository.save(credentials);
+        if(credentials.getStatus().equals(UserCredentials.Status.REQUESTED) && credentials.getVerified()) {
+            messageBean.add(RESET_YOUR_PASSWORD);
+        }
         return accessToken.getToken();
     }
 

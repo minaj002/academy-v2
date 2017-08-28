@@ -28,7 +28,7 @@ public class DeleteRoleHandler {
             errors.add(ValidationError.builder().field("roleId").message("role does not belong o this business").build());
             throw new ValidationException(errors, "User is not authorized to remove this role");
         }
-        UserCredentials authorizedUser = userCredentialRepository.findUserCredentialsByRolesContains(role);
+        UserCredentials authorizedUser = userCredentialRepository.findUserCredentialsByRolesContainsAndStatusNot(role, UserCredentials.Status.DELETED).get();
         authorizedUser.getRoles().remove(role);
         userCredentialRepository.save(authorizedUser);
         userRoleRepository.delete(role);

@@ -1,5 +1,6 @@
 package com.weststein.handler.user;
 
+import com.weststein.infrastructure.MessageBean;
 import com.weststein.infrastructure.exceptions.ValidationError;
 import com.weststein.infrastructure.exceptions.ValidationException;
 import com.weststein.repository.UserCredentialRepository;
@@ -13,6 +14,8 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.weststein.security.UserService.RESET_YOUR_PASSWORD;
+
 @Slf4j
 @Component
 public class ChangePasswordHandler {
@@ -22,6 +25,8 @@ public class ChangePasswordHandler {
     private UserService userService;
     @Autowired
     private PasswordEncoder passwordEncoder;
+    @Autowired
+    private MessageBean messageBean;
 
     public void handle(String oldPassword, String newPassword) {
 
@@ -32,6 +37,9 @@ public class ChangePasswordHandler {
             errors.add(ValidationError.builder().field("oldPassword").message("existing password does not match").build());
             throw new ValidationException(errors, "You must provide existing password to change it.");
         }
+
+        messageBean.getMessages().remove(RESET_YOUR_PASSWORD);
+
         credentials.setPassword(passwordEncoder.encode(newPassword));
         credentials.setStatus(UserCredentials.Status.ACTIVE);
         userCredentialRepository.save(credentials);

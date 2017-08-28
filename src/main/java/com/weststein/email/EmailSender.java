@@ -79,13 +79,12 @@ public class EmailSender {
 
     private void sendEmail(String email, String emailText) {
         String emailTemplate = emailTextSource.getTemplate();
-        SentEmail sentEmail = SentEmail.builder()
-                .email(email)
-                .subject("Welcome to Weststein")
-                .template(emailTemplate)
-                .text(emailText)
-                .sendingTime(LocalDateTime.now())
-                .build();
+        SentEmail sentEmail = new SentEmail();
+        sentEmail.setEmail(email);
+        sentEmail.setSubject("Welcome to Weststein");
+        sentEmail.setTemplate(emailTemplate);
+        sentEmail.setText(emailText);
+        sentEmail.setSendingTime(LocalDateTime.now());
         try {
             javaMailSender.send(sentEmail.toMailMessage(javaMailSender.createMimeMessage()));
             sentEmail.setSuccessfullySent(true);

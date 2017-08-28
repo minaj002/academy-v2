@@ -19,7 +19,7 @@ public class VerifyTokenHandler {
 
     public void handle(String email, String token) {
 
-        UserCredentials credentials = userCredentialRepository.findUserCredentialsByEmail(email).get();
+        UserCredentials credentials = userCredentialRepository.findUserCredentialsByEmailAndStatusNot(email, UserCredentials.Status.DELETED).get();
         if(credentials.getVerified()) {
             throw new AccountVerificationException("Account is already verified, please login using your email and password.");
         }

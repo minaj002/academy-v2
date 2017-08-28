@@ -31,7 +31,7 @@ public class LoginController {
     private MessageBean messageBean;
 
 
-        @PostMapping("/api/auth/login")
+    @PostMapping("/api/auth/login")
     @ApiOperation(value = "allow user to login, receives authorization token")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "")
@@ -48,7 +48,7 @@ public class LoginController {
             @ApiResponse(code = 200, message = "")
     })
     public ResponseWrapper confirm(@RequestParam String username, @RequestParam String password, @PathVariable String token) {
-            verifyTokenHandler.handle(username, token);
+        verifyTokenHandler.handle(username, token);
         return ResponseWrapper.builder()
                 .messages(messageBean.getMessages()).build();
     }
@@ -74,7 +74,6 @@ public class LoginController {
         return ResponseWrapper.builder()
                 .messages(messageBean.getMessages()).build();
     }
-
 
 
 }

@@ -29,8 +29,6 @@ public class CardController {
     @Autowired
     private PinReminderHandler pinReminderHandler;
     @Autowired
-    private GetCardHolderIdsHandler getCardHolderIdsHandler;
-    @Autowired
     private PrivateCardRequestHandler cardRequestHandler;
     @Autowired
     private MessageBean messageBean;
@@ -43,18 +41,6 @@ public class CardController {
     public ResponseWrapper<UserInformation> requestCard() {
         return ResponseWrapper.<UserInformation>builder()
                 .response(cardRequestHandler.handle())
-                .messages(messageBean.getMessages())
-                .build();
-    }
-
-    @GetMapping("/api/card-holder")
-    @ApiOperation(value = "getUserRoles")
-    @ApiResponses(value = {
-            @ApiResponse(code = 201, message = "")
-    })
-    public ResponseWrapper<List<UserRole>> getCardholderIds() {
-        return ResponseWrapper.<List<UserRole>>builder()
-                .response(getCardHolderIdsHandler.handle())
                 .messages(messageBean.getMessages())
                 .build();
     }

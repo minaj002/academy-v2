@@ -19,7 +19,7 @@ public class GetUsersWithoutRolesHandler {
 
     public List<AuthorizedUser> handle() {
 
-        List<UserCredentials> userCredentials = userCredentialRepository.findUserCredentialsByRolesIsNull();
+        List<UserCredentials> userCredentials = userCredentialRepository.findUserCredentialsByRolesIsNullAndStatusNot(UserCredentials.Status.DELETED);
         List<AuthorizedUser> authorizedUsers = new ArrayList<>();
         userCredentials.forEach(user -> authorizedUsers.add(AuthorizedUser.builder()
                 .userId(user.getId())

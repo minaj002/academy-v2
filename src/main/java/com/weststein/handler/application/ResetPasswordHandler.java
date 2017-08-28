@@ -21,7 +21,7 @@ public class ResetPasswordHandler {
 
     public void handle(String email, String password, String token) {
 
-        UserCredentials credentials = userCredentialRepository.findUserCredentialsByEmail(email).get();
+        UserCredentials credentials = userCredentialRepository.findUserCredentialsByEmailAndStatusNot(email, UserCredentials.Status.DELETED).get();
         if (credentials.getResetToken() == null) {
             throw new PasswordResetException("Password is already reset, please login using your email and password.");
         }

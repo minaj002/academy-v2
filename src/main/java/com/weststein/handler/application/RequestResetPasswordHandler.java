@@ -23,7 +23,7 @@ public class RequestResetPasswordHandler {
 
     public void handle(String email) {
 
-        Optional<UserCredentials> credentialsOptional = userCredentialRepository.findUserCredentialsByEmail(email);
+        Optional<UserCredentials> credentialsOptional = userCredentialRepository.findUserCredentialsByEmailAndStatusNot(email, UserCredentials.Status.DELETED);
         if (credentialsOptional.isPresent()) {
             String resetToken = UUID.randomUUID().toString();
             UserCredentials credentials = credentialsOptional.get();

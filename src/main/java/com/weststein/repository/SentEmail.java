@@ -1,6 +1,5 @@
 package com.weststein.repository;
 
-import lombok.Builder;
 import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -12,7 +11,6 @@ import java.time.LocalDateTime;
 
 @Data
 @Entity
-@Builder
 public class SentEmail {
 
     @Id

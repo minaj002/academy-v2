@@ -11,7 +11,7 @@ import java.util.Set;
 
 @Slf4j
 @Component
-public class GetCardHolderIdsHandler {
+public class GetAttachedRolesHandler {
 
     public List<UserRole> handle() {
         return ((UserContext) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUserRoles();

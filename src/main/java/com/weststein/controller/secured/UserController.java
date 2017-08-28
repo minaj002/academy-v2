@@ -2,14 +2,15 @@ package com.weststein.controller.secured;
 
 import com.weststein.controller.ResponseWrapper;
 import com.weststein.controller.secured.model.UserProfileModel;
-import com.weststein.email.EmailTextSource;
 import com.weststein.handler.application.RequestNewUserHandler;
+import com.weststein.handler.card.GetAttachedRolesHandler;
 import com.weststein.handler.user.ChangePasswordHandler;
 import com.weststein.handler.user.ConfirmPhoneNumberHandler;
 import com.weststein.handler.user.UserInformationHandler;
 import com.weststein.handler.user.ValidatePhoneNumberHandler;
 import com.weststein.infrastructure.MessageBean;
 import com.weststein.repository.UserInformation;
+import com.weststein.repository.UserRole;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
@@ -17,6 +18,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 @RestController
 public class UserController {
@@ -32,6 +35,8 @@ public class UserController {
     @Autowired
     private ChangePasswordHandler changePasswordHandler;
     @Autowired
+    private GetAttachedRolesHandler getAttachedRolesHandler;
+    @Autowired
     private MessageBean messageBean;
 
     @GetMapping("/api/user")
@@ -41,6 +46,18 @@ public class UserController {
     })
     public ResponseWrapper<UserInformation> getUserInfo() {
         return ResponseWrapper.<UserInformation>builder().response(userInformationHandler.handle()).messages(messageBean.getMessages()).build();
+    }
+
+    @GetMapping("/api/user/attached-roles")
+    @ApiOperation(value = "getUserRoles")
+    @ApiResponses(value = {
+            @ApiResponse(code = 201, message = "")
+    })
+    public ResponseWrapper<List<UserRole>> getCardholderIds() {
+        return ResponseWrapper.<List<UserRole>>builder()
+                .response(getAttachedRolesHandler.handle())
+                .messages(messageBean.getMessages())
+                .build();
     }
 
     @GetMapping("/api/user/phone/validate")

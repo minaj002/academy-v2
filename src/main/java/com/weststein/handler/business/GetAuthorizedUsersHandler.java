@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Component
 public class GetAuthorizedUsersHandler {
@@ -23,14 +24,16 @@ public class GetAuthorizedUsersHandler {
         List<UserRole> roles = userRoleRepository.findByEntityIdAndRoleType(businessId, UserRole.RoleType.BUSINESS);
         List<AuthorizedUser> authorizedUsers = new ArrayList<>();
         roles.forEach(role -> {
-            UserCredentials authorizedUser = userCredentialRepository.findUserCredentialsByRolesContains(role);
-            authorizedUsers.add(AuthorizedUser.builder()
-                    .firstName(authorizedUser.getUserProfile().getFirstName())
-                    .lastName(authorizedUser.getUserProfile().getLastName())
-                    .role(role.getRole())
-                    .roleId(role.getId())
-                    .build());
-
+            Optional<UserCredentials> authorizedUserOptional = userCredentialRepository.findUserCredentialsByRolesContainsAndStatusNot(role, UserCredentials.Status.DELETED);
+            if(authorizedUserOptional.isPresent()) {
+                UserCredentials authorizedUser = authorizedUserOptional.get();
+                authorizedUsers.add(AuthorizedUser.builder()
+                        .firstName(authorizedUser.getUserProfile().getFirstName())
+                        .lastName(authorizedUser.getUserProfile().getLastName())
+                        .role(role.getRole())
+                        .roleId(role.getId())
+                        .build());
+            }
         });
         return authorizedUsers;
     }

@@ -7,10 +7,8 @@ import java.util.Optional;
 
 public interface UserCredentialRepository extends CrudRepository<UserCredentials, Long> {
 
-    Optional<UserCredentials> findUserCredentialsByEmail(String email);
     Optional<UserCredentials> findUserCredentialsByEmailAndStatusNot(String email, UserCredentials.Status status);
-    List<UserCredentials> findAllByStatus(UserCredentials.Status status);
-    UserCredentials findUserCredentialsByRolesContains(UserRole role);
-    List<UserCredentials> findUserCredentialsByRolesIsNull();
+    Optional<UserCredentials> findUserCredentialsByRolesContainsAndStatusNot(UserRole role, UserCredentials.Status status);
+    List<UserCredentials> findUserCredentialsByRolesIsNullAndStatusNot(UserCredentials.Status status);
 
 }
