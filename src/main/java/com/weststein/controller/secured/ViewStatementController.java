@@ -35,7 +35,7 @@ public class ViewStatementController {
     public ResponseWrapper<ViewStatementModel> view(@PathVariable String cardHolderId, @DateTimeFormat(pattern = "dd-MM-yyyy") @RequestParam LocalDate start, @DateTimeFormat(pattern = "dd-MM-yyyy") @RequestParam LocalDate end) {
         userService.isAuthorizedForCardHolder(cardHolderId);
         return ResponseWrapper.<ViewStatementModel>builder()
-                .response(viewStatementHandler.handle(cardHolderId, start, end))
+                .response(viewStatementHandler.handle(cardHolderId, start, end, 20, 1))
                 .messages(messageBean.getMessages())
                 .build();
     }

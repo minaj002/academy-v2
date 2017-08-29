@@ -20,7 +20,7 @@ public class ViewStatementHandler {
     @Autowired
     private OrikoObjectMapper objectMapper;
 
-    public ViewStatementModel handle(String id, LocalDate start, LocalDate end) {
+    public ViewStatementModel handle(String id, LocalDate start, LocalDate end, int top, int page) {
         ViewStatement object = new ViewStatement();
         object.setCardholderId(id);
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DATE_FORMAT);
