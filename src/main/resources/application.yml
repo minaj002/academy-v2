@@ -11,6 +11,10 @@ spring:
   profiles:
     active: prod #prod for production
 
+  cache:
+    caffeine:
+      spec: expireAfterWrite=1d
+
 # time in minutes
 security.jwt:
   tokenExpirationTime: 600

@@ -1,35 +1,40 @@
 package com.weststein.handler.viewstatement;
 
+import com.weststein.controller.secured.model.TransactionModel;
 import com.weststein.controller.secured.model.ViewStatementModel;
 import com.weststein.infrastructure.OrikoObjectMapper;
-import com.weststein.integration.PPFService;
-import com.weststein.integration.request.ViewStatement;
 import com.weststein.integration.response.AccountAPIv2ViewStatement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
+import java.time.LocalDateTime;
+import java.util.List;
 
 @Component
 public class ViewStatementHandler {
-    private static String DATE_FORMAT = "yyyy-dd-MM";
 
-    @Autowired
-    private PPFService<ViewStatement, AccountAPIv2ViewStatement> ppfService;
     @Autowired
     private OrikoObjectMapper objectMapper;
 
-    public ViewStatementModel handle(String id, LocalDate start, LocalDate end, int top, int page) {
-        ViewStatement object = new ViewStatement();
-        object.setCardholderId(id);
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DATE_FORMAT);
-        object.setEndDate(formatter.format(end));
-        object.setStartDate(formatter.format(start));
-        object.setViewStyle("Y");
-        AccountAPIv2ViewStatement res = ppfService.get(object, AccountAPIv2ViewStatement.class);
+    @Autowired
+    private StatementCacheHelper cacheTest;
 
-        return objectMapper.map(res.getViewStatement(), ViewStatementModel.class);
+    public ViewStatementModel handle(String id, LocalDateTime from, LocalDateTime to, int size, int page) {
+
+        AccountAPIv2ViewStatement res = cacheTest.callPfs(id, from, to, true);
+        ViewStatementModel model = objectMapper.map(res.getViewStatement(), ViewStatementModel.class);
+
+        applyPaging(model.getTransactions(), from, to, size, page);
+
+        return model;
     }
+
+    private void applyPaging(List<TransactionModel> transactions, LocalDateTime from, LocalDateTime to, int size, int page) {
+
+        transactions.stream().filter(transaction -> transaction.getDate().isAfter(from)&&transaction.getDate().isAfter(to));
+
+    }
+
+
 
 }

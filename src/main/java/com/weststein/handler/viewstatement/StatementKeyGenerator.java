@@ -6,6 +6,7 @@ import org.springframework.util.Assert;
 
 import java.io.Serializable;
 import java.lang.reflect.Method;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Component
@@ -30,14 +31,14 @@ public class StatementKeyGenerator implements KeyGenerator {
             this.id = id;
             this.from = from;
             this.to = to;
-            this.hashCode = Integer.valueOf(id);
+            this.hashCode = id.hashCode();
         }
 
         // we want to make sure that requested statement is within already cached statement
         @Override
         public boolean equals(Object obj) {
             return (this == obj || (obj instanceof StatementKey
-                    && id.equals(((StatementKey) obj).id) && !((StatementKey) obj).from.isAfter(from) && !((StatementKey) obj).to.isAfter(to)));
+                    && id.equals(((StatementKey) obj).id) && !((StatementKey) obj).from.isAfter(from) && !((StatementKey) obj).to.plusMinutes(5).isBefore(to)));
         }
 
         @Override

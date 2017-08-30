@@ -11,5 +11,8 @@ public class ViewStatementModel {
     private String startDate;
     private String endDate;
     private List<TransactionModel> transactions;
+    private long totalTransactions;
+    private int page;
+    private int size;
 
 }

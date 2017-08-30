@@ -4,6 +4,7 @@ import com.weststein.controller.ResponseWrapper;
 import com.weststein.handler.application.RequestResetPasswordHandler;
 import com.weststein.handler.application.ResetPasswordHandler;
 import com.weststein.handler.application.VerifyTokenHandler;
+import com.weststein.handler.viewstatement.StatementCacheHelper;
 import com.weststein.infrastructure.MessageBean;
 import com.weststein.repository.UserProfile;
 import com.weststein.security.UserService;
@@ -11,10 +12,12 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.cache.Cache;
+import org.springframework.cache.CacheManager;
+import org.springframework.cache.interceptor.SimpleKey;
+import org.springframework.web.bind.annotation.*;
+
+import static java.lang.Thread.sleep;
 
 @RestController
 public class LoginController {
@@ -29,7 +32,6 @@ public class LoginController {
     private UserService userService;
     @Autowired
     private MessageBean messageBean;
-
 
     @PostMapping("/api/auth/login")
     @ApiOperation(value = "allow user to login, receives authorization token")
@@ -74,6 +76,5 @@ public class LoginController {
         return ResponseWrapper.builder()
                 .messages(messageBean.getMessages()).build();
     }
-
 
 }
