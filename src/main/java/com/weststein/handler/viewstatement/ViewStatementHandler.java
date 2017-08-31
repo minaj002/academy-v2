@@ -9,9 +9,11 @@ import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 public class ViewStatementHandler {
+
 
     @Autowired
     private OrikoObjectMapper objectMapper;
@@ -19,22 +21,25 @@ public class ViewStatementHandler {
     @Autowired
     private StatementCacheHelper cacheTest;
 
-    public ViewStatementModel handle(String id, LocalDateTime from, LocalDateTime to, int size, int page) {
+    public ViewStatementModel handle(String id, LocalDateTime from, LocalDateTime to, TransactionType type, int size, int page) {
 
         AccountAPIv2ViewStatement res = cacheTest.callPfs(id, from, to, true);
         ViewStatementModel model = objectMapper.map(res.getViewStatement(), ViewStatementModel.class);
 
-        applyPaging(model.getTransactions(), from, to, size, page);
+        model.setTransactions(applyPaging(model.getTransactions(), from, to, type, size, page));
 
         return model;
     }
 
-    private void applyPaging(List<TransactionModel> transactions, LocalDateTime from, LocalDateTime to, int size, int page) {
+    private List<TransactionModel> applyPaging(List<TransactionModel> transactions, LocalDateTime from, LocalDateTime to, TransactionType type, int size, int page) {
 
-        transactions.stream().filter(transaction -> transaction.getDate().isAfter(from)&&transaction.getDate().isAfter(to));
-
+        return transactions.stream()
+                .filter(transaction -> !transaction.getDate().isBefore(from) && !transaction.getDate().isAfter(to))
+                .filter(transaction -> TransactionType.ALL.equals(type) ? true : type.equals(transaction.getTransactionType()))
+                .sorted((o1, o2) -> o2.getDate().compareTo(o1.getDate()))
+                .skip((size-1)*page)
+                .limit(page)
+                .collect(Collectors.toList());
     }
-
-
 
 }

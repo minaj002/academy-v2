@@ -2,6 +2,7 @@ package com.weststein.controller.secured;
 
 import com.weststein.controller.ResponseWrapper;
 import com.weststein.controller.secured.model.ViewStatementModel;
+import com.weststein.handler.viewstatement.TransactionType;
 import com.weststein.handler.viewstatement.ViewStatementHandler;
 import com.weststein.infrastructure.MessageBean;
 import com.weststein.security.UserService;
@@ -34,7 +35,12 @@ public class ViewStatementController {
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "")
     })
-    public ResponseWrapper<ViewStatementModel> view(@PathVariable String cardHolderId, @DateTimeFormat(pattern = "dd-MM-yyyy") @RequestParam LocalDate start, @DateTimeFormat(pattern = "dd-MM-yyyy") @RequestParam(required = false) LocalDate end) {
+    public ResponseWrapper<ViewStatementModel> view(@PathVariable String cardHolderId, @DateTimeFormat(pattern = "dd-MM-yyyy") @RequestParam LocalDate start,
+                                                    @DateTimeFormat(pattern = "dd-MM-yyyy") @RequestParam(required = false) LocalDate end,
+                                                    @RequestParam TransactionType type,
+                                                    @RequestParam int size,
+                                                    @RequestParam int page
+                                                    ) {
         userService.isAuthorizedForCardHolder(cardHolderId);
 
         LocalDateTime startAsLocalDateTime = LocalDateTime.of(start, LocalTime.of(0,0));
@@ -46,7 +52,7 @@ public class ViewStatementController {
         }
 
         return ResponseWrapper.<ViewStatementModel>builder()
-                .response(viewStatementHandler.handle(cardHolderId, startAsLocalDateTime, endAsLocalDateTime, 20, 1))
+                .response(viewStatementHandler.handle(cardHolderId, startAsLocalDateTime, endAsLocalDateTime, type, size, page))
                 .messages(messageBean.getMessages())
                 .build();
     }

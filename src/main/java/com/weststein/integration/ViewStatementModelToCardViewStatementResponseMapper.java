@@ -2,6 +2,7 @@ package com.weststein.integration;
 
 import com.weststein.controller.secured.model.TransactionModel;
 import com.weststein.controller.secured.model.ViewStatementModel;
+import com.weststein.handler.viewstatement.TransactionType;
 import com.weststein.infrastructure.ObjectMapperConfiguration;
 import com.weststein.integration.response.ViewStatementResponse;
 import ma.glasnost.orika.CustomMapper;
@@ -9,6 +10,7 @@ import ma.glasnost.orika.MappingContext;
 import ma.glasnost.orika.metadata.ClassMapBuilder;
 import org.springframework.stereotype.Component;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -49,12 +51,12 @@ public class ViewStatementModelToCardViewStatementResponseMapper extends ObjectM
             response.getCardholderstatementdetails().getCardpan()
                     .getCardAccount()
                     .forEach(account -> transactions.add(TransactionModel.builder()
-                            .amount(account.getTransaction().get(0).getAmount())
+                            .amount(account.getTransaction().get(0).getAmount().compareTo(BigDecimal.ZERO) == 0 ? account.getTransaction().get(0).getFee() : account.getTransaction().get(0).getAmount())
                             .date(LocalDateTime.parse(account.getTransaction().get(0).getDate(), DateTimeFormatter.ofPattern("dd/MM/yyyy hh:mm:ss a")))
                             .details(account.getTransaction().get(0).getDescription())
                             .balanceAfter(account.getTransaction().get(0).getAvailableBalance())
                             .beneficiary(account.getTransaction().get(0).getClientId())
-                            .transactionType(account.getTransaction().get(0).getTransactionType())
+                            .transactionType(account.getTransaction().get(0).getAmount().compareTo(BigDecimal.ZERO) == 1 || account.getTransaction().get(0).getFee().compareTo(BigDecimal.ZERO) == 1 ? TransactionType.IN :TransactionType.OUT)
                             .build()));
             model.setTransactions(transactions);
         }

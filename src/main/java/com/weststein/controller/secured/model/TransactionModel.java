@@ -1,5 +1,6 @@
 package com.weststein.controller.secured.model;
 
+import com.weststein.handler.viewstatement.TransactionType;
 import lombok.Builder;
 import lombok.Data;
 
@@ -12,7 +13,7 @@ import java.time.LocalDateTime;
 public class TransactionModel {
 
     private LocalDateTime date;
-    private String transactionType;
+    private TransactionType transactionType;
     private String beneficiary;
     private String details;
     private BigDecimal amount;
