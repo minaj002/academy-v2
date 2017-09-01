@@ -72,6 +72,7 @@ public class BusinessApplicationHandler {
         credentials.setVerification(verification);
         credentials.setRoles(roles);
         credentials.setStatus(UserCredentials.Status.ACTIVE);
+        credentials.setLoginAttempt(0);
         return credentials;
     }
 }

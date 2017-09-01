@@ -69,6 +69,7 @@ public class RequestNewUserHandler {
         credentials.setVerified(Boolean.FALSE);
         credentials.setRoles(roles);
         credentials.setStatus(UserCredentials.Status.REQUESTED);
+        credentials.setLoginAttempt(0);
         return credentials;
     }
 }
