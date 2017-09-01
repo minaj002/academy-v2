@@ -35,7 +35,7 @@ public class ViewStatementController {
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "")
     })
-    public ResponseWrapper<ViewStatementModel> view(@PathVariable String cardHolderId, @DateTimeFormat(pattern = "dd-MM-yyyy") @RequestParam LocalDate start,
+    public ResponseWrapper<ViewStatementModel> view(@PathVariable Long cardHolderId, @DateTimeFormat(pattern = "dd-MM-yyyy") @RequestParam LocalDate start,
                                                     @DateTimeFormat(pattern = "dd-MM-yyyy") @RequestParam(required = false) LocalDate end,
                                                     @RequestParam TransactionType type,
                                                     @RequestParam int size,

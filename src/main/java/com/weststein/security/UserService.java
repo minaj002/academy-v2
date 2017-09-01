@@ -60,13 +60,13 @@ public class UserService {
         return accessToken.getToken();
     }
 
-    public void isAuthorizedForCardHolder(String cardholderId) {
+    public void isAuthorizedForCardHolder(Long cardholderId) {
         List<UserRole> usersCardholdersIds = ((UserContext) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUserRoles();
 
         if (usersCardholdersIds.stream().noneMatch(userRole -> {
             if (Role.PRIVATE.equals(userRole.getRole())) {
                 UserInformation userInformation = userInformationRepository.findOne(userRole.getEntityId());
-                return userInformation.getCardholderIds().stream().anyMatch(cardHolder -> cardHolder.getCardholderId().equals(cardholderId));
+                return userInformation.getCardholderIds().stream().anyMatch(cardHolder -> cardHolder.getId().equals(cardholderId));
 
             }
             return true;

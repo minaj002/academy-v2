@@ -3,6 +3,8 @@ package com.weststein.handler.transaction;
 import com.weststein.integration.PPFService;
 import com.weststein.integration.request.CardToCard;
 import com.weststein.integration.response.AccountAPIv2CardToCard;
+import com.weststein.repository.CardholderId;
+import com.weststein.repository.CardholderIdRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -15,11 +17,14 @@ public class CardToCardPaymentHandler {
 
     @Autowired
     private PPFService<CardToCard, AccountAPIv2CardToCard> ppfService;
+    @Autowired
+    private CardholderIdRepository cardholderIdRepository;
 
-    public AccountAPIv2CardToCard handle(String cardholderId, String cardNumberTo, BigDecimal amount) {
+    public AccountAPIv2CardToCard handle(Long id, String cardNumberTo, BigDecimal amount) {
 
+        CardholderId cardholderId = cardholderIdRepository.findOne(id);
         CardToCard depositObject = new CardToCard();
-        depositObject.setCardHolderId(cardholderId);
+        depositObject.setCardHolderId(cardholderId.getCardholderId());
         depositObject.setCardNumberTo(cardNumberTo);
         depositObject.setCurrencyCode("EUR");
         depositObject.setAmount(amount);

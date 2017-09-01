@@ -45,7 +45,7 @@ public class PrivateCardRequestHandler {
         UserInformation userInformation = userInformationRepository.findOne(privateRole.getEntityId());
         CardIssue cardRequest = createCardRequest(userInformation, email);
         AccountAPIv2CardIssue res2 = ppfService.get(cardRequest, AccountAPIv2CardIssue.class);
-        CardholderId cardHolderId = cardholderIdRepository.save(CardholderId.builder().cardholderId(res2.getCardIssue().getCardHolderId()).build());
+        CardholderId cardHolderId = cardholderIdRepository.save(new CardholderId(null, res2.getCardIssue().getCardHolderId()));
 
         userInformation.getCardholderIds().add(cardHolderId);
         userInformationRepository.save(userInformation);

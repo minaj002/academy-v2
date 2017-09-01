@@ -36,7 +36,7 @@ public class TransactionController {
             @ApiResponse(code = 200, message = "")
     })
     @ResponseStatus(HttpStatus.OK)
-    public ResponseWrapper depositVoucher(@PathVariable String cardHolderId, String voucher) {
+    public ResponseWrapper depositVoucher(@PathVariable Long cardHolderId, String voucher) {
         userService.isAuthorizedForCardHolder(cardHolderId);
         depositVoucherHandler.handle(cardHolderId, voucher);
         return ResponseWrapper.builder().messages(messageBean.getMessages()).build();
@@ -48,7 +48,7 @@ public class TransactionController {
             @ApiResponse(code = 200, message = "")
     })
     @ResponseStatus(HttpStatus.OK)
-    public ResponseWrapper sepaPayment(@PathVariable String cardHolderId, @RequestBody SepaTransferModel sepa) {
+    public ResponseWrapper sepaPayment(@PathVariable Long cardHolderId, @RequestBody SepaTransferModel sepa) {
         userService.isAuthorizedForCardHolder(cardHolderId);
         sepaPaymentHandler.handle(cardHolderId, sepa);
         return ResponseWrapper.builder().messages(messageBean.getMessages()).build();
@@ -60,7 +60,7 @@ public class TransactionController {
             @ApiResponse(code = 200, message = "")
     })
     @ResponseStatus(HttpStatus.OK)
-    public ResponseWrapper cardToCardPayment(@PathVariable String cardHolderId, BigDecimal amount, String cardNumberTo) {
+    public ResponseWrapper cardToCardPayment(@PathVariable Long cardHolderId, BigDecimal amount, String cardNumberTo) {
         userService.isAuthorizedForCardHolder(cardHolderId);
         cardToCardPaymentHandler.handle(cardHolderId, cardNumberTo, amount);
         return ResponseWrapper.builder().messages(messageBean.getMessages()).build();

@@ -50,7 +50,7 @@ public class CardController {
     @ApiResponses(value = {
             @ApiResponse(code = 201, message = "")
     })
-    public ResponseWrapper<CardInfoModel> getCardInfo(@PathVariable String cardHolderId) {
+    public ResponseWrapper<CardInfoModel> getCardInfo(@PathVariable Long cardHolderId) {
         userService.isAuthorizedForCardHolder(cardHolderId);
         return ResponseWrapper.<CardInfoModel>builder()
                 .response(getCardInfoHandler.handle(cardHolderId))
@@ -64,7 +64,7 @@ public class CardController {
             @ApiResponse(code = 202, message = "")
     })
     @ResponseStatus(HttpStatus.ACCEPTED)
-    public ResponseWrapper updateCardInfo(@PathVariable String cardHolderId, @RequestBody CardHolderModel cardHolder) {
+    public ResponseWrapper updateCardInfo(@PathVariable Long cardHolderId, @RequestBody CardHolderModel cardHolder) {
         userService.isAuthorizedForCardHolder(cardHolderId);
         updateCardHolderHandler.handle(cardHolderId, cardHolder);
         return ResponseWrapper.builder().messages(messageBean.getMessages()).build();
@@ -76,7 +76,8 @@ public class CardController {
             @ApiResponse(code = 201, message = "")
     })
     @ResponseStatus(HttpStatus.ACCEPTED)
-    public ResponseWrapper pinReminder(@PathVariable String cardHolderId) {
+    public ResponseWrapper pinReminder(@PathVariable Long cardHolderId) {
+        userService.isAuthorizedForCardHolder(cardHolderId);
         pinReminderHandler.handle(cardHolderId);
         return ResponseWrapper.builder().messages(messageBean.getMessages()).build();
     }

@@ -4,6 +4,8 @@ import com.weststein.controller.secured.model.TransactionModel;
 import com.weststein.controller.secured.model.ViewStatementModel;
 import com.weststein.infrastructure.OrikoObjectMapper;
 import com.weststein.integration.response.AccountAPIv2ViewStatement;
+import com.weststein.repository.CardholderId;
+import com.weststein.repository.CardholderIdRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -17,17 +19,21 @@ public class ViewStatementHandler {
 
     @Autowired
     private OrikoObjectMapper objectMapper;
-
     @Autowired
-    private StatementCacheHelper cacheTest;
+    private CardholderIdRepository cardholderIdRepository;
+    @Autowired
+    private StatementCacheHelper statementCacheHelper;
 
-    public ViewStatementModel handle(String id, LocalDateTime from, LocalDateTime to, TransactionType type, int size, int page) {
+    public ViewStatementModel handle(Long id, LocalDateTime from, LocalDateTime to, TransactionType type, int size, int page) {
 
-        AccountAPIv2ViewStatement res = cacheTest.callPfs(id, from, to, true);
+        CardholderId cardholderId = cardholderIdRepository.findOne(id);
+        AccountAPIv2ViewStatement res = statementCacheHelper.callPfs(cardholderId.getCardholderId(), from, to);
         ViewStatementModel model = objectMapper.map(res.getViewStatement(), ViewStatementModel.class);
-
+        int totalTransactions =model.getTransactions().size();
         model.setTransactions(applyPaging(model.getTransactions(), from, to, type, size, page));
-
+        model.setPage(page);
+        model.setSize(size);
+        model.setTotalTransactions(totalTransactions);
         return model;
     }
 
@@ -35,10 +41,10 @@ public class ViewStatementHandler {
 
         return transactions.stream()
                 .filter(transaction -> !transaction.getDate().isBefore(from) && !transaction.getDate().isAfter(to))
-                .filter(transaction -> TransactionType.ALL.equals(type) ? true : type.equals(transaction.getTransactionType()))
+                .filter(transaction -> TransactionType.ALL.equals(type) || type.equals(transaction.getTransactionType()))
                 .sorted((o1, o2) -> o2.getDate().compareTo(o1.getDate()))
-                .skip((size-1)*page)
-                .limit(page)
+                .skip((page-1)*size)
+                .limit(size)
                 .collect(Collectors.toList());
     }
 

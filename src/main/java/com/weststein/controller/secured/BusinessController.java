@@ -2,8 +2,10 @@ package com.weststein.controller.secured;
 
 import com.weststein.controller.ResponseWrapper;
 import com.weststein.controller.secured.model.business.AuthorizedUser;
+import com.weststein.controller.secured.model.business.BusinessInformationModel;
 import com.weststein.handler.business.DeleteRoleHandler;
 import com.weststein.handler.business.GetAuthorizedUsersHandler;
+import com.weststein.handler.business.GetBusinessInformationHandler;
 import com.weststein.infrastructure.MessageBean;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -24,6 +26,8 @@ public class BusinessController {
     @Autowired
     private DeleteRoleHandler deleteRoleHandler;
     @Autowired
+    private GetBusinessInformationHandler getBusinessInformationHandler;
+    @Autowired
     private MessageBean messageBean;
 
     @GetMapping(value = "/api/business/{businessId}/authorized-users")
@@ -35,6 +39,19 @@ public class BusinessController {
 
         return ResponseWrapper.<List<AuthorizedUser>>builder()
                 .response(getAuthorizedUsersHandler.handle(businessId))
+                .messages(messageBean.getMessages())
+                .build();
+    }
+
+    @GetMapping(value = "/api/business/{businessId}")
+    @ApiOperation(value = "get business information")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "")
+    })
+    public ResponseWrapper<BusinessInformationModel> getBusinessInformation(@PathVariable Long businessId) {
+
+        return ResponseWrapper.<BusinessInformationModel>builder()
+                .response(getBusinessInformationHandler.handle(businessId))
                 .messages(messageBean.getMessages())
                 .build();
     }

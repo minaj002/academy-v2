@@ -34,27 +34,27 @@ public class ApplyController {
     @Autowired
     private UserRoleRepository userRoleRepository;
 
-    @PostMapping("/api/apply/attach")
-    @ApiOperation(value = "test resource To Be removed")
-    @ApiResponses(value = {
-            @ApiResponse(code = 201, message = "")
-    })
-    @ResponseStatus(HttpStatus.CREATED)
-    public void attach() {
-
-        CardholderId cardholderId = CardholderId.builder().cardholderId("400000626035").build();
-        cardholderId = cardholderIdRepository.save(cardholderId);
-
-        UserCredentials cred = userCredentialRepository.findUserCredentialsByEmailAndStatusNot("jevgenijs.minajevs@weststeincard.com", UserCredentials.Status.DELETED).get();
-        UserRole userRole = new UserRole();
-        Role role = Role.PRIVATE;
-        userRole.setRole(role);
-        userRole.setEntityId(cardholderId.getId());
-        userRole.setRoleType(UserRole.RoleType.PRIVATE);
-        userRoleRepository.save(userRole);
-        cred.getRoles().add(userRole);
-        userCredentialRepository.save(cred);
-    }
+//    @PostMapping("/api/apply/attach")
+//    @ApiOperation(value = "test resource To Be removed")
+//    @ApiResponses(value = {
+//            @ApiResponse(code = 201, message = "")
+//    })
+//    @ResponseStatus(HttpStatus.CREATED)
+//    public void attach() {
+//
+//        CardholderId cardholderId = new CardholderId.builder().cardholderId("400000626035").build();
+//        cardholderId = cardholderIdRepository.save(cardholderId);
+//
+//        UserCredentials cred = userCredentialRepository.findUserCredentialsByEmailAndStatusNot("jevgenijs.minajevs@weststeincard.com", UserCredentials.Status.DELETED).get();
+//        UserRole userRole = new UserRole();
+//        Role role = Role.PRIVATE;
+//        userRole.setRole(role);
+//        userRole.setEntityId(cardholderId.getId());
+//        userRole.setRoleType(UserRole.RoleType.PRIVATE);
+//        userRoleRepository.save(userRole);
+//        cred.getRoles().add(userRole);
+//        userCredentialRepository.save(cred);
+//    }
 
     @PostMapping("/api/apply/personal")
     @ApiOperation(value = "allow new user to apply for new membership")

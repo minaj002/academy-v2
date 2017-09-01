@@ -18,7 +18,7 @@ public class StatementCacheHelper {
     private PPFService<ViewStatement, AccountAPIv2ViewStatement> ppfService;
 
     @Cacheable(value = "statement", keyGenerator = "statementKeyGenerator")
-    public AccountAPIv2ViewStatement callPfs(String id, LocalDateTime from, LocalDateTime to, boolean useCachedIfExists) {
+    public AccountAPIv2ViewStatement callPfs(String id, LocalDateTime from, LocalDateTime to) {
         ViewStatement object = new ViewStatement();
         object.setCardholderId(id);
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DATE_FORMAT);
