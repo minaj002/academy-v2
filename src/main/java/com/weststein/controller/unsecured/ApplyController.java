@@ -67,7 +67,7 @@ public class ApplyController {
     }
 
     @PostMapping("/api/apply/business")
-    @ApiOperation(value = "allow new user to apply for new membership")
+    @ApiOperation(value = "allow new business to apply for new membership")
     @ApiResponses(value = {
             @ApiResponse(code = 201, message = "")
     })
@@ -77,7 +77,7 @@ public class ApplyController {
     }
 
     @PostMapping("/api/apply/verify")
-    @ApiOperation(value = "allow new user to apply for new membership")
+    @ApiOperation(value = "validate email address")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "")
     })
