@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Optional;
 
 @Component
 public class OrikoObjectMapper {
@@ -14,10 +15,12 @@ public class OrikoObjectMapper {
     private final MapperFacade mapperFacade;
 
     @Autowired
-    public OrikoObjectMapper(List<ObjectMapperConfiguration> configs) {
+    public OrikoObjectMapper(Optional<List<ObjectMapperConfiguration>> configs) {
         MapperFactory mapperFactory = new DefaultMapperFactory.Builder().build();
-        for(ObjectMapperConfiguration config: configs) {
-            config.mapping(mapperFactory);
+        if(configs.isPresent()) {
+            for (ObjectMapperConfiguration config : configs.get()) {
+                config.mapping(mapperFactory);
+            }
         }
         this.mapperFacade = mapperFactory.getMapperFacade();
     }
