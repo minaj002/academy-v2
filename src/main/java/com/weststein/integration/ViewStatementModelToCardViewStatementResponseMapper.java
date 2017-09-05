@@ -51,10 +51,10 @@ public class ViewStatementModelToCardViewStatementResponseMapper extends ObjectM
             response.getCardholderstatementdetails().getCardpan()
                     .getCardAccount()
                     .forEach(account -> transactions.add(TransactionModel.builder()
-                            .amount(account.getTransaction().get(0).getAmount().compareTo(BigDecimal.ZERO) == 0 ? account.getTransaction().get(0).getFee() : account.getTransaction().get(0).getAmount())
+                            .amount(account.getTransaction().get(0).getAmount().compareTo(BigDecimal.ZERO) == 0 ? account.getTransaction().get(0).getFee().divide(BigDecimal.valueOf(100)) : account.getTransaction().get(0).getAmount().divide(BigDecimal.valueOf(100)))
                             .date(LocalDateTime.parse(account.getTransaction().get(0).getDate(), DateTimeFormatter.ofPattern("dd/MM/yyyy hh:mm:ss a")))
                             .details(account.getTransaction().get(0).getDescription())
-                            .balanceAfter(account.getTransaction().get(0).getAvailableBalance())
+                            .balanceAfter(account.getTransaction().get(0).getAvailableBalance().divide(BigDecimal.valueOf(100)))
                             .beneficiary(account.getTransaction().get(0).getClientId())
                             .transactionType(account.getTransaction().get(0).getAmount().compareTo(BigDecimal.ZERO) == 1 || account.getTransaction().get(0).getFee().compareTo(BigDecimal.ZERO) == 1 ? TransactionType.IN :TransactionType.OUT)
                             .build()));

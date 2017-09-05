@@ -28,5 +28,6 @@ public class CardholderId {
     )
     private Long id;
     private String cardholderId;
+    private String iban;
 
 }

@@ -41,7 +41,7 @@ public class CreateRegistrationPDFHandler {
         PDFFieldMapper.mapRequiredDocuments(requiredDocumentRepository.findByBusinessId(businessId), map);
         PDFFieldMapper.mapProjectedLoadingFigures(projectedLoadingFiguresRepository.findByBusinessId(businessId), map);
 
-        return pdfServiceItext.fill(map);
+        return pdfServiceItext.fillApplication(map);
     }
 
 }
