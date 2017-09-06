@@ -56,7 +56,7 @@ public class LoginController {
     }
 
     @PostMapping("/api/reset/{token}")
-    @ApiOperation(value = "allow user to verify login information, receives authorization token")
+    @ApiOperation(value = "allow user to reset password using provided token")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "")
     })
@@ -67,7 +67,7 @@ public class LoginController {
     }
 
     @PostMapping("/api/reset/request")
-    @ApiOperation(value = "allow user to verify login information, receives authorization token")
+    @ApiOperation(value = "allow user to request password reset token(token is sent over the email)")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "")
     })

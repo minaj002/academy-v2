@@ -5,7 +5,7 @@ import lombok.Data;
 import java.util.List;
 
 @Data
-public class SolarisErrors {
+public class Errors {
 
     private List<SmsError> errors;
 

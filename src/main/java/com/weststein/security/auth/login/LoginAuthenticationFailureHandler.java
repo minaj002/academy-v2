@@ -1,8 +1,8 @@
 package com.weststein.security.auth.login;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.weststein.common.ErrorCode;
-import com.weststein.common.ErrorResponse;
+import com.weststein.infrastructure.exceptions.ErrorCode;
+import com.weststein.infrastructure.exceptions.ErrorResponse;
 import com.weststein.security.exceptions.AuthMethodNotSupportedException;
 import com.weststein.security.exceptions.JwtExpiredTokenException;
 import org.springframework.beans.factory.annotation.Autowired;

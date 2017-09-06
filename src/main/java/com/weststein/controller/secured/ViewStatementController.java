@@ -40,15 +40,15 @@ public class ViewStatementController {
     private MessageBean messageBean;
 
     @GetMapping("/api/business/{businessId}/view-statement/{cardHolderId}")
-    @ApiOperation(value = "allows user to view his statement")
+    @ApiOperation(value = "allows user to view business account statement")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "")
     })
     public ResponseWrapper<ViewStatementModel> viewBusiness(@PathVariable Long businessId, @PathVariable Long cardHolderId, @DateTimeFormat(pattern = "dd-MM-yyyy") @RequestParam LocalDate start,
-                                                    @DateTimeFormat(pattern = "dd-MM-yyyy") @RequestParam(required = false) LocalDate end,
-                                                    @RequestParam TransactionType type,
-                                                    @RequestParam int size,
-                                                    @RequestParam int page
+                                                            @DateTimeFormat(pattern = "dd-MM-yyyy") @RequestParam(required = false) LocalDate end,
+                                                            @RequestParam TransactionType type,
+                                                            @RequestParam int size,
+                                                            @RequestParam int page
     ) {
         userService.isAuthorizedForCardHolder(cardHolderId);
 
@@ -62,44 +62,66 @@ public class ViewStatementController {
     }
 
     @GetMapping(value = "/api/business/{businessId}/view-statement/pdf/{cardHolderId}", produces = "application/pdf")
-    @ApiOperation(value = "allows user to view his statement")
+    @ApiOperation(value = "allows user to download business account statement as pdf")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "")
     })
     public Resource viewBusinessPdf(@PathVariable Long businessId, @PathVariable Long cardHolderId, @DateTimeFormat(pattern = "dd-MM-yyyy") @RequestParam LocalDate start,
-                            @DateTimeFormat(pattern = "dd-MM-yyyy") @RequestParam(required = false) LocalDate end,
-                            @RequestParam TransactionType type,
-                            @RequestParam int size,
-                            @RequestParam int page
+                                    @DateTimeFormat(pattern = "dd-MM-yyyy") @RequestParam(required = false) LocalDate end,
+                                    @RequestParam TransactionType type,
+                                    @RequestParam int size,
+                                    @RequestParam int page
     ) {
-//        userService.isAuthorizedForCardHolder(cardHolderId);
 
-        LocalDateTime startAsLocalDateTime = LocalDateTime.of(start, LocalTime.of(0, 0));
-        LocalDateTime endAsLocalDateTime = getEndLocalDateTime(end);
-        ByteArrayOutputStream res = viewStatementPdfBusinessHandler.handle(businessId, cardHolderId, startAsLocalDateTime, endAsLocalDateTime, type, size, page);
+        ByteArrayOutputStream res = getByteArrayOutputStream(businessId, cardHolderId, start, end, type, size, page, viewStatementPdfBusinessHandler::handle);
         return new ByteArrayResource(res.toByteArray());
     }
 
     @GetMapping(value = "/api/personal/{personalId}/view-statement/pdf/{cardHolderId}", produces = "application/pdf")
-    @ApiOperation(value = "allows user to view his statement")
+    @ApiOperation(value = "allows user to download personal account statement as pdf")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "")
     })
     public Resource viewPersonalPdf(@PathVariable Long personalId, @PathVariable Long cardHolderId, @DateTimeFormat(pattern = "dd-MM-yyyy") @RequestParam LocalDate start,
-                            @DateTimeFormat(pattern = "dd-MM-yyyy") @RequestParam(required = false) LocalDate end,
-                            @RequestParam TransactionType type,
-                            @RequestParam int size,
-                            @RequestParam int page
+                                    @DateTimeFormat(pattern = "dd-MM-yyyy") @RequestParam(required = false) LocalDate end,
+                                    @RequestParam TransactionType type,
+                                    @RequestParam int size,
+                                    @RequestParam int page
     ) {
+        ByteArrayOutputStream res = getByteArrayOutputStream(personalId, cardHolderId, start, end, type, size, page, viewStatementPdfPersonalHandler::handle);
+        return new ByteArrayResource(res.toByteArray());
+    }
+
+    @GetMapping(value = "/api/business/{businessId}/view-statement/csv/{cardHolderId}", produces = "application/csv")
+    @ApiOperation(value = "allows user to download business account statement as csv file")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "")
+    })
+    public Resource viewBusinessCsv(@PathVariable Long businessId, @PathVariable Long cardHolderId, @DateTimeFormat(pattern = "dd-MM-yyyy") @RequestParam LocalDate start,
+                                    @DateTimeFormat(pattern = "dd-MM-yyyy") @RequestParam(required = false) LocalDate end,
+                                    @RequestParam TransactionType type,
+                                    @RequestParam int size,
+                                    @RequestParam int page
+    ) throws IOException {
+        ByteArrayOutputStream res = getByteArrayOutputStream(businessId, cardHolderId, start, end, type, size, page, viewStatementCsvHandler::handle);
+        return new ByteArrayResource(res.toByteArray());
+    }
+
+    private ByteArrayOutputStream getByteArrayOutputStream(Long personalId, Long cardHolderId,
+                                                           LocalDate start, LocalDate end,
+                                                           TransactionType type,
+                                                           int size, int page,
+                                                           Function7<Long, Long, LocalDateTime, LocalDateTime, TransactionType, Integer, Integer, ByteArrayOutputStream> function
+    ) {
+
         userService.isAuthorizedForCardHolder(cardHolderId);
 
         LocalDateTime startAsLocalDateTime = LocalDateTime.of(start, LocalTime.of(0, 0));
         LocalDateTime endAsLocalDateTime = getEndLocalDateTime(end);
-        ByteArrayOutputStream res = viewStatementPdfPersonalHandler.handle(personalId, cardHolderId, startAsLocalDateTime, endAsLocalDateTime, type, size, page);
-        return new ByteArrayResource(res.toByteArray());
+        return function.apply(personalId, cardHolderId, startAsLocalDateTime, endAsLocalDateTime, type, size, page);
     }
 
-    private LocalDateTime getEndLocalDateTime(@DateTimeFormat(pattern = "dd-MM-yyyy") @RequestParam(required = false) LocalDate end) {
+    private LocalDateTime getEndLocalDateTime(LocalDate end) {
         LocalDateTime endAsLocalDateTime;
         if (end == null) {
             endAsLocalDateTime = LocalDateTime.now();
@@ -109,24 +131,9 @@ public class ViewStatementController {
         return endAsLocalDateTime;
     }
 
-    @GetMapping(value = "/api/business/{businessId}/view-statement/csv/{cardHolderId}", produces = "application/csv")
-    @ApiOperation(value = "allows user to download his statement as csv file")
-    @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "")
-    })
-    public Resource viewBusinessCsv(@PathVariable Long businessId, @PathVariable Long cardHolderId, @DateTimeFormat(pattern = "dd-MM-yyyy") @RequestParam LocalDate start,
-                            @DateTimeFormat(pattern = "dd-MM-yyyy") @RequestParam(required = false) LocalDate end,
-                            @RequestParam TransactionType type,
-                            @RequestParam int size,
-                            @RequestParam int page
-    ) throws IOException {
-        userService.isAuthorizedForCardHolder(cardHolderId);
+    @FunctionalInterface
+    interface Function7<One, Two, Three, Four, Five, Six, Seven, Eight> {
 
-        LocalDateTime startAsLocalDateTime = LocalDateTime.of(start, LocalTime.of(0, 0));
-        LocalDateTime endAsLocalDateTime = getEndLocalDateTime(end);
-        ByteArrayOutputStream res = viewStatementCsvHandler.handle(businessId, cardHolderId, startAsLocalDateTime, endAsLocalDateTime, type, size, page);
-
-        return new ByteArrayResource(res.toByteArray());
+        Eight apply(One one, Two two, Three three, Four four, Five five, Six six, Seven seven);
     }
-
 }

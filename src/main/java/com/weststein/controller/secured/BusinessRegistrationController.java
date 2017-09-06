@@ -120,7 +120,7 @@ public class BusinessRegistrationController {
     }
 
     @PostMapping("/api/business/{businessId}/application/required-documents")
-    @ApiOperation(value = "upload", consumes = "multipart/form-data")
+    @ApiOperation(value = "Upload required for the new business documents", consumes = "multipart/form-data")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "")
     })
@@ -134,7 +134,7 @@ public class BusinessRegistrationController {
     }
 
     @GetMapping(value = "/api/business/{businessId}/pdf", produces = "application/pdf")
-    @ApiOperation(value = "download pdf")
+    @ApiOperation(value = "Download created application as pdf")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "")
     })

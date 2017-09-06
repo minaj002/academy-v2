@@ -1,4 +1,4 @@
-package com.weststein.common;
+package com.weststein.infrastructure.exceptions;
 
 import org.springframework.http.HttpStatus;
 

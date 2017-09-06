@@ -1,7 +1,7 @@
 package com.weststein.configuration;
 
 import com.weststein.infrastructure.exceptions.SmsError;
-import com.weststein.infrastructure.exceptions.SolarisErrors;
+import com.weststein.infrastructure.exceptions.Errors;
 import com.weststein.infrastructure.exceptions.ValidationError;
 import com.weststein.infrastructure.exceptions.ValidationException;
 import feign.Response;
@@ -20,7 +20,7 @@ public class SmsErrorDecoder implements ErrorDecoder {
         JacksonDecoder jacksonDecoder = new JacksonDecoder();
         List<ValidationError> validationErrors = new ArrayList<>();
         try {
-            SmsError error = (SmsError) jacksonDecoder.decode(response, SolarisErrors.class);
+            SmsError error = (SmsError) jacksonDecoder.decode(response, Errors.class);
             validationErrors.add(ValidationError.builder().field(error.getError()).message(error.getError()).build());
             return new ValidationException(validationErrors, "error from sms");
         } catch (IOException e) {
