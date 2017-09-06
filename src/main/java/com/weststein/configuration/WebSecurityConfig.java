@@ -86,7 +86,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         web.ignoring().antMatchers("/api/view-statement");
         web.ignoring().antMatchers("/api/open/*");
         web.ignoring().antMatchers("/api/reset/**");
-        web.ignoring().antMatchers("/api/business/**");
 
     }
 
