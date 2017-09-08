@@ -8,6 +8,7 @@ import lombok.Data;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 
+import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
@@ -42,4 +43,7 @@ public class BusinessApplicationModel {
     private String position;
     @NotNull
     private Language language;
+
+    @AssertTrue
+    private Boolean agree;
 }
