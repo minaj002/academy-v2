@@ -34,6 +34,8 @@ public class TransactionController {
     @Autowired
     private DeleteSepaPaymentHandler deleteSepaPaymentHandler;
     @Autowired
+    private RejectSepaPaymentHandler rejectSepaPaymentHandler;
+    @Autowired
     private MessageBean messageBean;
 
     @PostMapping("/api/payment/deposit-voucher/{cardHolderId}")
@@ -131,6 +133,20 @@ public class TransactionController {
                                                      @PathVariable Long cardHolderId, @PathVariable Long paymentId) {
         userService.isAuthorizedForBusinessCardHolder(businessId, cardHolderId);
         deleteSepaPaymentHandler.handle(paymentId);
+        return ResponseWrapper.builder()
+                .messages(messageBean.getMessages()).build();
+    }
+
+    @PutMapping("/api/business/{businessId}/payment/{cardHolderId}/sepa/reject/{paymentId}")
+    @ApiOperation(value = "Send to sign SEPA payment for business cardholder")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "")
+    })
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseWrapper rejectBusinessSepaPayment(@PathVariable Long businessId,
+                                                     @PathVariable Long cardHolderId, @PathVariable Long paymentId) {
+        userService.isAuthorizedForBusinessCardHolder(businessId, cardHolderId);
+        rejectSepaPaymentHandler.handle(paymentId);
         return ResponseWrapper.builder()
                 .messages(messageBean.getMessages()).build();
     }
