@@ -5,6 +5,8 @@ import com.weststein.infrastructure.MessageBean;
 import com.weststein.infrastructure.exceptions.ValidationError;
 import com.weststein.infrastructure.exceptions.ValidationException;
 import com.weststein.repository.*;
+import com.weststein.repository.business.BusinessInformation;
+import com.weststein.repository.business.BusinessInformationRepository;
 import com.weststein.security.model.UserContext;
 import com.weststein.security.model.entity.Role;
 import com.weststein.security.model.token.JwtToken;
@@ -27,6 +29,8 @@ public class UserService {
     private JwtTokenFactory tokenFactory;
     @Autowired
     private UserInformationRepository userInformationRepository;
+    @Autowired
+    private BusinessInformationRepository businessInformationRepository;
     @Autowired
     private MessageBean messageBean;
 
@@ -70,7 +74,24 @@ public class UserService {
 
             }
             return true;
-            // TODO: JM verify id for business accounts
+        })) {
+
+            List errors = new ArrayList();
+            errors.add(ValidationError.builder().field("cardholderId").message("Not Authorized").build());
+            throw new ValidationException(errors, "User is not authorized to see information for cardholder " + cardholderId);
+
+        }
+    }
+
+    public void isAuthorizedForBusinessCardHolder(Long businessId, Long cardholderId) {
+        List<UserRole> usersCardholdersIds = ((UserContext) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUserRoles();
+
+        if (usersCardholdersIds.stream().noneMatch(userRole -> {
+            if (UserRole.RoleType.BUSINESS.equals(userRole.getRoleType())&& businessId.equals(userRole.getEntityId())) {
+                BusinessInformation businessInformation = businessInformationRepository.findOne(userRole.getEntityId());
+                return businessInformation.getCardholderIds().stream().anyMatch(cardHolder -> cardHolder.getId().equals(cardholderId));
+            }
+            return true;
         })) {
 
             List errors = new ArrayList();

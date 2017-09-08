@@ -15,7 +15,7 @@ public class SepaPayment {
     @JacksonXmlProperty(localName = "B1")
     private String beneficiary;
     @JacksonXmlProperty(localName = "S1")
-    private BigDecimal amount;
+    private String amount;
     @JacksonXmlProperty(localName = "S2")
     private String type;
     @JacksonXmlProperty(localName = "S3")
