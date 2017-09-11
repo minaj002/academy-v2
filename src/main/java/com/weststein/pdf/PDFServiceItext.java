@@ -6,6 +6,8 @@ import com.weststein.controller.secured.model.TransactionModel;
 import com.weststein.controller.secured.model.ViewStatementModel;
 import com.weststein.infrastructure.exceptions.ValidationError;
 import com.weststein.infrastructure.exceptions.ValidationException;
+import com.weststein.repository.SepaTransfer;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.core.io.Resource;
@@ -135,4 +137,68 @@ public class PDFServiceItext {
 
     }
 
+    public ByteArrayOutputStream createSepaPayment(String enterpriseName, SepaTransfer sepaTransferEntity) {
+
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        Document document = new Document(PageSize.A4, 36f, 72f, 108f, 180f);
+        try {
+            PdfWriter.getInstance(document, outputStream);
+        } catch (DocumentException e) {
+            e.printStackTrace();
+        }
+        document.open();
+        try {
+            Phrase head = new Phrase("Sepa Payment", FontFactory.getFont(FontFactory.COURIER_BOLD, 20));
+            Paragraph headParagraph = new Paragraph(head);
+            document.add(headParagraph);
+
+            com.itextpdf.text.List list = new com.itextpdf.text.List(com.itextpdf.text.List.UNORDERED);
+            list.setListSymbol(" ");
+            list.add(enterpriseName);
+            list.add(" ");
+            document.add(list);
+
+            PdfPTable table = new PdfPTable(2);
+            table.setWidthPercentage(100);
+            PdfPCell payerCell = new PdfPCell(new Phrase("Payer"));
+            table.addCell(payerCell);
+            PdfPCell nameCell = new PdfPCell(new Phrase(enterpriseName));
+            table.addCell(nameCell);
+            PdfPCell ibanTitleCell = new PdfPCell(new Phrase("IBAN"));
+            table.addCell(ibanTitleCell);
+            PdfPCell ibanCell = new PdfPCell(new Phrase(sepaTransferEntity.getFrom().getIban()));
+            table.addCell(ibanCell);
+            PdfPCell dateTilteCell = new PdfPCell(new Phrase("Date"));
+            table.addCell(dateTilteCell);
+            PdfPCell dateCell = new PdfPCell(new Phrase(sepaTransferEntity.getPaymentDate().format(DateTimeFormatter.ofPattern("dd.MM.yyyy"))));
+            table.addCell(dateCell);
+            PdfPCell transactionTypeTitleCell = new PdfPCell(new Phrase("Transaction Type"));
+            table.addCell(transactionTypeTitleCell);
+            PdfPCell transactionTypeCell = new PdfPCell(new Phrase("SEPA Outgoing payment"));
+            table.addCell(transactionTypeCell);
+            PdfPCell receiverTitleCell = new PdfPCell(new Phrase("Receiver"));
+            table.addCell(receiverTitleCell);
+            PdfPCell receiverCell = new PdfPCell(new Phrase(sepaTransferEntity.getBeneficiary()+" ("+ sepaTransferEntity.getIban() +")"));
+            table.addCell(receiverCell);
+            PdfPCell amountTitleCell = new PdfPCell(new Phrase("Amount"));
+            table.addCell(amountTitleCell);
+            PdfPCell amountCell = new PdfPCell(new Phrase(AMOUNT_FORMAT.format(sepaTransferEntity.getAmount())));
+            table.addCell(amountCell);
+            PdfPCell detailsTitleCell = new PdfPCell(new Phrase("Details"));
+            table.addCell(detailsTitleCell);
+            PdfPCell detailsCell = new PdfPCell(new Phrase(sepaTransferEntity.getDetails()));
+            table.addCell(detailsCell);
+            PdfPCell statusTitleCell = new PdfPCell(new Phrase("Status"));
+            table.addCell(statusTitleCell);
+            PdfPCell statusCell = new PdfPCell(new Phrase(StringUtils.isNotEmpty(sepaTransferEntity.getReferenceId()) ? "Confirmed" : ""));
+            table.addCell(statusCell);
+
+            document.add(table);
+
+        } catch (DocumentException e) {
+            e.printStackTrace();
+        }
+        document.close();
+        return outputStream;
+    }
 }

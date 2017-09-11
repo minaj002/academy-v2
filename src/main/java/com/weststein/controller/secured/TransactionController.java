@@ -3,16 +3,22 @@ package com.weststein.controller.secured;
 import com.weststein.controller.ResponseWrapper;
 import com.weststein.controller.secured.model.SepaTransferModel;
 import com.weststein.handler.transaction.*;
+import com.weststein.handler.viewstatement.TransactionType;
 import com.weststein.infrastructure.MessageBean;
 import com.weststein.security.UserService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.core.io.Resource;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.ByteArrayOutputStream;
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -38,6 +44,8 @@ public class TransactionController {
     private DeleteSepaPaymentHandler deleteSepaPaymentHandler;
     @Autowired
     private RejectSepaPaymentHandler rejectSepaPaymentHandler;
+    @Autowired
+    private GetSepaPaymentAsPDFHandler getSepaPaymentAsPDFHandler;
     @Autowired
     private MessageBean messageBean;
 
@@ -168,5 +176,16 @@ public class TransactionController {
         rejectSepaPaymentHandler.handle(paymentId);
         return ResponseWrapper.builder()
                 .messages(messageBean.getMessages()).build();
+    }
+
+    @GetMapping(value = "/api/business/{businessId}/payment/{cardHolderId}/sepa/pdf/{paymentId}", produces = "application/pdf")
+    @ApiOperation(value = "allows user to download business sepa payment as pdf")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "")
+    })
+    public Resource viewBusinessSepaPaymentPdf(@PathVariable Long businessId, @PathVariable Long cardHolderId, @PathVariable Long paymentId) {
+//        userService.isAuthorizedForBusinessCardHolder(businessId, cardHolderId);
+        ByteArrayOutputStream res = getSepaPaymentAsPDFHandler.handle(businessId, paymentId);
+        return new ByteArrayResource(res.toByteArray());
     }
 }
