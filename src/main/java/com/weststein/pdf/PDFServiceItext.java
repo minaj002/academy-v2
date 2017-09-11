@@ -190,7 +190,7 @@ public class PDFServiceItext {
             table.addCell(detailsCell);
             PdfPCell statusTitleCell = new PdfPCell(new Phrase("Status"));
             table.addCell(statusTitleCell);
-            PdfPCell statusCell = new PdfPCell(new Phrase(StringUtils.isNotEmpty(sepaTransferEntity.getReferenceId()) ? "Confirmed" : ""));
+            PdfPCell statusCell = new PdfPCell(new Phrase(sepaTransferEntity.getStatus().name()));
             table.addCell(statusCell);
 
             document.add(table);
