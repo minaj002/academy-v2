@@ -13,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @RestController
 public class TransactionController {
@@ -29,6 +30,8 @@ public class TransactionController {
     private CardToCardPaymentHandler cardToCardPaymentHandler;
     @Autowired
     private GetSepaPaymentHandler getSepaPaymentHandler;
+    @Autowired
+    private GetSepaPaymentsHandler getSepaPaymentsHandler;
     @Autowired
     private ConfirmSepaPaymentHandler confirmSepaPaymentHandler;
     @Autowired
@@ -120,6 +123,22 @@ public class TransactionController {
         userService.isAuthorizedForBusinessCardHolder(businessId, cardHolderId);
         return ResponseWrapper.<SepaTransferModel>builder()
                 .response(getSepaPaymentHandler.handle(paymentId))
+                .messages(messageBean.getMessages()).build();
+    }
+
+    @GetMapping("/api/business/{businessId}/payment/{cardHolderId}/sepa")
+    @ApiOperation(value = "Send to sign SEPA payment for business cardholder")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "")
+    })
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseWrapper<List<SepaTransferModel>> getBusinessSepaPayments(@PathVariable Long businessId,
+                                                                            @PathVariable Long cardHolderId,
+                                                                            @RequestParam int size,
+                                                                            @RequestParam int page) {
+        userService.isAuthorizedForBusinessCardHolder(businessId, cardHolderId);
+        return ResponseWrapper.<List<SepaTransferModel>>builder()
+                .response(getSepaPaymentsHandler.handle(cardHolderId, size, page))
                 .messages(messageBean.getMessages()).build();
     }
 
