@@ -11,6 +11,7 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -30,6 +31,7 @@ public class BusinessController {
     @Autowired
     private MessageBean messageBean;
 
+    @PreAuthorize("hasPermission(#businessId,'OWNER')")
     @GetMapping(value = "/api/business/{businessId}/authorized-users")
     @ApiOperation(value = "get authorized users for this business")
     @ApiResponses(value = {
@@ -43,6 +45,7 @@ public class BusinessController {
                 .build();
     }
 
+    @PreAuthorize("hasPermission(#businessId,'OWNER')")
     @GetMapping(value = "/api/business/{businessId}")
     @ApiOperation(value = "get business information")
     @ApiResponses(value = {
@@ -56,6 +59,7 @@ public class BusinessController {
                 .build();
     }
 
+    @PreAuthorize("hasPermission(#businessId,'OWNER')")
     @DeleteMapping(value = "/api/business/{businessId}/remove-role/{roleId}")
     @ApiOperation(value = "remove role")
     @ApiResponses(value = {
