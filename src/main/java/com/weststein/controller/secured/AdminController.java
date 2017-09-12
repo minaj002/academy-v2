@@ -1,8 +1,11 @@
 package com.weststein.controller.secured;
 
 import com.weststein.controller.ResponseWrapper;
+import com.weststein.controller.secured.model.CardholderIdModel;
 import com.weststein.controller.secured.model.RequestedUserModel;
 import com.weststein.controller.secured.model.business.AuthorizedUser;
+import com.weststein.handler.administartion.AttachCardholderIdHandler;
+import com.weststein.handler.administartion.CreateCardholderIdHandler;
 import com.weststein.handler.administartion.GetEmailsHandler;
 import com.weststein.handler.administartion.GetUsersWithoutRolesHandler;
 import com.weststein.handler.application.ConfirmRequestedUserHandler;
@@ -18,7 +21,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -36,6 +38,10 @@ public class AdminController {
     private GetUsersWithoutRolesHandler getUsersWithoutRolesHandler;
     @Autowired
     private GetEmailsHandler getEmailsHandler;
+    @Autowired
+    private CreateCardholderIdHandler createCardholderIdHandler;
+    @Autowired
+    private AttachCardholderIdHandler attachCardholderIdHandler;
     @Autowired
     private MessageBean messageBean;
 
@@ -105,6 +111,27 @@ public class AdminController {
     @ResponseStatus(HttpStatus.OK)
     public ResponseWrapper getSentEmails(String email) {
         return ResponseWrapper.<List<SentEmail>>builder().response(getEmailsHandler.handle(email)).messages(messageBean.getMessages()).build();
+    }
+
+    @PostMapping("/api/admin/cardholderId")
+    @ApiOperation(value = "confirm role to requested user")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "")
+    })
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseWrapper createCardholderId(CardholderIdModel cardholderIdModel) {
+        return ResponseWrapper.builder().response(createCardholderIdHandler.handle(cardholderIdModel)).messages(messageBean.getMessages()).build();
+    }
+
+    @PutMapping("/api/admin/business/{businessId}/cardholderId/{cardholderId}")
+    @ApiOperation(value = "confirm role to requested user")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "")
+    })
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseWrapper attachToBusiness(@PathVariable Long businessId, @PathVariable Long cardholderId) {
+        attachCardholderIdHandler.handle(businessId, cardholderId);
+        return ResponseWrapper.builder().messages(messageBean.getMessages()).build();
     }
 
 }
