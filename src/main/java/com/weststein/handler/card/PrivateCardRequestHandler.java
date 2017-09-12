@@ -14,6 +14,7 @@ import com.weststein.security.model.entity.Role;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
 @Component
@@ -37,6 +38,7 @@ public class PrivateCardRequestHandler {
     @Autowired
     private CardholderIdRepository cardholderIdRepository;
 
+    @Transactional
     public UserInformation handle() {
 
         String email = userService.getCurrentUser();

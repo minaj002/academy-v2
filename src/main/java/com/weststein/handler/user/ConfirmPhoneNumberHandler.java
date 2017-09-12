@@ -12,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +25,7 @@ public class ConfirmPhoneNumberHandler {
     private UserService userService;
     @Autowired
     private UserInformationRepository userInformationRepository;
-
+    @Transactional
     public void handle(String code) {
 
         UserCredentials credentials = userService.getCurrentUserCredentials();

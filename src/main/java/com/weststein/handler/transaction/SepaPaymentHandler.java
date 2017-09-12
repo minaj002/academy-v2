@@ -11,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.joda.time.LocalDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 
@@ -24,7 +25,7 @@ public class SepaPaymentHandler {
     private OrikoObjectMapper objectMapper;
     @Autowired
     private SepaTransferRepository sepaTransferRepository;
-
+    @Transactional
     public SepaTransferModel handle(Long id) {
 
         SepaTransfer sepaTransfer = sepaTransferRepository.findOne(id);

@@ -12,6 +12,7 @@ import com.weststein.repository.SepaTransferRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -27,6 +28,7 @@ public class CreateSepaPaymentHandler {
     @Autowired
     private SepaTransferRepository sepaTransferRepository;
 
+    @Transactional
     public Long handle(Long id, SepaTransferModel sepa) {
 
         CardholderId cardholderId = cardholderIdRepository.findOne(id);

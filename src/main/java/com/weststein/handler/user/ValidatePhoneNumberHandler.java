@@ -10,6 +10,7 @@ import com.weststein.security.model.entity.Role;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigInteger;
 import java.security.SecureRandom;
@@ -27,6 +28,7 @@ public class ValidatePhoneNumberHandler {
     @Autowired
     private SmsService smsService;
 
+    @Transactional
     public void handle() {
 
         UserCredentials credentials = userService.getCurrentUserCredentials();

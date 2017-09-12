@@ -8,6 +8,7 @@ import com.weststein.repository.UserInformationRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 import java.util.UUID;
@@ -21,6 +22,7 @@ public class RequestResetPasswordHandler {
     @Autowired
     private EmailSender emailSender;
 
+    @Transactional
     public void handle(String email) {
 
         Optional<UserCredentials> credentialsOptional = userCredentialRepository.findUserCredentialsByEmailAndStatusNot(email, UserCredentials.Status.DELETED);

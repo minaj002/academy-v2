@@ -12,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -38,6 +39,7 @@ public class BusinessApplicationHandler {
     @Autowired
     private EmailValidator emailValidator;
 
+    @Transactional
     public void handle(BusinessApplicationModel applicationModel) {
 
         emailValidator.validate(applicationModel.getEmail());

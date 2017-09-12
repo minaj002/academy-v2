@@ -8,6 +8,7 @@ import com.weststein.repository.UserRole;
 import com.weststein.repository.UserRoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,6 +21,7 @@ public class DeleteRoleHandler {
     @Autowired
     private UserCredentialRepository userCredentialRepository;
 
+    @Transactional
     public void handle(Long businessId, Long roleId) {
 
         UserRole role = userRoleRepository.findOne(roleId);

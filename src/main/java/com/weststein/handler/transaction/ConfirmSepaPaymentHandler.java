@@ -9,6 +9,7 @@ import com.weststein.repository.SepaTransferRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -23,6 +24,7 @@ public class ConfirmSepaPaymentHandler {
     @Autowired
     private SepaTransferRepository sepaTransferRepository;
 
+    @Transactional
     public SepaTransferModel handle(Long id, BigDecimal amount) {
         SepaTransfer sepaTransferEntity = sepaTransferRepository.findOne(id);
 

@@ -7,6 +7,7 @@ import com.weststein.repository.UserCredentials;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
 @Component
@@ -17,6 +18,7 @@ public class VerifyTokenHandler {
     @Autowired
     private MessageBean messageBean;
 
+    @Transactional
     public void handle(String email, String token) {
 
         UserCredentials credentials = userCredentialRepository.findUserCredentialsByEmailAndStatusNot(email, UserCredentials.Status.DELETED).get();

@@ -1,14 +1,13 @@
 package com.weststein.handler.application;
 
-import com.weststein.infrastructure.exceptions.AccountVerificationException;
 import com.weststein.infrastructure.exceptions.PasswordResetException;
 import com.weststein.repository.UserCredentialRepository;
 import com.weststein.repository.UserCredentials;
-import com.weststein.security.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
 @Component
@@ -19,6 +18,7 @@ public class ResetPasswordHandler {
     @Autowired
     private PasswordEncoder encoder;
 
+    @Transactional
     public void handle(String email, String password, String token) {
 
         UserCredentials credentials = userCredentialRepository.findUserCredentialsByEmailAndStatusNot(email, UserCredentials.Status.DELETED).get();
