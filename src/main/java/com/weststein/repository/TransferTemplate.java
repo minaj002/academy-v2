@@ -1,20 +1,17 @@
 package com.weststein.repository;
 
+import com.weststein.repository.business.BusinessInformation;
 import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Data
 @Entity
-public class SepaTransfer {
+public class TransferTemplate {
 
-    public enum Status {
-       DRAFT, SIGNING, COMPLETED, REJECTED, DECLINED, DELETED
-    }
     @Id
     @GeneratedValue(generator = "generator")
     @GenericGenerator(strategy =
@@ -29,18 +26,13 @@ public class SepaTransfer {
     private Long id;
     private String beneficiary;
     private BigDecimal amount;
-    private LocalDateTime paymentDate;
-    @Column(columnDefinition = "TEXT")
     private String details;
     private String iban;
     private String bic;
-    @OneToOne
-    private CardholderId from;
-    @Enumerated(EnumType.STRING)
-    private Status status;
     private LocalDateTime created;
-    private BigDecimal predictedFee;
-    private String referenceId;
+    @OneToOne
+    private BusinessInformation business;
+    private String name;
     @Enumerated(EnumType.STRING)
     private Currency currency;
 }

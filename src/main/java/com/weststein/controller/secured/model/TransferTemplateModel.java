@@ -4,20 +4,19 @@ import com.weststein.repository.Currency;
 import lombok.Data;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 @Data
-public class SepaTransferModel {
+public class TransferTemplateModel {
 
     private Long id;
     private String beneficiary;
     private BigDecimal amount;
-    private String paymentDate;
     private String details;
     private String iban;
     private String bic;
-    private BigDecimal predictedFee;
-    private String status;
+    private LocalDateTime created;
+    private String name;
     private Currency currency;
-
 
 }

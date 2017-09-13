@@ -10,6 +10,7 @@ public class AuthorizedUser {
 
     private Long userId;
     private Long roleId;
+    private String email;
     private String firstName;
     private String lastName;
     private Role role;

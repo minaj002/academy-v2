@@ -28,6 +28,7 @@ public class GetAuthorizedUsersHandler {
             if(authorizedUserOptional.isPresent()) {
                 UserCredentials authorizedUser = authorizedUserOptional.get();
                 authorizedUsers.add(AuthorizedUser.builder()
+                        .email(authorizedUser.getEmail())
                         .firstName(authorizedUser.getUserProfile().getFirstName())
                         .lastName(authorizedUser.getUserProfile().getLastName())
                         .role(role.getRole())
