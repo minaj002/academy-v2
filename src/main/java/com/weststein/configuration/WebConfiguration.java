@@ -29,7 +29,7 @@ public class WebConfiguration extends WebMvcConfigurerAdapter {
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/api/**").allowedOrigins(
                         "http://localhost:3000"
-                );//.allowedMethods("OPTIONS", "GET", "POST", "PUT", "DELETE", "PATCH");
+                ).allowedMethods("OPTIONS", "GET", "POST", "PUT", "DELETE", "PATCH");
             }
         };
     }
