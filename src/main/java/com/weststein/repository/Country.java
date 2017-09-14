@@ -3,9 +3,7 @@ package com.weststein.repository;
 import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 /**
  * Created by artis on 08/09/2017.
@@ -13,7 +11,14 @@ import javax.persistence.Id;
 
 @Entity
 @Data
-public class Currency {
+public class Country {
+
+    public enum RiskLevel {
+        EXTREME,
+        HIGH,
+        MEDIUM,
+        LOW
+    }
 
     @Id
     @GeneratedValue(generator = "generator")
@@ -25,9 +30,12 @@ public class Currency {
             }
     )
     private Long id;
-    private String code;
     private String name;
-    private Boolean convertOnline;
-    private Integer decimalPlaces;
+    private String iso2;
+    private Boolean sepa;
+    private Boolean enroll;
+
+    @Enumerated(EnumType.STRING)
+    private RiskLevel riskLevel;
 
 }

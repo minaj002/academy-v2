@@ -1,7 +1,7 @@
 package com.weststein.repository.business;
 
 import com.weststein.repository.CardholderCategory;
-import com.weststein.repository.Currency;
+import com.weststein.repository.CurrencyEnum;
 import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
 
@@ -33,7 +33,7 @@ public class CardIban {
     @Enumerated(EnumType.STRING)
     private CardUse use;
     private String otherCardUse;
-    private Currency currency;
+    private CurrencyEnum currency;
     private Integer numberOfCards;
     @Enumerated(EnumType.STRING)
     private CardType type;

@@ -1,6 +1,6 @@
 package com.weststein.repository.business;
 
-import com.weststein.repository.Currency;
+import com.weststein.repository.CurrencyEnum;
 import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
 
@@ -27,7 +27,7 @@ public class BankAccountDetails {
     private Long id;
     private Long businessId;
     private LocalDateTime created;
-    private Currency currency;
+    private CurrencyEnum currency;
     private String bic;
     private String iban;
     private String sortCode;

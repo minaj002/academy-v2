@@ -42,7 +42,7 @@ public class PDFFields {
     public static final String ACCOUNT_HOLDER_LOCATION = "AccountHolderLocation";
     public static final String CARD_TYPE = "CardType";
     public static final String OTHER_ACCOUNT_DETAILS = "OtherAccountDetails";
-    public static final String CURRENCY = "Currency";
+    public static final String CURRENCY = "CurrencyEnum";
     public static final String CARD_PRODUCT_TYPE = "CardProductType";
     public static final String NUMBER_OF_CARDS_REQUIRED = "NumberOfCardsRequired";
     public static final String OTHER_CARD_USE = "OtherCardUse";

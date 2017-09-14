@@ -1,12 +1,12 @@
 package com.weststein.controller.secured.model.business;
 
-import com.weststein.repository.Currency;
+import com.weststein.repository.CurrencyEnum;
 import lombok.Data;
 
 @Data
 public class BankAccountDetailsModel {
 
-    private Currency currency;
+    private CurrencyEnum currency;
     private String bic;
     private String iban;
     private String sortCode;
