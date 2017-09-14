@@ -1,6 +1,6 @@
 package com.weststein.repository.business;
 
-import com.weststein.repository.CurrencyEnum;
+import com.weststein.pdf.CurrencyEnum;
 import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
 

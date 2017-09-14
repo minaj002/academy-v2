@@ -1,6 +1,6 @@
 package com.weststein.controller.secured.model.business;
 
-import com.weststein.repository.CurrencyEnum;
+import com.weststein.pdf.CurrencyEnum;
 import lombok.Data;
 
 @Data

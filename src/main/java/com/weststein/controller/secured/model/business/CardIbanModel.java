@@ -3,7 +3,7 @@ package com.weststein.controller.secured.model.business;
 import com.weststein.repository.business.CardType;
 import com.weststein.repository.business.CardUse;
 import com.weststein.repository.CardholderCategory;
-import com.weststein.repository.CurrencyEnum;
+import com.weststein.pdf.CurrencyEnum;
 import lombok.Data;
 
 @Data

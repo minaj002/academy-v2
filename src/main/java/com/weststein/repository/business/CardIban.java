@@ -1,7 +1,7 @@
 package com.weststein.repository.business;
 
+import com.weststein.pdf.CurrencyEnum;
 import com.weststein.repository.CardholderCategory;
-import com.weststein.repository.CurrencyEnum;
 import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
 
