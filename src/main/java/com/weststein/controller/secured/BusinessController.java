@@ -6,16 +6,14 @@ import com.weststein.controller.secured.model.business.BusinessInformationModel;
 import com.weststein.handler.business.DeleteRoleHandler;
 import com.weststein.handler.business.GetAuthorizedUsersHandler;
 import com.weststein.handler.business.GetBusinessInformationHandler;
+import com.weststein.handler.business.UpdateBusinessInformationHandler;
 import com.weststein.infrastructure.MessageBean;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -28,6 +26,8 @@ public class BusinessController {
     private DeleteRoleHandler deleteRoleHandler;
     @Autowired
     private GetBusinessInformationHandler getBusinessInformationHandler;
+    @Autowired
+    private UpdateBusinessInformationHandler updateBusinessInformationHandler;
     @Autowired
     private MessageBean messageBean;
 
@@ -55,6 +55,20 @@ public class BusinessController {
 
         return ResponseWrapper.<BusinessInformationModel>builder()
                 .response(getBusinessInformationHandler.handle(businessId))
+                .messages(messageBean.getMessages())
+                .build();
+    }
+
+    @PreAuthorize("hasPermission(#businessId,'OWNER')")
+    @PutMapping(value = "/api/business/{businessId}")
+    @ApiOperation(value = "get business information")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "")
+    })
+    public ResponseWrapper<BusinessInformationModel> updateBusinessInformation(@PathVariable Long businessId, BusinessInformationModel businessInformationModel) {
+
+        return ResponseWrapper.<BusinessInformationModel>builder()
+                .response(updateBusinessInformationHandler.handle(businessId, businessInformationModel))
                 .messages(messageBean.getMessages())
                 .build();
     }

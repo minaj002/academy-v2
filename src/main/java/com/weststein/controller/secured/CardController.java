@@ -13,6 +13,7 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -30,6 +31,8 @@ public class CardController {
     private PinReminderHandler pinReminderHandler;
     @Autowired
     private PrivateCardRequestHandler cardRequestHandler;
+    @Autowired
+    private BlockCardHandler blockCardHandler;
     @Autowired
     private MessageBean messageBean;
 
@@ -79,6 +82,18 @@ public class CardController {
     public ResponseWrapper pinReminder(@PathVariable Long cardHolderId) {
         userService.isAuthorizedForCardHolder(cardHolderId);
         pinReminderHandler.handle(cardHolderId);
+        return ResponseWrapper.builder().messages(messageBean.getMessages()).build();
+    }
+
+    @PreAuthorize("hasPermission(#businessId,'OWNER')")
+    @PostMapping("/api/business/{businessId}/card-info/block/{cardholderId}")
+    @ApiOperation(value = "pinReminder")
+    @ApiResponses(value = {
+            @ApiResponse(code = 201, message = "")
+    })
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    public ResponseWrapper blockCard(@PathVariable Long businessId, @PathVariable Long cardholderId) {
+        blockCardHandler.handle(cardholderId);
         return ResponseWrapper.builder().messages(messageBean.getMessages()).build();
     }
 }
