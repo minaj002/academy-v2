@@ -4,7 +4,10 @@ import com.weststein.repository.business.BusinessInformation;
 import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
@@ -33,6 +36,6 @@ public class TransferTemplate {
     @OneToOne
     private BusinessInformation business;
     private String name;
-    @Enumerated(EnumType.STRING)
+    @OneToOne
     private Currency currency;
 }

@@ -41,6 +41,6 @@ public class SepaTransfer {
     private LocalDateTime created;
     private BigDecimal predictedFee;
     private String referenceId;
-    @Enumerated(EnumType.STRING)
+    @OneToOne
     private Currency currency;
 }
