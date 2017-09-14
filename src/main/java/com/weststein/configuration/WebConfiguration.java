@@ -11,6 +11,8 @@ import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
+import static com.weststein.configuration.WebSecurityConfig.JWT_TOKEN_HEADER_PARAM;
+
 @Configuration
 public class WebConfiguration extends WebMvcConfigurerAdapter {
 
@@ -29,7 +31,9 @@ public class WebConfiguration extends WebMvcConfigurerAdapter {
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/api/**").allowedOrigins(
                         "http://localhost:3000"
-                ).allowedMethods("OPTIONS", "GET", "POST", "PUT", "DELETE", "PATCH");
+                ).allowedMethods("OPTIONS", "GET", "POST", "PUT", "DELETE", "PATCH")
+//                .allowedHeaders("*")
+                .exposedHeaders(JWT_TOKEN_HEADER_PARAM);
             }
         };
     }
