@@ -40,7 +40,7 @@ public class RequiredDocument {
             name = "generator",
             parameters = {
                     @org.hibernate.annotations.Parameter(name = "sequence_name", value = "hibernate_sequence"),
-                    @org.hibernate.annotations.Parameter(name = "initial_value", value = "1000"),
+                    @org.hibernate.annotations.Parameter(name = "initial_value", value = "1"),
                     @org.hibernate.annotations.Parameter(name = "increment_size", value = "1")
             }
     )
