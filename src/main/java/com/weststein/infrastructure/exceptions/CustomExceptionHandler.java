@@ -2,6 +2,7 @@ package com.weststein.infrastructure.exceptions;
 
 import com.weststein.controller.ResponseWrapper;
 import com.weststein.security.exceptions.SessionTerminatedException;
+import org.iban4j.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.mail.MailException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -29,6 +30,23 @@ public class CustomExceptionHandler {
     public ResponseWrapper handleMethodArgumentNotValidException(MethodArgumentNotValidException ex) {
         List<ValidationError> errors = new ArrayList<>();
         errors.add(ValidationError.builder().field(ex.getBindingResult().getFieldError().getField()).message(ex.getBindingResult().getFieldError().getDefaultMessage()).build());
+        return ResponseWrapper.builder().errors(errors).build();
+    }
+
+    @ExceptionHandler(Iban4jException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseBody
+    public ResponseWrapper handleIban4jException(Iban4jException ex) {
+        List<ValidationError> errors = new ArrayList<>();
+        if (ex instanceof BicFormatException) {
+            errors.add(ValidationError.builder().field("bic").message(ex.getMessage()).build());
+        } else if (ex instanceof IbanFormatException || ex instanceof InvalidCheckDigitException) {
+            errors.add(ValidationError.builder().field("iban").message(ex.getMessage()).build());
+        } else {
+            UnsupportedCountryException e = (UnsupportedCountryException) ex;
+            errors.add(ValidationError.builder().field("iban").message(e.getMessage() + " " + e.getCountryCode()).build());
+            errors.add(ValidationError.builder().field("bic").message(e.getMessage() + " " + e.getCountryCode()).build());
+        }
         return ResponseWrapper.builder().errors(errors).build();
     }
 

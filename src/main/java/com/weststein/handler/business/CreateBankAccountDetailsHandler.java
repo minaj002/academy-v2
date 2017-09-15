@@ -4,6 +4,8 @@ import com.weststein.controller.secured.model.business.BankAccountDetailsModel;
 import com.weststein.infrastructure.OrikoObjectMapper;
 import com.weststein.repository.business.BankAccountDetails;
 import com.weststein.repository.business.BankAccountDetailsRepository;
+import org.iban4j.BicUtil;
+import org.iban4j.IbanUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -20,6 +22,8 @@ public class CreateBankAccountDetailsHandler {
 
     public void handle(Long businessId, BankAccountDetailsModel bankAccountDetailsModel) {
 
+        IbanUtil.validate(bankAccountDetailsModel.getIban());
+        BicUtil.validate(bankAccountDetailsModel.getBic());
         BankAccountDetails bankAccountDetails = objectMapper.map(bankAccountDetailsModel, BankAccountDetails.class);
         bankAccountDetails.setBusinessId(businessId);
         bankAccountDetails.setCreated(LocalDateTime.now());

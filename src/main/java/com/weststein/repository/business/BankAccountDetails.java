@@ -3,6 +3,7 @@ package com.weststein.repository.business;
 import com.weststein.pdf.CurrencyEnum;
 import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.validator.constraints.NotBlank;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -29,6 +30,7 @@ public class BankAccountDetails {
     private LocalDateTime created;
     private CurrencyEnum currency;
     private String bic;
+    @NotBlank
     private String iban;
     private String sortCode;
     private String accountNumber;
