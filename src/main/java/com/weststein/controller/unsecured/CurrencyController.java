@@ -1,8 +1,8 @@
 package com.weststein.controller.unsecured;
 
 import com.weststein.controller.ResponseWrapper;
-import com.weststein.handler.country.GetAvailableCountriesHandler;
-import com.weststein.repository.Country;
+import com.weststein.handler.currency.GetAvailableCurrenciesHandler;
+import com.weststein.repository.Currency;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
@@ -14,23 +14,23 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 /**
- * Created by artis on 14/09/2017.
+ * Created by artis on 15/09/2017.
  */
 
 @RestController
-@RequestMapping("api/open/country")
-public class CountryController {
+@RequestMapping("api/open/currency")
+public class CurrencyController {
 
     @Autowired
-    private GetAvailableCountriesHandler getAvailableCountriesHandler;
+    private GetAvailableCurrenciesHandler availableCurrenciesHandler;
 
     @GetMapping
-    @ApiOperation(value = "Available countries list")
+    @ApiOperation(value = "Available currencies list")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "")
     })
-    public ResponseWrapper<List<Country>> getCountries() {
-        return ResponseWrapper.<List<Country>>builder().response(getAvailableCountriesHandler.handle()).build();
+    public ResponseWrapper<List<Currency>> getAvailableCurrencies() {
+        return ResponseWrapper.<List<Currency>>builder().response(availableCurrenciesHandler.handle()).build();
     }
 
 }
