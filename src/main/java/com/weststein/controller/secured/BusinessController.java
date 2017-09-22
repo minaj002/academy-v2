@@ -45,7 +45,7 @@ public class BusinessController {
                 .build();
     }
 
-    @PreAuthorize("hasPermission(#businessId,'OWNER')")
+    @PreAuthorize("hasPermission(#businessId,'OWNER,BOOKKEEPER,FINANCIAL_OFFICER')")
     @GetMapping(value = "/api/business/{businessId}")
     @ApiOperation(value = "get business information")
     @ApiResponses(value = {

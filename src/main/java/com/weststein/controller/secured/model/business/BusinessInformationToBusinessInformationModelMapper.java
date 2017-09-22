@@ -23,7 +23,7 @@ public class BusinessInformationToBusinessInformationModelMapper extends ObjectM
     protected void fieldMapping(ClassMapBuilder<BusinessInformation, BusinessInformationModel> builder) {
 
         builder
-                .field("cardholderIds{id}", "cardholderIds{}")
+//                .field("cardholderIds{id}", "cardholderIds{}")
                 .byDefault();
 
     }

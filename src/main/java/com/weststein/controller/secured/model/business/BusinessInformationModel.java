@@ -1,5 +1,6 @@
 package com.weststein.controller.secured.model.business;
 
+import com.weststein.controller.secured.model.CardholderIdModel;
 import com.weststein.repository.Address;
 import com.weststein.repository.CardholderId;
 import lombok.Data;
@@ -21,6 +22,6 @@ public class BusinessInformationModel {
     private String registrationNumber;
     private Boolean agree;
     private LocalDateTime agreeOn;
-    private List<Long> cardholderIds;
+    private List<CardholderIdModel> cardholderIds;
 
 }

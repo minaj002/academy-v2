@@ -52,7 +52,7 @@ public class ViewStatementModelToCardViewStatementResponseMapper extends ObjectM
                     .getCardAccount()
                     .forEach(account -> transactions.add(TransactionModel.builder()
                             .amount(account.getTransaction().get(0).getAmount().compareTo(BigDecimal.ZERO) == 0 ? account.getTransaction().get(0).getFee().divide(BigDecimal.valueOf(100)) : account.getTransaction().get(0).getAmount().divide(BigDecimal.valueOf(100)))
-                            .date(LocalDateTime.parse(account.getTransaction().get(0).getDate(), DateTimeFormatter.ofPattern("dd/MM/yyyy hh:mm:ss a")))
+                            .date(LocalDateTime.parse(account.getTransaction().get(0).getDate(), DateTimeFormatter.ofPattern("MM/dd/yyyy hh:mm:ss a")))
                             .details(account.getTransaction().get(0).getDescription())
                             .balanceAfter(account.getTransaction().get(0).getAvailableBalance().divide(BigDecimal.valueOf(100)))
                             .beneficiary(account.getTransaction().get(0).getClientId())

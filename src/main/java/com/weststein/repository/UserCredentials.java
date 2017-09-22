@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.envers.Audited;
 import org.hibernate.envers.NotAudited;
+import org.hibernate.validator.constraints.Email;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -32,6 +33,7 @@ public class UserCredentials {
             }
     )
     private Long id;
+    @Email
     private String email;
     private String password;
     private String verification;
@@ -50,4 +52,3 @@ public class UserCredentials {
     private UserProfile userProfile;
 
 }
-
