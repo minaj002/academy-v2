@@ -1,8 +1,8 @@
-package com.weststein.controller.secured;
+package com.weststein.controller.secured.business;
 
 import com.weststein.controller.ResponseWrapper;
-import com.weststein.controller.secured.model.business.AuthorizedUser;
-import com.weststein.controller.secured.model.business.BusinessInformationModel;
+import com.weststein.controller.secured.business.model.business.AuthorizedUser;
+import com.weststein.controller.secured.business.model.business.BusinessInformationModel;
 import com.weststein.handler.business.DeleteRoleHandler;
 import com.weststein.handler.business.GetAuthorizedUsersHandler;
 import com.weststein.handler.business.GetBusinessInformationHandler;

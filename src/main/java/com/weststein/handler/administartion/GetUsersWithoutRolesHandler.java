@@ -1,6 +1,6 @@
 package com.weststein.handler.administartion;
 
-import com.weststein.controller.secured.model.business.AuthorizedUser;
+import com.weststein.controller.secured.business.model.business.AuthorizedUser;
 import com.weststein.repository.UserCredentialRepository;
 import com.weststein.repository.UserCredentials;
 import lombok.extern.slf4j.Slf4j;

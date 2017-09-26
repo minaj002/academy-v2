@@ -1,6 +1,6 @@
 package com.weststein.handler.business;
 
-import com.weststein.controller.secured.model.business.BankAccountDetailsModel;
+import com.weststein.controller.secured.business.model.business.BankAccountDetailsModel;
 import com.weststein.infrastructure.OrikoObjectMapper;
 import com.weststein.repository.business.BankAccountDetails;
 import com.weststein.repository.business.BankAccountDetailsRepository;

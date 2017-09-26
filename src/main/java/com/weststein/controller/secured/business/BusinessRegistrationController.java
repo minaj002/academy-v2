@@ -1,7 +1,7 @@
-package com.weststein.controller.secured;
+package com.weststein.controller.secured.business;
 
 import com.weststein.controller.ResponseWrapper;
-import com.weststein.controller.secured.model.business.*;
+import com.weststein.controller.secured.business.model.business.*;
 import com.weststein.handler.business.*;
 import com.weststein.infrastructure.MessageBean;
 import com.weststein.repository.business.RequiredDocument;

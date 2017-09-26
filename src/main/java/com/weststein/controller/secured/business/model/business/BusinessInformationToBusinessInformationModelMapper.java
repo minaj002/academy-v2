@@ -1,8 +1,6 @@
-package com.weststein.controller.secured.model.business;
+package com.weststein.controller.secured.business.model.business;
 
-import com.weststein.controller.secured.model.RequestedUserModel;
 import com.weststein.infrastructure.ObjectMapperConfiguration;
-import com.weststein.repository.UserToBusinessRoleRequest;
 import com.weststein.repository.business.BusinessInformation;
 import ma.glasnost.orika.metadata.ClassMapBuilder;
 import org.springframework.stereotype.Component;

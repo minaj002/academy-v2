@@ -1,4 +1,4 @@
-package com.weststein.controller.secured.model.business;
+package com.weststein.controller.secured.business.model.business;
 
 import com.weststein.pdf.CurrencyEnum;
 import lombok.Data;

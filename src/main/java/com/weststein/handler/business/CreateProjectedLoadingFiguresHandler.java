@@ -1,6 +1,6 @@
 package com.weststein.handler.business;
 
-import com.weststein.controller.secured.model.business.ProjectedLoadingFiguresModel;
+import com.weststein.controller.secured.business.model.business.ProjectedLoadingFiguresModel;
 import com.weststein.infrastructure.OrikoObjectMapper;
 import com.weststein.repository.business.ProjectedLoadingFigures;
 import com.weststein.repository.business.ProjectedLoadingFiguresRepository;

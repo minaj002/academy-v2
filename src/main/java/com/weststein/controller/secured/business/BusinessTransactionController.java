@@ -1,4 +1,4 @@
-package com.weststein.controller.secured;
+package com.weststein.controller.secured.business;
 
 import com.weststein.controller.ResponseWrapper;
 import com.weststein.controller.secured.model.SepaTransferModel;

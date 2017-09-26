@@ -1,12 +1,9 @@
-package com.weststein.controller.secured.model.business;
+package com.weststein.controller.secured.business.model.business;
 
 import com.weststein.controller.secured.model.CardholderIdModel;
 import com.weststein.repository.Address;
-import com.weststein.repository.CardholderId;
 import lombok.Data;
-import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;

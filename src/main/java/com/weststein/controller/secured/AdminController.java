@@ -3,7 +3,7 @@ package com.weststein.controller.secured;
 import com.weststein.controller.ResponseWrapper;
 import com.weststein.controller.secured.model.CardholderIdModel;
 import com.weststein.controller.secured.model.RequestedUserModel;
-import com.weststein.controller.secured.model.business.AuthorizedUser;
+import com.weststein.controller.secured.business.model.business.AuthorizedUser;
 import com.weststein.handler.administartion.AttachCardholderIdHandler;
 import com.weststein.handler.administartion.CreateCardholderIdHandler;
 import com.weststein.handler.administartion.GetEmailsHandler;

@@ -1,6 +1,6 @@
 package com.weststein.handler.business;
 
-import com.weststein.controller.secured.model.business.AuthorizedUser;
+import com.weststein.controller.secured.business.model.business.AuthorizedUser;
 import com.weststein.repository.UserCredentialRepository;
 import com.weststein.repository.UserCredentials;
 import com.weststein.repository.UserRole;

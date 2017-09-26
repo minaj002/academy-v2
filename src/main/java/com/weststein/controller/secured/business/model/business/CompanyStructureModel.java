@@ -1,4 +1,4 @@
-package com.weststein.controller.secured.model.business;
+package com.weststein.controller.secured.business.model.business;
 
 import lombok.Data;
 
