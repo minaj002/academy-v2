@@ -29,20 +29,3 @@ logging.level:
   org.springframework.web.filter.CommonsRequestLoggingFilter: DEBUG
 spring.mvc.dispatch-options-request: true
 # Dispatch OPTIONS requests to the FrameworkServlet doService method.
-
-spring.mail.username: cardservices@weststeincard.com
-spring.mail.password: Gertrudes10
-
-pfs:
-  user: weststeinapiuser
-  password: li*ade3ASD
-
-sms.key: ebb0baaff3d1b57519dc1f4c705c60661cea0a2e
-
-confirmation: ${confirmUrl}
-
-aws:
-  access: AKIAILKMEW772YE2JE2A
-  secret: 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
-
-temporary.block.minutes: 30
