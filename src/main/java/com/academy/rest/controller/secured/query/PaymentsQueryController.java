@@ -5,13 +5,14 @@ import com.academy.core.query.PaymentsForPeriodForMemberQuery;
 import com.academy.core.query.result.PaymentsForMonthResult;
 import com.academy.core.query.service.QueryService;
 import com.academy.infrastructure.OrikoObjectMapper;
+import com.academy.rest.ResponseWrapper;
 import com.academy.rest.api.Payment;
+import com.academy.security.UserService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.xml.ws.Response;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
@@ -27,12 +29,12 @@ import java.util.List;
 @RequestMapping("/api/payments")
 public class PaymentsQueryController {
 
-    private static Logger LOG = LoggerFactory.getLogger(PaymentsQueryController.class);
-
     @Autowired
     QueryService queryService;
     @Autowired
     private OrikoObjectMapper objectMapper;
+    @Autowired
+    private UserService userService;
 
     @RequestMapping(method = RequestMethod.GET, value = "/{date}")
     @ResponseBody
@@ -40,33 +42,23 @@ public class PaymentsQueryController {
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "")
     })
-    public Collection<Payment> getPaymentsForMonth(@PathVariable Date date) {
+    public ResponseWrapper<List<Payment>> getPaymentsForMonth(@PathVariable @DateTimeFormat(pattern = "dd-MM-yyyy") Date date) {
 
-        String name = getUserName();
-
-        LOG.debug("Getting payments for {}", name);
-
-        GetPaymentsForMonthQuery query = new GetPaymentsForMonthQuery(name, date);
+        GetPaymentsForMonthQuery query = new GetPaymentsForMonthQuery(userService.getUserName(), date);
         PaymentsForMonthResult payments = queryService.execute(query);
         List<Payment> paymentsJson = objectMapper.map(payments.getPayments(), Payment.class);
-        return paymentsJson;
+        return ResponseWrapper.<List<Payment>>builder().response(paymentsJson).build();
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/{date}/{period}/{id}")
     @ResponseBody
-    public Collection<Payment> getPaymentsForMonthsForMember(@PathVariable Date date, @PathVariable Integer period, @PathVariable Long id) {
+    public ResponseWrapper<List<Payment>> getPaymentsForMonthsForMember(@PathVariable @DateTimeFormat(pattern = "dd-MM-yyyy") Date date, @PathVariable Integer period, @PathVariable Long id) {
 
-        String name = getUserName();
-
-        PaymentsForPeriodForMemberQuery query = PaymentsForPeriodForMemberQuery.create(name).forMember(id).forPeriod(period).untilMonth(date);
+        PaymentsForPeriodForMemberQuery query = PaymentsForPeriodForMemberQuery.create(userService.getUserName()).forMember(id).forPeriod(period).untilMonth(date);
         PaymentsForMonthResult payments = queryService.execute(query);
 
         List<Payment> paymentsJson = objectMapper.map(payments.getPayments(), Payment.class);
-        return paymentsJson;
-    }
-
-    private String getUserName() {
-        return SecurityContextHolder.getContext().getAuthentication().getName();
+        return ResponseWrapper.<List<Payment>>builder().response(paymentsJson).build();
     }
 
 }

@@ -1,6 +1,5 @@
 package com.academy.rest.controller.secured.command;
 
-import com.academy.rest.api.Payment;
 import com.academy.core.command.AddPaymentCommand;
 import com.academy.core.command.DeletePaymentCommand;
 import com.academy.core.command.EditPaymentCommand;
@@ -10,6 +9,8 @@ import com.academy.core.command.result.EditPaymentResult;
 import com.academy.core.command.service.CommandService;
 import com.academy.core.dto.PaymentBean;
 import com.academy.infrastructure.OrikoObjectMapper;
+import com.academy.rest.api.Payment;
+import com.academy.security.UserService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
@@ -18,8 +19,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.context.SecurityContext;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
@@ -33,6 +32,8 @@ public class PaymentsCommandController {
     CommandService commandService;
     @Autowired
     private OrikoObjectMapper objectMapper;
+    @Autowired
+    private UserService userService;
 
     @RequestMapping(method = RequestMethod.POST, value = "/new")
     @ResponseBody
@@ -42,12 +43,8 @@ public class PaymentsCommandController {
     })
     public ResponseEntity<String> addNewPayment(@RequestBody Payment payment) {
 
-        SecurityContext context = SecurityContextHolder.getContext();
-
-        String userName = context.getAuthentication().getName();
-
         AddPaymentCommand command = new AddPaymentCommand(objectMapper.map(payment, PaymentBean.class));
-        command.setUserName(userName);
+        command.setUserName(userService.getUserName());
 
         AddPaymentResult result = commandService.execute(command);
 
@@ -67,12 +64,8 @@ public class PaymentsCommandController {
     })
     public ResponseEntity<String> editPayment(@RequestBody Payment payment) {
 
-        SecurityContext context = SecurityContextHolder.getContext();
-
-        String userName = context.getAuthentication().getName();
-
         EditPaymentCommand command = new EditPaymentCommand(objectMapper.map(payment, PaymentBean.class));
-        command.setUserName(userName);
+        command.setUserName(userService.getUserName());
 
         EditPaymentResult result = commandService.execute(command);
 

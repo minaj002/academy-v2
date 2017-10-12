@@ -11,9 +11,9 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 @Component
-public class LocalDateSerializer extends StdSerializer<LocalDate> {
+public class DateSerializer extends StdSerializer<LocalDate> {
 
-    public LocalDateSerializer() {
+    public DateSerializer() {
         super(LocalDate.class);
     }
 

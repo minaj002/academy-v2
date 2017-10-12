@@ -26,16 +26,13 @@ public class PaymentsForPeriodForMemberHandler implements QueryHandler<PaymentsF
     public PaymentsForMonthResult execute(PaymentsForPeriodForMemberQuery query) {
 
         Date date = query.getPaymentsForMonth();
-
-        LocalDate startDate  = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate().minusMonths(query.getPeriod());
-
-        List<Payment> payments = paymentRepository.findByMemberIdAndPaymentDateBetweenOrderByPaidUntilDesc(query.getMember(), Date.from(startDate.atStartOfDay(ZoneId.systemDefault()).toInstant()), date);
-
+        LocalDate toEndOfMonth = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        LocalDate startDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate().minusMonths(query.getPeriod());
+        List<Payment> payments = paymentRepository.findByMemberIdAndPaymentDateBetweenOrderByPaidUntilDesc(query.getMember(), Date.from(startDate.atStartOfDay(ZoneId.systemDefault()).toInstant()), Date.from(toEndOfMonth.atStartOfDay(ZoneId.systemDefault()).toInstant()));
         List<PaymentBean> paymentBeans = objectMapper.map(payments, PaymentBean.class);
 
         PaymentsForMonthResult result = new PaymentsForMonthResult();
         result.setPayments(paymentBeans);
         return result;
     }
-
 }

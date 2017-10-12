@@ -8,13 +8,15 @@ import ma.glasnost.orika.converter.ConverterFactory;
 import ma.glasnost.orika.metadata.ClassMapBuilder;
 import ma.glasnost.orika.metadata.Type;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
 
-public abstract class ObjectMapperConfiguration <A, B> {
+public abstract class ObjectMapperConfiguration<A, B> {
 
     public abstract Class<A> getA();
+
     public abstract Class<B> getB();
 
     public void mapping(MapperFactory mapperFactory) {
@@ -28,42 +30,23 @@ public abstract class ObjectMapperConfiguration <A, B> {
 
     protected void setupConverters(ConverterFactory converterFactory) {
 
-        converterFactory.registerConverter(new BidirectionalConverter<String, LocalDate>() {
+        converterFactory.registerConverter(new BidirectionalConverter<String, Date>() {
             @Override
-            public LocalDate convertTo(String source, Type<LocalDate> destinationType, MappingContext mappingContext) {
-                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("ddMMyyyy");
-                return LocalDate.parse(source, formatter);
+            public Date convertTo(String source, Type<Date> destinationType, MappingContext mappingContext) {
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+                try {
+                    return new SimpleDateFormat("dd-MM-yyyy").parse(source);
+                } catch (ParseException e) {
+                    return null;
+                }
             }
 
             @Override
-            public String convertFrom(LocalDate source, Type<String> destinationType, MappingContext mappingContext) {
-                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-                return source.format(formatter);
-            }
-        });
-        converterFactory.registerConverter(new BidirectionalConverter<LocalDateTime, LocalDateTime>() {
-            @Override
-            public LocalDateTime convertTo(LocalDateTime source, Type<LocalDateTime> destinationType, MappingContext mappingContext) {
-                return source;
-            }
-
-            @Override
-            public LocalDateTime convertFrom(LocalDateTime source, Type<LocalDateTime> destinationType, MappingContext mappingContext) {
-                return source;
+            public String convertFrom(Date source, Type<String> destinationType, MappingContext mappingContext) {
+                return new SimpleDateFormat("dd-MM-yyyy").format(source);
             }
         });
 
-        converterFactory.registerConverter(new BidirectionalConverter<LocalDate, LocalDate>() {
-            @Override
-            public LocalDate convertTo(LocalDate source, Type<LocalDate> destinationType, MappingContext mappingContext) {
-                return source;
-            }
-
-            @Override
-            public LocalDate convertFrom(LocalDate source, Type<LocalDate> destinationType, MappingContext mappingContext) {
-                return source;
-            }
-        });
 
     }
 

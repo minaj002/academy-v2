@@ -11,7 +11,7 @@ public class Payment {
     private Long id;
     private BigDecimal amount;
     private Date paymentDate;
-    private String paidUntil;
+    private Date paidUntil;
     private Long memberId;
 
 }
