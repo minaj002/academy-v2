@@ -1,11 +1,13 @@
 package com.academy.rest.controller.secured.query;
 
+import com.academy.rest.ResponseWrapper;
 import com.academy.rest.api.Academy;
 import com.academy.core.query.GetAcademiesQuery;
 import com.academy.core.query.GetAcademyQuery;
 import com.academy.core.query.result.GetAcademiesResult;
 import com.academy.core.query.service.QueryService;
 import com.academy.infrastructure.OrikoObjectMapper;
+import com.academy.security.UserService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
@@ -29,9 +31,10 @@ public class AcademyQueryController {
 
     @Autowired
     QueryService queryService;
-
     @Autowired
     private OrikoObjectMapper objectMapper;
+    @Autowired
+    private UserService userService;
 
     @RequestMapping(method = RequestMethod.GET)
     @ResponseBody
@@ -39,13 +42,13 @@ public class AcademyQueryController {
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "")
     })
-    public List<Academy> getAllAcademies() {
+    public ResponseWrapper<List<Academy>> getAllAcademies() {
 
         GetAcademiesQuery query = new GetAcademiesQuery();
         GetAcademiesResult academies = queryService.execute(query);
         List<Academy> academyJson = objectMapper.map(academies.getAcademies(), Academy.class);
 
-        return academyJson;
+        return ResponseWrapper.<List<Academy>>builder().response(academyJson).build();
     }
 
 
@@ -57,19 +60,13 @@ public class AcademyQueryController {
     })
     public Academy getAcademy() {
 
-        String name = getUserName();
 
         GetAcademyQuery query = new GetAcademyQuery();
-        query.setName(name);
+        query.setName(userService.getUserName());
         GetAcademiesResult academies = queryService.execute(query);
-
         List<Academy> academyJson = objectMapper.map(academies.getAcademies(), Academy.class);
 
         return academyJson.stream().findFirst().get();
-    }
-
-    private String getUserName() {
-        return SecurityContextHolder.getContext().getAuthentication().getName();
     }
 
 }

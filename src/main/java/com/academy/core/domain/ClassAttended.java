@@ -24,6 +24,7 @@ public class ClassAttended {
 			}
 	)
 	private Long id;
+	private String topic;
 	private Date date;
 	@OneToOne
 	private Academy academy;

@@ -42,7 +42,8 @@ public class ClassesCommandController {
     public ResponseEntity<String> addClass(@RequestBody ClassAttended classAttended) {
 
         List<MemberBean> memberBeans = objectMapper.map(classAttended.getMembers(), MemberBean.class);
-        AddClassCommand command = new AddClassCommand(new Date(), memberBeans);
+        AddClassCommand command = AddClassCommand.builder().date(new Date())
+                .members(memberBeans).title(classAttended.getTopic()).build();
         command.setUserName(userService.getUserName());
         AddClassResult result = commandService.execute(command);
 

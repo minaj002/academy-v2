@@ -38,7 +38,7 @@ public class AddClassHandler implements CommandHandler<AddClassCommand, AddClass
 	private ClassAttended toClassAttended(AddClassCommand command) {
 		ClassAttended classAttended= new ClassAttended();
 		classAttended.setDate(command.getDate());
-		
+		classAttended.setTopic(command.getTitle());
 		AcademyUser user = academyUserRepository.findByName(command.getUserName());
 		classAttended.setAcademy(user.getAcademy());
 		

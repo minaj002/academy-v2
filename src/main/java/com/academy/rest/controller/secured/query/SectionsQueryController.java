@@ -6,13 +6,11 @@ import com.academy.core.query.service.QueryService;
 import com.academy.infrastructure.OrikoObjectMapper;
 import com.academy.rest.ResponseWrapper;
 import com.academy.rest.api.Section;
-import com.academy.security.model.entity.UserContext;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -42,10 +40,6 @@ public class SectionsQueryController {
         return ResponseWrapper.<List<Section>>builder()
                 .response(objectMapper.map(sections.getSections(), Section.class))
                 .build();
-    }
-
-    private String getUserName() {
-        return ((UserContext) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername();
     }
 
 }
