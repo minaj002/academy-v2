@@ -1,8 +1,6 @@
 package com.academy.rest.controller.secured.command;
 
 
-import com.academy.rest.api.Academy;
-import com.academy.rest.api.Section;
 import com.academy.core.command.AddAcademyCommand;
 import com.academy.core.command.AddSectionToAcademyCommand;
 import com.academy.core.command.result.AddAcademyResult;
@@ -10,6 +8,9 @@ import com.academy.core.command.result.AddSectionResult;
 import com.academy.core.command.service.CommandService;
 import com.academy.core.dto.SectionBean;
 import com.academy.infrastructure.OrikoObjectMapper;
+import com.academy.rest.api.Academy;
+import com.academy.rest.api.Section;
+import com.academy.security.UserService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
@@ -17,7 +18,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,9 +28,10 @@ public class AcademyCommandController {
 
     @Autowired
     CommandService commandService;
-
     @Autowired
     private OrikoObjectMapper objectMapper;
+    @Autowired
+    private UserService userService;
 
     @RequestMapping(method = RequestMethod.POST, path = "/new")
     @ResponseBody
@@ -58,8 +59,7 @@ public class AcademyCommandController {
     })
     public ResponseEntity<String> addSection(@RequestBody Section section) {
 
-        String userName = getUserName();
-        AddSectionResult result = commandService.execute(new AddSectionToAcademyCommand(objectMapper.map(section, SectionBean.class), userName));
+        AddSectionResult result = commandService.execute(new AddSectionToAcademyCommand(objectMapper.map(section, SectionBean.class), userService.getUserName()));
 
         if (!StringUtils.isEmpty(result.getId())) {
             return new ResponseEntity<>(HttpStatus.CREATED);
@@ -67,10 +67,6 @@ public class AcademyCommandController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
-    }
-
-    private String getUserName() {
-        return SecurityContextHolder.getContext().getAuthentication().getName();
     }
 
     @ExceptionHandler
