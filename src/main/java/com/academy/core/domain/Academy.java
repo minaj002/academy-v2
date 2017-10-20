@@ -1,6 +1,7 @@
 package com.academy.core.domain;
 
 import com.academy.core.annotation.Email;
+import lombok.Builder;
 import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
 

@@ -1,7 +1,6 @@
 package com.academy.configuration;
 
 import com.academy.core.security.AcademyAuthenticationProvider;
-import com.academy.core.security.DataInitializer;
 import com.academy.security.RestAuthenticationEntryPoint;
 import com.academy.security.auth.jwt.JwtAuthenticationProvider;
 import com.academy.security.auth.jwt.JwtTokenAuthenticationProcessingFilter;
@@ -49,7 +48,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private AuthenticationFailureHandler failureHandler;
     @Autowired
-    private DataInitializer dataInitializer;
+    private DataInit dataInit;
 
     @Autowired
     AcademyAuthenticationProvider academyAuthenticationProvider;
@@ -78,7 +77,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-//        auth.authenticationProvider(academyAuthenticationProvider);
         auth.authenticationProvider(ajaxAuthenticationProvider);
         auth.authenticationProvider(jwtAuthenticationProvider);
     }
@@ -109,13 +107,5 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .addFilterBefore(buildLoginProcessingFilter(), UsernamePasswordAuthenticationFilter.class)
                 .addFilterBefore(buildJwtTokenAuthenticationProcessingFilter(), UsernamePasswordAuthenticationFilter.class);
 
-
-//        http.csrf().disable().authorizeRequests()
-//                .antMatchers("/academy/new").hasRole("ADMIN")
-//                .antMatchers("/members").hasRole("OWNER")
-//                .antMatchers("/login").permitAll()
-//                .antMatchers("/greeting").permitAll()
-//                .antMatchers("/").permitAll()
-//                .and().httpBasic();
     }
 }
