@@ -37,5 +37,5 @@ public class Member {
     private List<Section> sections = Collections.emptyList();
     @OneToMany
     private List<Payment> payments = Collections.emptyList();
-
+    private Long initialClassCount;
 }

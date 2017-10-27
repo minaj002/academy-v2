@@ -34,7 +34,8 @@ public class WebConfiguration extends WebMvcConfigurerAdapter {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/api/**").allowedOrigins(
-                        "http://localhost:3000", "http://d14pn46jrbxu7g.cloudfront.net"
+                        "http://localhost:3000", "http://d14pn46jrbxu7g.cloudfront.net",
+                        "http://academyv2.s3-website.eu-central-1.amazonaws.com"
                 ).allowedMethods("OPTIONS", "GET", "POST", "PUT", "DELETE", "PATCH")
                         .exposedHeaders(JWT_TOKEN_HEADER_PARAM);
             }

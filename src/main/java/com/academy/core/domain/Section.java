@@ -1,6 +1,5 @@
 package com.academy.core.domain;
 
-import lombok.Builder;
 import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
 
@@ -10,7 +9,6 @@ import javax.persistence.Id;
 
 @Entity
 @Data
-@Builder
 public class Section {
 
     @Id

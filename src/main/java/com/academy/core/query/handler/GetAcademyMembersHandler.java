@@ -29,7 +29,7 @@ public class GetAcademyMembersHandler implements
     @Override
     public GetAcademyMembersResult execute(GetAcademyMembersQuery query) {
         AcademyUser user = academyUserRepository.findByName(query.getUser());
-        List<Member> members = memberRepository.findByAcademyName(user.getAcademy().getName());
+        List<Member> members = memberRepository.findByAcademyNameOrderByFirstName(user.getAcademy().getName());
         List<MemberBean> memberBeans = objectMapper.map(members, MemberBean.class);
         GetAcademyMembersResult result = new GetAcademyMembersResult();
         result.setMembers(memberBeans);

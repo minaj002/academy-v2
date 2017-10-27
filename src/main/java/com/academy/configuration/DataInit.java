@@ -28,7 +28,8 @@ public class DataInit {
     public void init() {
         if (academyUserRepository.findByName("minaj002@gmail.com") == null) {
 
-            Section section = Section.builder().name("BJJ").build();
+            Section section = new Section();
+            section.setName("BJJ");
             section = sectionRepository.save(section);
             List<Section> sections = new ArrayList<>();
             sections.add(section);
@@ -49,7 +50,8 @@ public class DataInit {
         }
         if (academyUserRepository.findByName("mi@karate.lv") == null) {
 
-            Section section = Section.builder().name("KARATE").build();
+            Section section = new Section();
+            section.setName("KARATE");
             section = sectionRepository.save(section);
             List<Section> sections = new ArrayList<>();
             sections.add(section);
